@@ -1,0 +1,97 @@
+\name{p_sat_curve}
+\alias{p_sat_curve}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Dataframe, plot, and statisitcs for saturation curve
+}
+\description{
+'p_sat_curve' creates a new dataframe by applying the standard curve coefficients to the raw saturation data. The spectral data is converted to concentration of standard. The new dataframe contains the average slope (rate of reaction) and standard deviation for each replicate at each substrate concentration. 'p_sat_curve' plots the new dataframe with substrate concentration on the x-axis, and rate of reaction on the y-axis. It asks the user to specify axis labels with the appropriate units. It calculates and reports Vmax and Km values. It also creates a list output containing the new dataframe, regression model, and saturation curve plot.
+}
+\usage{
+p_sat_curve(d_std, d_sat)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{d_std}{
+  d_std must be a dataframe that contains the column headers 'std.conc' and 'spec'.
+}
+  \item{d_sat}{
+d_sat must be a dataframe that contains the column headers 'time', 'sub.conc', 'replicate', and 'spec'. If d_sat contains a fifth column, that fifth column will be assumed to be a normalization factor. The user will be prompted to name the unit of normalization, which will appear on the y-axis, if a fifth column exists.
+}
+}
+\details{
+
+}
+\value{
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+Christopher Cook
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+##---- Should be DIRECTLY executable !! ----
+##-- ==>  Define data, use random,
+##--	or do  help(data=index)  for the standard data sets.
+
+## The function is currently defined as
+function (d_std, d_sat)
+{
+    lm_fit <- lm(fsu_au ~ std_conc, data = d_std)
+    lm_intercept <- coef(lm_fit)[1]
+    lm_slope <- coef(lm_fit)[2]
+    d_sat$spec_to_std <- (d_sat$spec - lm_intercept)/lm_slope
+    d_sat_2 <- d_sat \%>\% group_by(sub_conc, replicate) \%>\% nest() \%>\%
+        mutate(std_slope = map_dbl(data, function(df) coef(lm(spec_to_std ~
+            time, data = df))[2])) \%>\% group_by(sub_conc) \%>\%
+        mutate(slope_m = mean(std_slope), slope_sd = sd(std_slope))
+    x.units.vec <- c("(M)", "(mM)", "(?M)", "(nM)")
+    s <- readline(prompt = "Substrate name: ")
+    x.index.units <- menu(x.units.vec, graphics = FALSE, title = "x-axis: What are the units of concentration?")
+    plot.x.label <- paste(s, x.units.vec[x.index.units], sep = " ")
+    y.units.vec.conc <- c("M", "mM", "?M", "nM")
+    y.units.vec.time <- c("sec", "min", "hr", "day")
+    y.index.units.1 <- menu(y.units.vec.conc, graphics = FALSE,
+        title = "y-axis: What are the units of concentration?")
+    y.index.units.2 <- menu(y.units.vec.time, graphics = FALSE,
+        title = "y-axis: What are the units of time?")
+    plot.y.label <- paste("Reaction Rate", y.units.vec.conc[y.index.units.1],
+        y.units.vec.time[y.index.units.2], sep = " ")
+    p_sat_curve_1 <- ggplot(data = d_sat_2, mapping = aes(x = sub_conc,
+        y = slope_m)) + geom_point(size = 1.5) + theme_bw() +
+        xlab(plot.x.label) + ylab(plot.y.label) + theme(axis.text = element_text(size = 12),
+        axis.title = element_text(size = 18)) + geom_errorbar(aes(ymin = slope_m -
+        slope_sd, ymax = slope_m + slope_sd, width = 15)) + scale_y_continuous(labels = scientific)
+    mm_form <- formula(slope_m ~ (Vmax * sub_conc)/(Km + sub_conc))
+    mm_fit <- nls2(formula = mm_form, data = d_sat_2, start = list(Vmax = 0.03,
+        Km = 1000))
+    print(summary(mm_fit))
+    pred_grid <- data.frame(sub_conc = 0:400)
+    predictions <- predict(mm_fit, newdata = pred_grid)
+    pred_df <- data.frame(sub_conc = pred_grid$sub_conc, slope_m = predictions)
+    p_sat_fit <- p_sat_curve_1 + geom_line(data = pred_df, aes(x = sub_conc,
+        y = slope_m))
+    plot(p_sat_fit)
+    out_list <- list(sat_data = d_sat_2, fit_object = mm_fit,
+        plot_object = p_sat_fit)
+  }
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

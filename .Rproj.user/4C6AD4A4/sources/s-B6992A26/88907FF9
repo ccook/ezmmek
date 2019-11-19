@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1574178877488.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "88907FF9",
+    "lastKnownWriteTime" : 1574179051,
+    "last_content_update" : 1574179051734,
+    "path" : "C:/Users/kanga/Desktop/ezmmek/R/p_sat_curve.R",
+    "project_path" : "R/p_sat_curve.R",
+    "properties" : {
+        "cursorPosition" : "167,0",
+        "scrollLine" : "148"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
