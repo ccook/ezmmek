@@ -1,8 +1,8 @@
 \name{p_sat_raw}
 \alias{p_sat_raw}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Plot of raw saturation data
+\title{Plot of raw saturation data
+%%  ~~function to do ... ~~
 }
 \description{
 'p_sat_raw' plots raw saturation curve data into separate facets based on substrate concentration ('sub.conc'). It asks the user to specify the axis labels with the appropriate units. It also creates a list output containing the raw data plot.
@@ -22,6 +22,7 @@ d_sat must be a dataframe that contains the column headers
 }
 \value{
 \outlist{plot_object: }{object that contains raw data plot}
+
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -30,7 +31,6 @@ d_sat must be a dataframe that contains the column headers
 Christopher Cook
 }
 \note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -55,25 +55,24 @@ function (d_sat)
     if (!"replicate" \%in\% names(d_sat)) {
         stop("A column named 'replicate' was expected but not provided")
     }
-    if (!"sub.conc" \%in\% names(d_sat)) {
-        stop("A column named 'sub.conc' was expected but not provided")
+    if (!"sub_conc" \%in\% names(d_sat)) {
+        stop("A column named 'sub_conc' was expected but not provided")
     }
     x.units.vec <- c("(sec)", "(min)", "(hr)", "(day)")
     x.index.units <- menu(x.units.vec, graphics = FALSE, title = "x-axis: What are the units of time?")
     plot.x.label <- paste("Time", x.units.vec[x.index.units],
         sep = " ")
-    y.d <- readline(prompt = "y-axis: Detection unit?:")
-    plot.y.label <- paste(y.d)
-    p_sat_raw_1 <- ggplot2::ggplot(data = d_sat, mapping = ggplot2::aes(x = time,
-        y = spec, color = as.factor(replicate))) + ggplot2::geom_point() +
-        ggplot2::geom_smooth(method = "lm") + ggplot2::facet_wrap(~sub.conc,
-        scales = "fixed") + ggplot2::theme(axis.text.y = ggplot2::element_text(size = 7)) +
-        ggplot2::theme(axis.text.x = ggplot2::element_text(size = 6)) +
-        ggplot2::scale_y_continuous(labels = scales::scientific) +
-        ggplot2::xlab(plot.x.label) + ggplot2::ylab(plot.y.label) +
-        ggplot2::scale_color_discrete(name = "Replicate") + ggplot2::theme_bw()
+    y.units.vec <- c("FSU", "AU")
+    u <- readline(prompt = "y-axis: Detection unit?:")
+    plot.y.label <- paste(u)
+    p_sat_raw_1 <- ggplot(data = d_sat, mapping = aes(x = time,
+        y = spec, color = as.factor(replicate))) + geom_point() +
+        geom_smooth(method = "lm") + facet_wrap(~sub_conc, scales = "free") +
+        theme(axis.text.y = element_text(size = 7)) + theme(axis.text.x = element_text(size = 6)) +
+        scale_y_continuous(labels = scientific) + xlab(plot.x.label) +
+        ylab(plot.y.label) + scale_color_discrete(name = "Replicate") +
+        theme_bw()
     print(p_sat_raw_1)
-    out_list <- list(plot_object = p_sat_raw_1)
   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
