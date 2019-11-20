@@ -1,7 +1,8 @@
 \name{p_sat_curve}
 \alias{p_sat_curve}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{Dataframes, plots, and statistics for saturation curve
+\title{
+Function to plot saturation curve
 }
 \description{
 'p_sat_curve' creates a new dataframe by applying the standard curve coefficients to the raw saturation data. The spectral data is converted to concentration of standard. The new dataframe contains the average slope (rate of reaction) and standard deviation for each replicate at each substrate concentration. 'p_sat_curve' plots the new dataframe with substrate concentration on the x-axis, and rate of reaction on the y-axis. It asks the user to specify axis labels with the appropriate units. It calculates and reports Vmax and Km values. It also creates a list output containing the new dataframe, regression model, and saturation curve plot.

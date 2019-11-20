@@ -2,7 +2,7 @@
 \alias{p_std_curve}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Plot and statistics for standard curve
+Function to plot standard curve
 }
 \description{
 'p_std_curve' plots spectral data versus standard concentration. It asks the user to specify the axis labels with the appropriate units. It reports linear model summary statistics. It also creates a list output containing the summary statistics and standard curve plot.

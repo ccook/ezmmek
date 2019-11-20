@@ -2,7 +2,7 @@
 \alias{p_sat_raw}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Plot of raw saturation data
+Function to plot raw saturation data
 }
 \description{
 'p_sat_raw' plots raw saturation curve data into separate facets based on substrate concentration ('sub.conc'). It asks the user to specify the axis labels with the appropriate units. It also creates a list output containing the raw data plot.
