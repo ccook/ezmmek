@@ -39,9 +39,9 @@ Christopher Cook
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+p_std_curve(d_std)
+
+# 'd_std' is standard curve data
 
 ## The function is currently defined as
 function (d_std)

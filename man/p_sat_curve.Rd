@@ -22,7 +22,7 @@ d_sat must be a dataframe that contains the column headers 'time', 'sub.conc', '
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-\item{sat_data }{new dataframe created for saturation curve}
+\item{sat_data }{new dataframe containing average reaction rates and corresponding standard deviations}
 \item{fit_object }{regression model used to calculate saturation curve}
 \item{curve_data }{new dataframe containing predicted values for saturation curve fit}
 \item{plot_object }{plot of saturation curve}
@@ -43,9 +43,12 @@ Christopher Cook
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+p_sat_curve(d_std, d_sat)
+p_sat_curve(d_std, d_sat_n)
+
+# 'd_std' is standard curve data
+# 'd_sat' is saturation curve data
+# 'd_sat_n' is saturation curve data with normalization factor
 
 ## The function is currently defined as
 function (d_std, d_sat)
