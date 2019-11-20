@@ -10,7 +10,7 @@ Plot and statistics for standard curve
 \usage{
 p_std_curve(d_std)
 }
-
+%- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{d_std}{
 d_std must be a dataframe that contains the column headers 'std.conc'(standard concentration) and 'spec' (spectral data).
@@ -20,8 +20,8 @@ d_std must be a dataframe that contains the column headers 'std.conc'(standard c
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  \out_list{lm_stats: }{object that contains linear model summary statistics of standard curve}
-    {plot_object: }{object that contains standard curve plot}
+\item{lm_stats }{linear model summary statistics for standard curve}
+\item{plot_object }{plot of standard curve}
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -46,28 +46,29 @@ Christopher Cook
 ## The function is currently defined as
 function (d_std)
 {
-    if (!"std_conc" \%in\% names(d_std)) {
-        stop("A column named 'std_conc' was expected but not provided")
+    if (!"std.conc" \%in\% names(d_std)) {
+        stop("A column named 'std.conc' was expected but not provided")
     }
     if (!"spec" \%in\% names(d_std)) {
         stop("A column named 'spec' was expected but not provided")
     }
     x.units.vec <- c("(M)", "(mM)", "(μM)", "(nM)")
-    s <- readline(prompt = "Standard type: ")
+    x.s <- readline(prompt = "Standard type: ")
     x.index.units <- menu(x.units.vec, graphics = FALSE, title = "x-axis: What are the units of concentration?")
-    plot.x.label <- paste(s, x.units.vec[x.index.units], sep = " ")
-    y.units.vec <- c("FSU", "AU")
-    u <- readline(prompt = "y-axis: Detection unit?:")
-    plot.y.label <- paste(u)
-    p_std_curve_1 <- ggplot(data = d_std, mapping = aes(x = std_conc,
-        y = spec)) + geom_point(size = 2.5) + theme_bw() + xlab(plot.x.label) +
-        ylab(plot.y.label) + theme(axis.text = element_text(size = 12),
-        axis.title = element_text(size = 18)) + geom_smooth(method = "lm")
+    plot.x.label <- paste(x.s, x.units.vec[x.index.units], sep = " ")
+    y.d <- readline(prompt = "y-axis: Detection unit?:")
+    plot.y.label <- paste(y.d)
+    p_std_curve_1 <- ggplot2::ggplot(data = d_std, mapping = ggplot2::aes(x = std.conc,
+        y = spec)) + ggplot2::geom_point(size = 2.5) + ggplot2::theme_bw() +
+        ggplot2::xlab(plot.x.label) + ggplot2::ylab(plot.y.label) +
+        ggplot2::scale_y_continuous(labels = scales::scientific) +
+        ggplot2::theme(axis.text = ggplot2::element_text(size = 12),
+            axis.title = ggplot2::element_text(size = 18)) +
+        ggplot2::geom_smooth(method = "lm")
     print(p_std_curve_1)
-    lm_std_curve <- lm(formula = spec ~ std_conc, data = d_std)
+    lm_std_curve <- lm(formula = spec ~ std.conc, data = d_std)
     print(summary(lm_std_curve))
-    print(coef(lm_std_curve))
-    out_list <- list(lm_stats = lm_std_curve)
+    out_list <- list(lm_stats = summary(lm_std_curve), plot_object = p_std_curve_1)
   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

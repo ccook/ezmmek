@@ -21,7 +21,12 @@ d_sat must be a dataframe that contains the column headers
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-\outlist{plot_object: }{object that contains raw data plot}
+\item{plot_object }{plot of raw saturation data}
+%%  ~Describe the value returned
+%%  If it is a LIST, use
+%%  \item{comp1 }{Description of 'comp1'}
+%%  \item{comp2 }{Description of 'comp2'}
+%% ...
 }
 \references{
 %% ~put references to the literature/web site here ~

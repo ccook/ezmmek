@@ -160,7 +160,7 @@ p_sat_curve <- function(d_std, d_sat) {
   plot(p_sat_fit)
 
   ### access predicted Vmax, predicted Km, d_sat_2 dataframe, mm_fit summary, and final plot for later
-  out_list <- list(sat_data = d_sat_2, fit_object = mm_fit, plot_object = p_sat_fit)
+  out_list <- list(sat_data = d_sat_2, curve_data = pred_df, fit_object = mm_fit, plot_object = p_sat_fit)
 
 }
 
