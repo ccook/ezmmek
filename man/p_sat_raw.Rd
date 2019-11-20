@@ -48,7 +48,7 @@ p_sat_raw(d_sat)
 p_sat_raw(d_sat_n)
 
 # 'd_sat' is saturation curve data
-# 'd_sat_n' is saturation curve data with normalization factor
+# 'd_sat_n' is saturation curve data with a normalization factor
 
 ## The function is currently defined as
 function (d_sat)

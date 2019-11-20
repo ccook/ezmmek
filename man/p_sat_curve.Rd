@@ -1,7 +1,7 @@
 \name{p_sat_curve}
 \alias{p_sat_curve}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{Dataframes, plot, and statistics for saturation curve
+\title{Dataframes, plots, and statistics for saturation curve
 }
 \description{
 'p_sat_curve' creates a new dataframe by applying the standard curve coefficients to the raw saturation data. The spectral data is converted to concentration of standard. The new dataframe contains the average slope (rate of reaction) and standard deviation for each replicate at each substrate concentration. 'p_sat_curve' plots the new dataframe with substrate concentration on the x-axis, and rate of reaction on the y-axis. It asks the user to specify axis labels with the appropriate units. It calculates and reports Vmax and Km values. It also creates a list output containing the new dataframe, regression model, and saturation curve plot.
@@ -15,7 +15,7 @@ p_sat_curve(d_std, d_sat)
   d_std must be a dataframe that contains the column headers 'std.conc' and 'spec'.
 }
   \item{d_sat}{
-d_sat must be a dataframe that contains the column headers 'time', 'sub.conc', 'replicate', and 'spec'. If d_sat contains a fifth column, that fifth column will be assumed to be a normalization factor. The rate of reacation will be divided by the values present in the fifth column. The user will be prompted to name the unit of normalization, which will appear on the y-axis, if a fifth column is present.
+d_sat must be a dataframe that contains the column headers 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data). If d_sat contains a fifth column, that fifth column will be assumed to be a normalization factor. The rate of reacation will be divided by the values present in the fifth column. The user will be prompted to name the unit of normalization, which will appear on the y-axis, if a fifth column is present.
 }
 }
 \details{
@@ -31,7 +31,7 @@ d_sat must be a dataframe that contains the column headers 'time', 'sub.conc', '
 %% ~put references to the literature/web site here ~
 }
 \author{
-Christopher Cook
+Christopher L. Cook
 }
 \note{
 %%  ~~further notes~~
@@ -48,7 +48,7 @@ p_sat_curve(d_std, d_sat_n)
 
 # 'd_std' is standard curve data
 # 'd_sat' is saturation curve data
-# 'd_sat_n' is saturation curve data with normalization factor
+# 'd_sat_n' is saturation curve data with a normalization factor
 
 ## The function is currently defined as
 function (d_std, d_sat)

@@ -6,7 +6,7 @@ Author: Christopher L. Cook and Andrew D. Steen
 Maintainer: Christopher L. Cook <ccook62@vols.utk.edu>
 Description: Analysis of enzyme activities on fluorogenic and chromogenic substrates using Michaelis-Menton kinetics.
   It outputs plots and relevant statistics regarding standard curves and saturation curves. 
-  It also enables the user to customize plots and statistics to their particular datasets.
+  It also enables the user to customize plots to their particular datasets.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
