@@ -20,7 +20,7 @@ d_std must be a dataframe that contains the column headers 'std.conc'(standard c
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-\item{lm_stats }{linear model summary statistics for standard curve}
+\item{fit_object}{regression model used to calculate standard curve}
 \item{plot_object }{plot of standard curve}
 }
 \references{
@@ -68,7 +68,7 @@ function (d_std)
     print(p_std_curve_1)
     lm_std_curve <- lm(formula = spec ~ std.conc, data = d_std)
     print(summary(lm_std_curve))
-    out_list <- list(lm_stats = summary(lm_std_curve), plot_object = p_std_curve_1)
+    out_list <- list(fit_object = lm_std_curve, plot_object = p_std_curve_1)
   }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

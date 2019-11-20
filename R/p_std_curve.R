@@ -47,6 +47,6 @@ p_std_curve <- function(d_std) {
   print(summary(lm_std_curve))
 
   ### assign 'lm_stats' to access lm_std_curve summary and coefficients for later
-  out_list <- list(lm_stats = summary(lm_std_curve), plot_object = p_std_curve_1)
+  out_list <- list(fit_object = lm_std_curve, plot_object = p_std_curve_1)
 
 }
