@@ -5,7 +5,7 @@
 Dataframe containing raw saturation curve values
 }
 \description{
-'d_sat' contains four columns, each of which contribute to the plot of raw saturation data. The column, 'time' refers to timepoints at which spectral data was collected. The column, 'sub.conc' refers to substrate concentration. The column, 'replicate' refers to sample identification. The column, 'spec' refers to spectral data.
+'d_sat' contains four columns. The column, 'time' refers to timepoints at which spectral data was collected. The column, 'sub.conc' refers to substrate concentration. The column, 'replicate' refers to sample identification. The column, 'spec' refers to spectral data.
 }
 \usage{data("d_sat")}
 \format{

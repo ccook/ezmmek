@@ -46,7 +46,7 @@ p_std_curve <- function(d_std) {
   lm_std_curve <- lm(formula = spec ~ std.conc, data = d_std)
   print(summary(lm_std_curve))
 
-  ### assign 'lm_stats' to access lm_std_curve summary and coefficients for later
+  ### output list of linear model and plot
   out_list <- list(fit_object = lm_std_curve, plot_object = p_std_curve_1)
 
 }

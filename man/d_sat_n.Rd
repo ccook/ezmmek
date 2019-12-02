@@ -5,7 +5,7 @@
 Dataframe containing raw saturation curve values, including normalization factor
 }
 \description{
-'d_sat_n' contains five columns, each of which contribute to the plot of raw saturation data. The column, 'time' refers to timepoints at which spectral data was collected. The column, 'sub.conc' refers to substrate concentration. The column, 'replicate' refers to sample identification. The column, 'spec' refers to spectral data. The column, 'norm' refers to normalization factor.
+'d_sat_n' contains five columns. The column, 'time' refers to timepoints at which spectral data was collected. The column, 'sub.conc' refers to substrate concentration. The column, 'replicate' refers to sample identification. The column, 'spec' refers to spectral data. The column, 'norm' refers to normalization factor.
 }
 \usage{data("d_sat_n")}
 \format{
