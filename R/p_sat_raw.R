@@ -1,7 +1,21 @@
-########
-# raw data function for enzyme package
+##' Create plot of raw data
+##'
+##' @description Creates plot of raw saturation data
+##'
+##' @param d_sat Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).
+##'
+##' @return List containing plot
+##' @details Plots raw saturation curve data into separate facets based on substrate concentration ('sub.conc').
+##' It asks the user to specify the axis labels with the appropriate units.
+##' It also creates a list output containing the raw data plot.
+##' @examples p_sat_raw(d_sat)
+##' p_sat_raw(d_sat_n)
+##' @author Christopher L. Cook and Andrew D. Steen
+##' @export
 
-### plot raw data
+########
+# plot raw data
+########
 p_sat_raw <- function(d_sat) {
 
   ### stop function if columns lack these specific names

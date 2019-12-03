@@ -1,7 +1,21 @@
-########
-# standard curve function for enzyme package
+##' Create standard curve
+##'
+##' @description Creates a standard curve of spectral data versus fluorophore/chromophore concentration
+##'
+##' @param d_std  Must be a dataframe that contains 'std.conc' and 'spec'.
+##'
+##' @return List containing plot and fit model
+##' @details Plots spectral data vs standard concentration.
+##' It asks the user to specify the axis labels with the appropriate units.
+##' It reports linear model summary statistics.
+##' It also creates a list output containing the summary statistics and standard curve plot.
+##' @example p_std_curve(d_std)
+##' @author Christopher L. Cook and Andrew D. Steen
+##' @export
 
-### plot standard curve and print linear model stats
+########
+# plot standard curve and print linear model stats
+########
 p_std_curve <- function(d_std) {
 
   ### stop function if columns lack these specific names
