@@ -3,3 +3,4 @@
 export(p_sat_curve)
 export(p_sat_raw)
 export(p_std_curve)
+importFrom(magrittr,"%>%")

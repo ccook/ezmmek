@@ -21,6 +21,9 @@ It asks the user to specify the axis labels with the appropriate units.
 It reports linear model summary statistics.
 It also creates a list output containing the summary statistics and standard curve plot.
 }
+\examples{
+p_std_curve(d_std)
+}
 \author{
 Christopher L. Cook and Andrew D. Steen
 }
