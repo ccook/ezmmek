@@ -25,11 +25,7 @@ The spectral data is converted to concentration of standard.
 The new dataframe contains the average slope (rate of reaction) and standard deviation for each replicate at each substrate concentration.
 'p_sat_curve' plots the new dataframe with substrate concentration on the x-axis, and rate of reaction on the y-axis.
 It asks the user to specify axis labels with the appropriate units. It predicts and reports Vmax and Km values.
-It also creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
-}
-\examples{
-p_sat_curve(d_std, d_sat)
-p_sat_curve(d_std, d_sat_n)
+It creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
 }
 \author{
 Christopher L. Cook and Andrew D. Steen

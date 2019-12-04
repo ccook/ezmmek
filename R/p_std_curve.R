@@ -1,17 +1,17 @@
 ##' Create standard curve
 ##'
-##' @description Creates a standard curve of spectral data versus fluorophore/chromophore concentration
+##' @description Creates a standard curve of spectral data versus fluorophore/chromophore concentration.
 ##'
 ##' @param d_std  Must be a dataframe that contains 'std.conc' and 'spec'.
 ##'
-##' @return List containing plot and fit model
+##' @return List containing plot and fit model.
+##'
 ##' @details Plots spectral data vs standard concentration.
 ##' It asks the user to specify the axis labels with the appropriate units.
 ##' It reports linear model summary statistics.
-##' It also creates a list output containing the summary statistics and standard curve plot.
-##' @examples p_std_curve(d_std)
+##' It creates a list output containing the summary statistics and standard curve plot.
+##'
 ##' @author Christopher L. Cook and Andrew D. Steen
-##' @importFrom magrittr "%>%"
 ##' @export
 
 ########
@@ -28,8 +28,11 @@ p_std_curve <- function(d_std) {
     stop("A column named 'spec' was expected but not provided")
   }
 
+  #assign value 'μ'
+  mu <- "\u03BC"
+
   ### create vector of different unit of concentration choices
-  x.units.vec <- c("(M)","(mM)","(μM)", "(nM)")
+  x.units.vec <- c("(M)","(mM)", paste("(", sep = "", paste(mu,"M)", sep = "")), "(nM)")
 
   ### prompt user to name the type of standard used for curve
   x.s <- readline(prompt = "Standard type: ")
