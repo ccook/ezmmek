@@ -15,7 +15,7 @@ The rate of reacation will be divided by the values present in the fifth column.
 The user will be prompted to name the unit of normalization, which will appear on the y-axis, if a fifth column is present.}
 }
 \value{
-List containing new dataframe, regression model, and saturation curve
+List containing new dataframe, regression model, and saturation curve.
 }
 \description{
 Creates a dataframe and plot by applying the standard curve coefficients to the raw saturation data.

@@ -108,7 +108,7 @@ p_sat_curve <- function(d_std, d_sat) {
   sup.s <- "\U207B\U00B9"
 
   ### create vector of possible units of concentration
-  y.units.vec.conc <- c("M","mM", paste("(", sep = "", paste(mu,"M)", sep = "")),"nM")
+  y.units.vec.conc <- c("M","mM", paste(mu,"M", sep = ""),"nM")
 
   ### create vector of possible units of time, with superscript
   y.units.vec.time <- c(paste("sec", sup.s, sep = ""),

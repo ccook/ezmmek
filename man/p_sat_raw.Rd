@@ -10,10 +10,10 @@ p_sat_raw(d_sat)
 \item{d_sat}{Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).}
 }
 \value{
-List containing plot
+List containing plot.
 }
 \description{
-Creates plot of raw saturation data
+Creates plot of raw saturation data.
 }
 \details{
 Plots raw saturation curve data into separate facets based on substrate concentration ('sub.conc').

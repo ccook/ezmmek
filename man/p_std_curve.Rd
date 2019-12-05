@@ -10,10 +10,10 @@ p_std_curve(d_std)
 \item{d_std}{Must be a dataframe that contains 'std.conc' and 'spec'.}
 }
 \value{
-List containing plot and fit model
+List containing plot and fit model.
 }
 \description{
-Creates a standard curve of spectral data versus fluorophore/chromophore concentration
+Creates a standard curve of spectral data versus fluorophore/chromophore concentration.
 }
 \details{
 Plots spectral data vs standard concentration.

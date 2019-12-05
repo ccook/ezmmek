@@ -8,7 +8,7 @@
 data(d_sat_n)
 }
 \description{
-Saturation curve data featuring time, conc. of substrate, replicate #, spectral data, and normalization factor
+Saturation curve data featuring time, conc. of substrate, replicate #, spectral data, and normalization factor.
 }
 \author{
 Christopher L. Cook

@@ -8,7 +8,7 @@
 data(d_std)
 }
 \description{
-Sample standard curve data featuring spectral data and conc. of standard
+Sample standard curve data featuring spectral data and conc. of standard.
 }
 \author{
 Christopher L. Cook

@@ -1,6 +1,6 @@
 ##' Standard curve data
 ##'
-##' Sample standard curve data featuring spectral data and conc. of standard
+##' Sample standard curve data featuring spectral data and conc. of standard.
 ##'
 ##' @name d_std
 ##'

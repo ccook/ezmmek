@@ -8,7 +8,7 @@
 data(d_sat)
 }
 \description{
-Sample saturation curve data featuring time, conc. of substrate, replicate #, and spectral data
+Sample saturation curve data featuring time, conc. of substrate, replicate #, and spectral data.
 }
 \author{
 Christopher L. Cook

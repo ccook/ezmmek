@@ -1,6 +1,6 @@
 ##' Saturation curve data
 ##'
-##' Sample saturation curve data featuring time, conc. of substrate, replicate #, and spectral data
+##' Sample saturation curve data featuring time, conc. of substrate, replicate #, and spectral data.
 ##'
 ##' @name d_sat
 ##'
