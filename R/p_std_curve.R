@@ -20,13 +20,10 @@
 p_std_curve <- function(d_std) {
 
   ### stop function if columns lack these specific names
-  if(!"std.conc" %in% names(d_std)) {
-    stop("A column named 'std.conc' was expected but not provided")
-  }
-
-  if(!"spec" %in% names(d_std)) {
-    stop("A column named 'spec' was expected but not provided")
-  }
+  assertable::assert_colnames(data = d_std,
+                              colnames = c("std.conc", "spec"),
+                              only_colnames = FALSE,
+                              quiet = FALSE)
 
   #assign value 'μ'
   mu <- "\u03BC"

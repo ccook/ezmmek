@@ -20,23 +20,13 @@
 p_sat_raw <- function(d_sat) {
 
   ### stop function if columns lack these specific names
-  if(!"time" %in% names(d_sat)) {
-    stop("A column named 'time' was expected but not provided")
-  }
-
-
-  if(!"spec" %in% names(d_sat)) {
-    stop("A column named 'spec' was expected but not provided")
-  }
-
-
-  if(!"replicate" %in% names(d_sat)) {
-    stop("A column named 'replicate' was expected but not provided")
-  }
-
-  if(!"sub.conc" %in% names(d_sat)) {
-    stop("A column named 'sub.conc' was expected but not provided")
-  }
+  assertable::assert_colnames(data = d_sat,
+                              colnames = c("time",
+                                           "replicate",
+                                           "spec",
+                                           "sub.conc"),
+                              only_colnames = FALSE,
+                              quiet = FALSE)
 
   ### create vector of different unit of concentration choices
   x.units.vec <- c("(sec)","(min)","(hr)", "(day)")

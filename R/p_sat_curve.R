@@ -31,31 +31,18 @@ p_sat_curve <- function(d_std, d_sat) {
 
 
   ### stop function if d_std or d_sat columns lack these specific names
-  if(!"std.conc" %in% names(d_std)) {
-    stop("A column named 'std.conc' was expected but not provided")
-  }
+  assertable::assert_colnames(data = d_std,
+                              colnames = c("std.conc", "spec"),
+                              only_colnames = FALSE,
+                              quiet = FALSE)
 
-  if(!"spec" %in% names(d_std)) {
-    stop("A column named 'spec' was expected but not provided")
-  }
-
-  if(!"time" %in% names(d_sat)) {
-    stop("A column named 'time' was expected but not provided")
-  }
-
-
-  if(!"spec" %in% names(d_sat)) {
-    stop("A column named 'spec' was expected but not provided")
-  }
-
-
-  if(!"replicate" %in% names(d_sat)) {
-    stop("A column named 'replicate' was expected but not provided")
-  }
-
-  if(!"sub.conc" %in% names(d_sat)) {
-    stop("A column named 'sub.conc' was expected but not provided")
-  }
+  assertable::assert_colnames(data = d_sat,
+                              colnames = c("time",
+                                           "replicate",
+                                           "spec",
+                                           "sub.conc"),
+                              only_colnames = FALSE,
+                              quiet = FALSE)
 
   ### convert fsu to conc. of standard and add to d_sat dataframe
   lm_fit <- lm(spec ~ std.conc, data = d_std)
