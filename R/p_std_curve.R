@@ -23,7 +23,7 @@ p_std_curve <- function(d_std) {
   assertable::assert_colnames(data = d_std,
                               colnames = c("std.conc", "spec"),
                               only_colnames = FALSE,
-                              quiet = FALSE)
+                              quiet = TRUE)
 
   #assign value 'μ'
   mu <- "\u03BC"

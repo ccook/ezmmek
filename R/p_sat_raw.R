@@ -26,7 +26,7 @@ p_sat_raw <- function(d_sat) {
                                            "spec",
                                            "sub.conc"),
                               only_colnames = FALSE,
-                              quiet = FALSE)
+                              quiet = TRUE)
 
   ### create vector of different unit of concentration choices
   x.units.vec <- c("(sec)","(min)","(hr)", "(day)")

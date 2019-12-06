@@ -34,7 +34,7 @@ p_sat_curve <- function(d_std, d_sat) {
   assertable::assert_colnames(data = d_std,
                               colnames = c("std.conc", "spec"),
                               only_colnames = FALSE,
-                              quiet = FALSE)
+                              quiet = TRUE)
 
   assertable::assert_colnames(data = d_sat,
                               colnames = c("time",
@@ -42,7 +42,7 @@ p_sat_curve <- function(d_std, d_sat) {
                                            "spec",
                                            "sub.conc"),
                               only_colnames = FALSE,
-                              quiet = FALSE)
+                              quiet = TRUE)
 
   ### convert fsu to conc. of standard and add to d_sat dataframe
   lm_fit <- lm(spec ~ std.conc, data = d_std)
