@@ -21,6 +21,14 @@ It asks the user to specify the axis labels with the appropriate units.
 It reports linear model summary statistics.
 It creates a list output containing the summary statistics and standard curve plot.
 }
+\examples{
+#Run 'p_std_curve(d_std)'.
+#When prompted 'Standard type:', type 'AMC' and press Enter.
+#When prompted 'x-axis: What are the units of concentration?', type '3' and press Enter.
+#When prompted 'y-axis: Detection unit?:', type 'FSU' and press Enter.
+
+
+}
 \author{
 Christopher L. Cook and Andrew D. Steen
 }

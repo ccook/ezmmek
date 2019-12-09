@@ -10,8 +10,11 @@
 ##' It asks the user to specify the axis labels with the appropriate units.
 ##' It creates a list output containing the raw data plot.
 ##'
-##' @author Christopher L. Cook and Andrew D. Steen
+##' @examples #Run 'p_sat_raw(d_sat)'.
+##' #When prompted 'x-axis: What are the units of time?', type '2' and press Enter.
+##' #When prompted 'y-axis: Detection Unit?:', type 'FSU' and press Enter.
 ##'
+##' @author Christopher L. Cook and Andrew D. Steen
 ##' @export
 
 ########

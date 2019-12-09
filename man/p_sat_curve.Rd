@@ -27,6 +27,21 @@ The new dataframe contains the average slope (rate of reaction) and standard dev
 It asks the user to specify axis labels with the appropriate units. It predicts and reports Vmax and Km values.
 It creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
 }
+\examples{
+#Run 'p_sat_curve(d_std, d_sat)'.
+#When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
+#When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
+#When prompted 'y-axis: What are the units of concentration?', type '3' and press Enter.
+#When prompted 'y-axis: What are the units of time?', type '2' and press Enter.
+
+#Run 'p_sat_curve(d_std, d_sat_n)'.
+#When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
+#When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
+#When prompted 'y-axis: What are the units of concentration?', type '3' and press Enter.
+#When prompted 'y-axis: What are the units of time?', type '2' and press Enter.
+#When prompted 'Normalization unit:', type 'cell' and press Enter.
+
+}
 \author{
 Christopher L. Cook and Andrew D. Steen
 }
