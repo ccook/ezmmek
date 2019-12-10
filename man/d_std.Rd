@@ -11,5 +11,5 @@ data(d_std)
 Sample standard curve data featuring spectral data and conc. of standard.
 }
 \author{
-Christopher L. Cook
+Christopher L. Cook and Andrew D. Steen
 }

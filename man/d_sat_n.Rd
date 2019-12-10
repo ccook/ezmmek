@@ -11,5 +11,5 @@ data(d_sat_n)
 Saturation curve data featuring time, conc. of substrate, replicate #, spectral data, and normalization factor.
 }
 \author{
-Christopher L. Cook
+Christopher L. Cook and Andrew D. Steen
 }

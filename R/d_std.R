@@ -8,6 +8,6 @@
 ##'
 ##' @usage data(d_std)
 ##'
-##' @author Christopher L. Cook
+##' @author Christopher L. Cook and Andrew D. Steen
 NULL
 

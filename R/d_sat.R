@@ -8,5 +8,5 @@
 ##'
 ##' @usage data(d_sat)
 ##'
-##' @author Christopher L. Cook
+##' @author Christopher L. Cook and Andrew D. Steen
 NULL
