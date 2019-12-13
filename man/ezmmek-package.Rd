@@ -4,8 +4,8 @@
 \name{ezmmek-package}
 \alias{ezmmek}
 \alias{ezmmek-package}
-\title{ezmmek: Analysis of Enzyme Activities on Synthetic Substrates using Michaelis-Menton Kinetics}
+\title{ezmmek: Analysis of Enzyme Activities on Synthetic Substrates using Michaelis-Menten Kinetics}
 \description{
-Analysis of enzyme activities on fluorogenic and chromogenic substrates using Michaelis-Menton kinetics. It outputs plots and relevant statistics regarding standard curves and saturation curves. It also enables the user to customize plots to their particular datasets.
+Analysis of enzyme activities on fluorogenic and chromogenic substrates using Michaelis-Menten kinetics. It outputs plots and relevant statistics regarding standard curves and saturation curves. It also enables the user to customize plots to their particular datasets.
 }
 \keyword{internal}
