@@ -1,10 +1,13 @@
 Package: ezmmek
 Type: Package
 Title: Analysis of Enzyme Activities on Synthetic Substrates using Michaelis-Menten Kinetics
-Version: 0.1.0
+Version: 0.2.0
 Author: Christopher L. Cook and Andrew D. Steen
 Maintainer: Christopher L. Cook <ccook62@vols.utk.edu>
 Description: Analysis of enzyme activities on fluorogenic and chromogenic substrates using Michaelis-Menten kinetics. It outputs plots and relevant statistics regarding standard curves and saturation curves. It also enables the user to customize plots to their particular datasets.
+References: German, D.P., Weintraub, M.N., Grandy, A.S., Lauber, C.L., Rinkes, Z.L., and Allison, S.D. (2011) <doi:10.1016/j.soilbio.2011.03.017>
+            Steen, A.D., and Arnosti, C. (2011) <doi:10.1016/j.marchem.2010.10.006>
+            Sinsabaugh, R.L., Belnap, J., Findlay, S.G., Shah Follstad, J.J., Hill, B.H., Kuehn, K.A., Kuske, C.R., Litvak, M.E., Martinez, N.G., Moorhead, D.L., and Warnock, D.D. (2014) <doi:10.1007/s10533-014-0030-y>
 License: AGPL-3
 Encoding: UTF-8
 LazyData: true

@@ -4,10 +4,13 @@
 \alias{p_sat_raw}
 \title{Create plot of raw data}
 \usage{
-p_sat_raw(d_sat)
+p_sat_raw(d_sat, man.units = FALSE)
 }
 \arguments{
 \item{d_sat}{Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).}
+
+\item{man.units}{If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
+If 'man.units = FALSE', a plot will generated with generic axes titles.}
 }
 \value{
 List containing plot.
@@ -21,6 +24,10 @@ It asks the user to specify the axis labels with the appropriate units.
 It creates a list output containing the raw data plot.
 }
 \examples{
+#If 'man.units = FALSE'
+p_sat_raw(d_sat)
+
+#If 'man.units = TRUE'
 #Run 'p_sat_raw(d_sat)'.
 #When prompted 'x-axis: What are the units of time?', type '2' and press Enter.
 #When prompted 'y-axis: Detection Unit?:', type 'FSU' and press Enter.

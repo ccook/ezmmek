@@ -4,10 +4,13 @@
 \alias{p_std_curve}
 \title{Create standard curve}
 \usage{
-p_std_curve(d_std)
+p_std_curve(d_std, man.units = FALSE)
 }
 \arguments{
 \item{d_std}{Must be a dataframe that contains 'std.conc' and 'spec'.}
+
+\item{man.units}{If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
+If 'man.units = FALSE', a plot will generated with generic axes titles.}
 }
 \value{
 List containing plot and fit model.
@@ -22,11 +25,14 @@ It reports linear model summary statistics.
 It creates a list output containing the summary statistics and standard curve plot.
 }
 \examples{
+#If 'man.units = FALSE'
+p_std_curve(d_std, man.units = FALSE)
+
+#If 'man.units = TRUE'
 #Run 'p_std_curve(d_std)'.
 #When prompted 'Standard type:', type 'AMC' and press Enter.
 #When prompted 'x-axis: What are the units of concentration?', type '3' and press Enter.
 #When prompted 'y-axis: Detection unit?:', type 'FSU' and press Enter.
-
 
 }
 \author{

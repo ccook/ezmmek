@@ -4,13 +4,21 @@
 ##'
 ##' @param d_sat Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).
 ##'
+##' @param man.units If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
+##' If 'man.units = FALSE', a plot will generated with generic axes titles.
+##'
 ##' @return List containing plot.
 ##'
 ##' @details Plots raw saturation curve data into separate facets based on substrate concentration ('sub.conc').
 ##' It asks the user to specify the axis labels with the appropriate units.
 ##' It creates a list output containing the raw data plot.
 ##'
-##' @examples #Run 'p_sat_raw(d_sat)'.
+##' @examples
+##' #If 'man.units = FALSE'
+##' p_sat_raw(d_sat)
+##'
+##' #If 'man.units = TRUE'
+##' #Run 'p_sat_raw(d_sat)'.
 ##' #When prompted 'x-axis: What are the units of time?', type '2' and press Enter.
 ##' #When prompted 'y-axis: Detection Unit?:', type 'FSU' and press Enter.
 ##'
@@ -20,7 +28,7 @@
 ########
 # plot raw data
 ########
-p_sat_raw <- function(d_sat) {
+p_sat_raw <- function(d_sat, man.units = FALSE) {
 
   ### stop function if columns lack these specific names
   assertable::assert_colnames(data = d_sat,
@@ -30,6 +38,7 @@ p_sat_raw <- function(d_sat) {
                                            "sub.conc"),
                               only_colnames = FALSE,
                               quiet = TRUE)
+  if(man.units == TRUE){
 
   ### create vector of different unit of concentration choices
   x.units.vec <- c("(sec)","(min)","(hr)", "(day)")
@@ -37,15 +46,23 @@ p_sat_raw <- function(d_sat) {
   ### ask user to choose which unit of concentration
   x.index.units <- menu(x.units.vec, graphics = FALSE, title =
                           "x-axis: What are the units of time?")
+  ### prompt user to name the unit of detection
+  y.d <- readline(prompt = "y-axis: Detection unit?:")
+
+  } else{
+
+    ### assign generic axes names that do not require user input
+    y.d <- "Intensity"
+    x.units.vec <- c("")
+    x.index.units <- 1
+  }
 
   ### assign value for x-axis label on plot
   plot.x.label <- paste("Time", x.units.vec[x.index.units], sep = " ")
 
-  ### prompt user to name the unit of detection
-  y.d <- readline(prompt = "y-axis: Detection unit?:")
-
   ### assign value for y-axis label on plot
   plot.y.label <- paste(y.d)
+
 
   ### create plot of raw saturation data
   p_sat_raw_1 <- ggplot2::ggplot(data = d_sat, mapping =
@@ -53,8 +70,8 @@ p_sat_raw <- function(d_sat) {
     ggplot2::geom_point() +
     ggplot2::geom_smooth(method = "lm") +
     ggplot2::facet_wrap(~sub.conc, scales = "fixed") +
-    ggplot2::theme(axis.text.y = ggplot2::element_text(size = 7)) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(size = 6)) +
+    ggplot2::theme(axis.text.y = ggplot2::element_text()) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text()) +
     ggplot2::scale_y_continuous(labels = scales::scientific) +
     ggplot2::xlab(plot.x.label) +
     ggplot2::ylab(plot.y.label) +

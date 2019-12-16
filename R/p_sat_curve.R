@@ -9,6 +9,9 @@
 ##' The rate of reacation will be divided by the values present in the fifth column.
 ##' The user will be prompted to name the unit of normalization, which will appear on the y-axis, if a fifth column is present.
 ##'
+##' @param man.units If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
+##' If 'man.units = FALSE', a plot will generated with generic axes titles.
+##'
 ##' @return List containing new dataframe, regression model, and saturation curve.
 ##'
 ##' @details The spectral data is converted to concentration of standard.
@@ -17,12 +20,19 @@
 ##' It asks the user to specify axis labels with the appropriate units. It predicts and reports Vmax and Km values.
 ##' It creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
 ##'
-##' @examples #Run 'p_sat_curve(d_std, d_sat)'.
+##' @examples
+##' #If 'man.units = FALSE'
+##' p_sat_curve(d_std, d_sat)
+##' p_sat_curve(d_std, d_sat_n)
+##'
+##' #If 'man.units = TRUE'
+##' #Run 'p_sat_curve(d_std, d_sat)'.
 ##' #When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
 ##' #When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
 ##' #When prompted 'y-axis: What are the units of concentration?', type '3' and press Enter.
 ##' #When prompted 'y-axis: What are the units of time?', type '2' and press Enter.
 ##'
+##' #If 'man.units = TRUE'
 ##' #Run 'p_sat_curve(d_std, d_sat_n)'.
 ##' #When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
 ##' #When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
@@ -40,7 +50,9 @@
 # plot saturation curve and print km and vmax values
 ########
 
-p_sat_curve <- function(d_std, d_sat) {
+
+#p_sat_curve <- function(d_std, d_sat,manual.units=FALSE)
+p_sat_curve <- function(d_std, d_sat, man.units = FALSE) {
 
 
   ### stop function if d_std or d_sat columns lack these specific names
@@ -93,69 +105,111 @@ p_sat_curve <- function(d_std, d_sat) {
   mu <- "\u03BC"
 
   ### create vector of possible concentration units
-  x.units.vec <- c("(M)","(mM)",paste("(", sep = "", paste(mu,"M)", sep = "")), "(nM)")
+  if(man.units == TRUE){
 
-  ### prompt user to name the type of substrate
-  x.s <- readline(prompt = "Substrate name: ")
+    x.units.vec <- c("(M)","(mM)",paste("(", sep = "", paste(mu,"M)", sep = "")), "(nM)")
 
-  ### ask user to choose which unit of concentration
-  x.index.units <- menu(x.units.vec, graphics = FALSE, title = "x-axis: What are the units of substrate concentration?")
+    ### prompt user to name the type of substrate
+    x.s <- readline(prompt = "Substrate name: ")
 
+    ### ask user to choose which unit of concentration
+    x.index.units <- menu(x.units.vec, graphics = FALSE, title = "x-axis: What are the units of substrate concentration?")
+
+    ### assign value to superscript of '-1'
+    sup.s <- "\U207B\U00B9"
+
+    ### create vector of possible units of concentration
+    y.units.vec.conc <- c("M","mM", paste(mu,"M", sep = ""),"nM")
+
+    ### create vector of possible units of time, with superscript
+    y.units.vec.time <- c(paste("sec", sup.s, sep = ""),
+                          paste("min", sup.s, sep = ""),
+                          paste("hr", sup.s, sep = ""),
+                          paste("day", sup.s, sep = ""))
+
+    ### ask user to choose which unit of concentration
+    y.index.units.conc <- menu(y.units.vec.conc, graphics = FALSE,
+                               title = "y-axis: What are the units of concentration?")
+    ### ask user to choose which unit of time
+    y.index.units.time <- menu(y.units.vec.time, graphics = FALSE,
+                               title = "y-axis: What are the units of time?")
+
+    ### if data was normalized
+    if("activity.norm" %in% names(d_sat)) {
+
+      ### prompt user to name the unit of normalization
+      norm.name <- readline(prompt = "Normalization unit: ")
+      y.units.vec.norm <- c(paste(norm.name, sup.s, sep = ""))
+
+      ### assign value for y-axis label on plot
+      plot.y.label <- paste("Reaction Rate",
+                            paste("(", y.units.vec.conc[y.index.units.conc], sep = ""),
+                            y.units.vec.time[y.index.units.time],
+                            paste(y.units.vec.norm, ")", sep = ""),
+                            sep = " ")
+
+      ### else there will be no prompt for normalization unit
+    } else {
+
+      ### assign value for y-axis label on plot
+      plot.y.label <- paste("Reaction Rate",
+                            paste("(",y.units.vec.conc[y.index.units.conc],sep = ""),
+                            paste(y.units.vec.time[y.index.units.time],")",sep = ""),
+                            sep = " ")
+    }
+
+  } else{
+
+    ### assign value to superscript of '-1'
+    sup.s <- "\U207B\U00B9"
+
+    ### assign generic axes names that do not require user input
+    x.s<-""
+    x.units.vec<-c("Substrate conc.")
+    x.index.units<-1
+    y.units.vec.conc<-c("conc.")
+    y.index.units.conc <- 1
+    y.units.vec.time<-c(paste(c("time"), sup.s, sep = ""))
+    y.index.units.time<-1
+
+    ### if data was normalized
+    if("activity.norm" %in% names(d_sat)) {
+
+      ### prompt user to name the unit of normalization
+      norm.name <- c("norm")
+      y.units.vec.norm <- c(paste(norm.name, sup.s, sep = ""))
+
+      ### assign value for y-axis label on plot
+      plot.y.label <- paste("Reaction Rate",
+                            paste("(", y.units.vec.conc[y.index.units.conc], sep = ""),
+                            y.units.vec.time[y.index.units.time],
+                            paste(y.units.vec.norm, ")", sep = ""),
+                            sep = " ")
+
+      ### else there will be no prompt for normalization unit
+    } else {
+
+      ### assign value for y-axis label on plot
+      plot.y.label <- paste("Reaction Rate",
+                            paste("(",y.units.vec.conc[y.index.units.conc],sep = ""),
+                            paste(y.units.vec.time[y.index.units.time],")",sep = ""),
+                            sep = " ")
+    }
+
+
+  }
   ### assign value for x-axis label on plot
   plot.x.label <- paste(x.s, x.units.vec[x.index.units], sep = " ")
-
-  ### assign value to superscript of '-1'
-  sup.s <- "\U207B\U00B9"
-
-  ### create vector of possible units of concentration
-  y.units.vec.conc <- c("M","mM", paste(mu,"M", sep = ""),"nM")
-
-  ### create vector of possible units of time, with superscript
-  y.units.vec.time <- c(paste("sec", sup.s, sep = ""),
-                        paste("min", sup.s, sep = ""),
-                        paste("hr", sup.s, sep = ""),
-                        paste("day", sup.s, sep = ""))
-
-  ### ask user to choose which unit of concentration
-  y.index.units.conc <- menu(y.units.vec.conc, graphics = FALSE,
-                             title = "y-axis: What are the units of concentration?")
-  ### ask user to choose which unit of time
-  y.index.units.time <- menu(y.units.vec.time, graphics = FALSE,
-                             title = "y-axis: What are the units of time?")
-
-  ### if data was normalized
-  if("activity.norm" %in% names(d_sat)) {
-
-    ### prompt user to name the unit of normalization
-    norm.name <- readline(prompt = "Normalization unit: ")
-    y.units.vec.norm <- c(paste(norm.name, sup.s, sep = ""))
-
-    ### assign value for y-axis label on plot
-    plot.y.label <- paste("Reaction Rate",
-                          paste("(", y.units.vec.conc[y.index.units.conc], sep = ""),
-                          y.units.vec.time[y.index.units.time],
-                          paste(y.units.vec.norm, ")", sep = ""),
-                          sep = " ")
-
-    ### else there will be no prompt for normalization unit
-  } else {
-
-    ### assign value for y-axis label on plot
-    plot.y.label <- paste("Reaction Rate",
-                          paste("(",y.units.vec.conc[y.index.units.conc],sep = ""),
-                          paste(y.units.vec.time[y.index.units.time],")",sep = ""),
-                          sep = " ")
-  }
 
 
   ### create plot with substrate conc. as x axis, and average slope as y axis
   p_sat_curve_1 <- ggplot2::ggplot(data = d_sat_2, mapping = ggplot2::aes(x = sub.conc, y = slope.m)) +
-    ggplot2::geom_point(size = 1.5) +
+    ggplot2::geom_point() +
     ggplot2::theme_bw() +
     ggplot2::xlab(plot.x.label) +
     ggplot2::ylab(plot.y.label) +
-    ggplot2::theme(axis.text = ggplot2::element_text(size = 12),
-                   axis.title = ggplot2::element_text(size = 18)) +
+    ggplot2::theme(axis.text = ggplot2::element_text(),
+                   axis.title = ggplot2::element_text()) +
     ggplot2::geom_errorbar(ggplot2::aes(ymin = slope.m - slope.sd, ymax = slope.m + slope.sd, width = 15)) +
     ggplot2::scale_y_continuous(labels = scales::scientific)
 
@@ -190,5 +244,7 @@ p_sat_curve <- function(d_std, d_sat) {
   out_list <- list(sat_data = d_sat_2, curve_data = pred_df, fit_object = mm_fit, plot_object = p_sat_fit)
 
 }
+
+
 
 
