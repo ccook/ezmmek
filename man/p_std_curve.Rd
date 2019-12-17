@@ -26,7 +26,7 @@ It creates a list output containing the summary statistics and standard curve pl
 }
 \examples{
 #If 'man.units = FALSE'
-p_std_curve(d_std, man.units = FALSE)
+p_std_curve(d_std)
 
 #If 'man.units = TRUE'
 #Run 'p_std_curve(d_std, man.units = TRUE)'.
