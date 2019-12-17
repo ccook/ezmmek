@@ -29,7 +29,7 @@ It creates a list output containing the summary statistics and standard curve pl
 p_std_curve(d_std, man.units = FALSE)
 
 #If 'man.units = TRUE'
-#Run 'p_std_curve(d_std)'.
+#Run 'p_std_curve(d_std, man.units = TRUE)'.
 #When prompted 'Standard type:', type 'AMC' and press Enter.
 #When prompted 'x-axis: What are the units of concentration?', type '3' and press Enter.
 #When prompted 'y-axis: Detection unit?:', type 'FSU' and press Enter.

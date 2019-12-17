@@ -36,14 +36,14 @@ p_sat_curve(d_std, d_sat)
 p_sat_curve(d_std, d_sat_n)
 
 #If 'man.units = TRUE'
-#Run 'p_sat_curve(d_std, d_sat)'.
+#Run 'p_sat_curve(d_std, d_sat, man.units = TRUE)'.
 #When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
 #When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
 #When prompted 'y-axis: What are the units of concentration?', type '3' and press Enter.
 #When prompted 'y-axis: What are the units of time?', type '2' and press Enter.
 
 #If 'man.units = TRUE'
-#Run 'p_sat_curve(d_std, d_sat_n)'.
+#Run 'p_sat_curve(d_std, d_sat_n, man.units = TRUE)'.
 #When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
 #When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
 #When prompted 'y-axis: What are the units of concentration?', type '3' and press Enter.

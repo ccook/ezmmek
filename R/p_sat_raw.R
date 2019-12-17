@@ -18,7 +18,7 @@
 ##' p_sat_raw(d_sat)
 ##'
 ##' #If 'man.units = TRUE'
-##' #Run 'p_sat_raw(d_sat)'.
+##' #Run 'p_sat_raw(d_sat, man.units = TRUE)'.
 ##' #When prompted 'x-axis: What are the units of time?', type '2' and press Enter.
 ##' #When prompted 'y-axis: Detection Unit?:', type 'FSU' and press Enter.
 ##'
