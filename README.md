@@ -3,7 +3,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-ezmmek provides a suite of functions that calibrate, calculate, and plot enzyme activities on synthetic substrates. It generates plots and statistics regarding both standard curves and saturation curves. Plots are customizable through a series of prompts.
+ezmmek provides a suite of functions that calibrate, calculate, and plot enzyme activities as they relate to synthetic substrates. It generates plots and statistics regarding both standard curves and saturation curves. Plots are customizable through a series of prompts.
 
 ***
 
