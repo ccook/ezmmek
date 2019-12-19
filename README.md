@@ -79,7 +79,7 @@ Christopher L. Cook (<ccook62@vols.utk.edu>) and Andrew D. Steen
 ***
 
 ## License
-This project is licenced under AGPL-3.
+This project is licensed under AGPL-3.
 
 
 
