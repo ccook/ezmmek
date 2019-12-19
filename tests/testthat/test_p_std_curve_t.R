@@ -1,8 +1,8 @@
 library(testthat)
 library(ezmmek)
 
-context("p_sat_raw")
+context("p_std_curve, clean")
 
 test_that("dataframe input", {
-  expect_error(p_sat_raw(d_std))
+  expect_output(p_std_curve(d_std))
 })
