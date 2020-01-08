@@ -10,7 +10,7 @@
 ##' The user will be prompted to name the unit of normalization, which will appear on the y-axis, if a fifth column is present.
 ##'
 ##' @param man.units If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
-##' If 'man.units = FALSE', a plot will generated with generic axes titles.
+##' If 'man.units = FALSE', a plot will be generated with generic axes titles.
 ##'
 ##' @return List containing new dataframe, regression model, and saturation curve.
 ##'

@@ -1,0 +1,139 @@
+---
+title: "*ezmmek*: Easy Michaelis-Menten Enzyme Kinetics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ezmmek_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## 1 Introduction
+
+Enzyme assays are popular methods for measuring enzymatic activity. Such methods often involve the use of fluorescent and chromogenic substrate proxies. Based on traditional Michaelis-Menten kinetics, *ezmmek* contains a suite of functions that calibrate, load, and plot the activities of extracellular enzymes. *ezmmek* outputs plots and statistics relevant to standard curves and saturation curves. It also enables the user to customize plots to their particular datasets.
+
+## 2 Installation
+
+The lastest versions of *ezmmek* are available through CRAN and GitHub.
+
+### 2.1 CRAN
+
+```{r, eval = FALSE}
+install.packages("ezmmek")
+```
+
+### 2.2 GitHub
+
+
+#### 2.2.1 Install and load *devtools* if needed
+```{r, eval = FALSE}
+install.packages("devtools")
+library(devtools)
+```
+
+#### 2.2.2 Install *ezmmek*
+```{r, eval = FALSE}
+install_github("ccook/ezmmek")
+```
+
+## 3 How to use
+
+```{r, warning = FALSE}
+library(ezmmek)
+```
+
+### 3.1 Check example datasets
+
+#### 3.1.1 Standard curve data (d_std)
+
+Contains concentration of standard (std.conc) and spectral data (spec). 
+
+```{r, eval = FALSE}
+d_std
+```
+
+#### 3.1.2 Saturation curve data (d_sat)
+
+Contains time, concentration of substrate (sub.conc), replicate number (replicate), and spectral data (spec).
+    
+```{r, eval = FALSE}
+d_sat
+```
+
+#### 3.1.3 Saturation curve data, normalized (d_sat_n)
+Contains time, concentration of substrate (sub.conc), replicate number (replicate), spectral data (spec), and normalization factor (norm).
+
+```{r, eval = FALSE}
+d_sat_n
+```
+
+### 3.2 Import datasets
+Imported datasets must contain the same column headers as the example datasets.
+
+```{r, eval = FALSE}
+your_data <- read.csv(file = "/your_path/your_data")
+```
+
+### 3.3 Functions
+
+#### 3.3.1 Plot standard curve
+*p_std_curve()* plots spectral data vs standard concentration.  It reports linear model summary statistics. It creates a list output containing the summary statistics and standard curve plot.
+
+```{r std_curve, fig.height = 4, fig.width = 5}
+p_std_curve(d_std)
+```
+
+#### 3.3.2 Plot raw saturation data
+*p_sat_raw()* plots raw saturation curve data into separate facets based on substrate concentration. It creates a list output containing the raw data plot.
+
+```{r raw_plot, fig.height = 4, fig.width = 5}
+p_sat_raw(d_sat)
+```
+
+#### 3.3.3 Plot saturation curve
+*p_sat_curve()* converts the spectral data to concentration of standard. The new dataframe contains the average slope (rate of reaction) and standard deviation for each replicate at each substrate concentration. *p_sat_curve* plots the new dataframe with substrate concentration on the x-axis, and rate of reaction on the y-axis. It predicts and reports Vmax and Km values. It creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
+
+```{r sat_curve, fig.height = 4, fig.width = 5}
+p_sat_curve(d_std, d_sat)
+```
+
+#### 3.3.4 Plot normalized saturation curve
+If d_sat contains a fifth column, that fifth column will be assumed to be a normalization factor. The rate of reacation will be divided by the values present in the fifth column.
+
+```{r sat_curve_n, fig.height = 4, fig.width = 5}
+p_sat_curve(d_std, d_sat_n)
+```
+
+#### 3.3.2 Generate customizable plots and statistics
+Adding the argument, 'man.units = TRUE' will prompt the user to name the axes titles through interactions with the console.
+
+```{r, eval = FALSE}
+p_std_curve(d_std, man.units = TRUE)
+```
+
+```{r, eval = FALSE}
+p_sat_raw(d_sat, man.units = TRUE)
+```
+
+```{r, eval = FALSE}
+p_sat_curve(d_std, d_sat, man.units = TRUE)
+```
+
+```{r, eval = FALSE}
+p_sat_curve(d_std, d_sat_n, man.units = TRUE)
+```
+
+## 4 References
+German, D.P., Weintraub, M.N., Grandy, A.S., Lauber, C.L., Rinkes, Z.L., and Allison, S.D. Optimization of hydrolytic and oxidative enzyme methods for ecosystem studies. Soil Biology and Biochemistry 43(7), 1387-1397 (2011) doi:10.1016/j.soilbio.2011.03.017
+
+Sinsabaugh, R.L., Belnap, J., Findlay, S.G. et al. Extracellular enzyme kinetics scale with resource availability. Biogeochemistry 121, 287–304 (2014) doi:10.1007/s10533-014-0030-y
+    
+Steen, A.D. and Arnosti, C. Long lifetimes of β-glucosidase, leucine aminopeptidase, and phosphatase in Arctic seawater. Marine Chemistry 123(1-4), 127-132 (2015) doi:10.1016/j.marchem.2010.10.006
+
+

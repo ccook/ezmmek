@@ -10,7 +10,7 @@ p_std_curve(d_std, man.units = FALSE)
 \item{d_std}{Must be a dataframe that contains 'std.conc' and 'spec'.}
 
 \item{man.units}{If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
-If 'man.units = FALSE', a plot will generated with generic axes titles.}
+If 'man.units = FALSE', a plot will be generated with generic axes titles.}
 }
 \value{
 List containing plot and fit model.

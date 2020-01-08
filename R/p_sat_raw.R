@@ -5,7 +5,7 @@
 ##' @param d_sat Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).
 ##'
 ##' @param man.units If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
-##' If 'man.units = FALSE', a plot will generated with generic axes titles.
+##' If 'man.units = FALSE', a plot will be generated with generic axes titles.
 ##'
 ##' @return List containing plot.
 ##'

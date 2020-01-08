@@ -4,7 +4,7 @@
 ##'
 ##' @param d_std  Must be a dataframe that contains 'std.conc' and 'spec'.
 ##' @param man.units If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
-##' If 'man.units = FALSE', a plot will generated with generic axes titles.
+##' If 'man.units = FALSE', a plot will be generated with generic axes titles.
 ##' @return List containing plot and fit model.
 ##'
 ##' @details Plots spectral data vs standard concentration.
@@ -78,11 +78,13 @@ p_std_curve <- function(d_std, man.units = FALSE) {
     ggplot2::scale_y_continuous(labels = scales::scientific) +
     ggplot2::theme(axis.text = ggplot2::element_text(), axis.title = ggplot2::element_text()) +
     ggplot2::geom_smooth(method = "lm")
-  print(p_std_curve_1)
 
-  ### print linear stats
+  ### Print linear stats
   lm_std_curve <- lm(formula = spec ~ std.conc, data = d_std)
   print(summary(lm_std_curve))
+
+  ### Print plot
+  print(p_std_curve_1)
 
   ### output list of linear model and plot
   out_list <- list(fit_object = lm_std_curve, plot_object = p_std_curve_1)
