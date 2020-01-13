@@ -4,18 +4,16 @@
 \alias{p_sat_curve}
 \title{Create saturation curve}
 \usage{
-p_sat_curve(d_std, d_sat, man.units = FALSE)
+p_sat_curve(d_std, d_sat, x.label = NULL, y.label = NULL)
 }
 \arguments{
 \item{d_std}{Must be a dataframe that contains 'std.conc' and 'spec'.}
 
-\item{d_sat}{Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).
-If d_sat contains a fifth column, that fifth column will be assumed to be a normalization factor.
-The rate of reacation will be divided by the values present in the fifth column.
-The user will be prompted to name the unit of normalization, which will appear on the y-axis, if a fifth column is present.}
+\item{d_sat}{Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).}
 
-\item{man.units}{If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
-If 'man.units = FALSE', a plot will be generated with generic axes titles.}
+\item{x.label}{The user must input a character string in the third argument to label the x-axis.}
+
+\item{y.label}{The user must input a character string in the fourth argument to label the y-axis.}
 }
 \value{
 List containing new dataframe, regression model, and saturation curve.
@@ -31,24 +29,8 @@ It asks the user to specify axis labels with the appropriate units. It predicts 
 It creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
 }
 \examples{
-#If 'man.units = FALSE'
 p_sat_curve(d_std, d_sat)
-p_sat_curve(d_std, d_sat_n)
-
-#If 'man.units = TRUE'
-#Run 'p_sat_curve(d_std, d_sat, man.units = TRUE)'.
-#When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
-#When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
-#When prompted 'y-axis: What are the units of concentration?', type '3' and press Enter.
-#When prompted 'y-axis: What are the units of time?', type '2' and press Enter.
-
-#If 'man.units = TRUE'
-#Run 'p_sat_curve(d_std, d_sat_n, man.units = TRUE)'.
-#When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
-#When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
-#When prompted 'y-axis: What are the units of concentration?', type '3' and press Enter.
-#When prompted 'y-axis: What are the units of time?', type '2' and press Enter.
-#When prompted 'Normalization unit:', type 'cell' and press Enter.
+p_sat_curve(d_std, d_sat, "x-axis", "y-axis")
 
 }
 \author{

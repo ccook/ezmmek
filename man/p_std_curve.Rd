@@ -4,13 +4,14 @@
 \alias{p_std_curve}
 \title{Create standard curve}
 \usage{
-p_std_curve(d_std, man.units = FALSE)
+p_std_curve(d_std, x.label = NULL, y.label = NULL)
 }
 \arguments{
 \item{d_std}{Must be a dataframe that contains 'std.conc' and 'spec'.}
 
-\item{man.units}{If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
-If 'man.units = FALSE', a plot will be generated with generic axes titles.}
+\item{x.label}{The user must input a character string in the second argument to label the x-axis.}
+
+\item{y.label}{The user must input a character string in the third argument to label the y-axis.}
 }
 \value{
 List containing plot and fit model.
@@ -20,19 +21,13 @@ Creates a standard curve of spectral data versus fluorophore/chromophore concent
 }
 \details{
 Plots spectral data vs standard concentration.
-It asks the user to specify the axis labels with the appropriate units.
-It reports linear model summary statistics.
-It creates a list output containing the summary statistics and standard curve plot.
+The user can label the x-axis by inputting a second argument.
+The user can label the y-axis by inputting a third argument.
+If the user does not define these arguments, the function will default to create a plot without labels.
 }
 \examples{
-#If 'man.units = FALSE'
 p_std_curve(d_std)
-
-#If 'man.units = TRUE'
-#Run 'p_std_curve(d_std, man.units = TRUE)'.
-#When prompted 'Standard type:', type 'AMC' and press Enter.
-#When prompted 'x-axis: What are the units of concentration?', type '3' and press Enter.
-#When prompted 'y-axis: Detection unit?:', type 'FSU' and press Enter.
+p_std_curve(d_std, "x-axis", "y-axis")
 
 }
 \author{

@@ -3,90 +3,62 @@
 ##' @description Creates a standard curve of spectral data versus fluorophore/chromophore concentration.
 ##'
 ##' @param d_std  Must be a dataframe that contains 'std.conc' and 'spec'.
-##' @param man.units If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
-##' If 'man.units = FALSE', a plot will be generated with generic axes titles.
-##' @return List containing plot and fit model.
+##' @param x.label The user must input a character string in the second argument to label the x-axis.
+##' @param y.label The user must input a character string in the third argument to label the y-axis.
+##'
+##' @return List containing plot, fit model, and new dataframe.
 ##'
 ##' @details Plots spectral data vs standard concentration.
-##' It asks the user to specify the axis labels with the appropriate units.
-##' It reports linear model summary statistics.
-##' It creates a list output containing the summary statistics and standard curve plot.
+##' The user can label the x-axis by inputting a second argument.
+##' The user can label the y-axis by inputting a third argument.
+##' If the user does not define these arguments, the function will default to create a plot without labels.
 ##'
 ##' @examples
-##' #If 'man.units = FALSE'
 ##' p_std_curve(d_std)
-##'
-##' #If 'man.units = TRUE'
-##' #Run 'p_std_curve(d_std, man.units = TRUE)'.
-##' #When prompted 'Standard type:', type 'AMC' and press Enter.
-##' #When prompted 'x-axis: What are the units of concentration?', type '3' and press Enter.
-##' #When prompted 'y-axis: Detection unit?:', type 'FSU' and press Enter.
+##' p_std_curve(d_std, "x-axis", "y-axis")
 ##'
 ##' @author Christopher L. Cook and Andrew D. Steen
 ##' @export
 
 ########
-# plot standard curve and print linear model stats
+#Plot standard curve and print linear model stats
 ########
-p_std_curve <- function(d_std, man.units = FALSE) {
+p_std_curve <- function(d_std, x.label = NULL, y.label = NULL) {
 
-  ### stop function if columns lack these specific names
+  ### Stop function if columns lack these specific names
   assertable::assert_colnames(data = d_std,
-                              colnames = c("std.conc", "spec"),
+                              colnames = c("std.conc", "spec", "replicate"),
                               only_colnames = FALSE,
                               quiet = TRUE)
 
-  #assign value 'μ'
-  mu <- "\u03BC"
+  ### Create new dataframe with averages and standard deviations of replicates
+  d_std_2 <- d_std %>%
+    dplyr::group_by(std.conc) %>%
+    dplyr::mutate(spec.m = mean(spec), spec.sd = sd(spec))
 
-  if(man.units == TRUE){
+  ### Assign values for x-axis and y-axis labels on plot
+  plot.x.label <- x.label
+  plot.y.label <- y.label
 
-  ### create vector of different unit of concentration choices
-  x.units.vec <- c("(M)","(mM)", paste("(", sep = "", paste(mu,"M)", sep = "")), "(nM)")
-
-  ### prompt user to name the type of standard used for curve
-  x.s <- readline(prompt = "Standard type: ")
-
-  ### ask user to choose which unit of concentration
-  x.index.units <- menu(x.units.vec, graphics = FALSE, title = "x-axis: What are the units of concentration?")
-
-  ### prompt user to name unit of detection
-  y.d <- readline(prompt = "y-axis: Detection unit?:")
-
-  } else{
-
-    ### assign generic axes names that do not require user input
-    x.s <- ""
-    y.d <- "Intensity"
-    x.units.vec <- c("Standard conc.")
-    x.index.units <- 1
-  }
-
-  ### assign value for x-axis on plot
-  plot.x.label <- paste(x.s, x.units.vec[x.index.units], sep = " ")
-
-
-  ### assign value for y-axis on plot
-  plot.y.label <- paste(y.d)
-
-  ### create plot of standard curve
-  p_std_curve_1 <- ggplot2::ggplot(data = d_std, mapping = ggplot2::aes(x = std.conc, y = spec)) +
+  ### Create plot of standard curve
+  p_std_curve_plot <- ggplot2::ggplot(data = d_std_2, mapping = ggplot2::aes(x = std.conc, y = spec.m)) +
     ggplot2::geom_point() +
     ggplot2::theme_bw() +
     ggplot2::xlab(plot.x.label) +
     ggplot2::ylab(plot.y.label) +
     ggplot2::scale_y_continuous(labels = scales::scientific) +
     ggplot2::theme(axis.text = ggplot2::element_text(), axis.title = ggplot2::element_text()) +
-    ggplot2::geom_smooth(method = "lm")
+    ggplot2::geom_smooth(method = "lm") +
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = spec.m - spec.sd, ymax = spec.m + spec.sd))
 
   ### Print linear stats
-  lm_std_curve <- lm(formula = spec ~ std.conc, data = d_std)
+  lm_std_curve <- lm(formula = spec.m ~ std.conc, data = d_std_2)
   print(summary(lm_std_curve))
 
   ### Print plot
-  print(p_std_curve_1)
+  print(p_std_curve_plot)
 
-  ### output list of linear model and plot
-  out_list <- list(fit_object = lm_std_curve, plot_object = p_std_curve_1)
+  ### Output list of linear model and plot
+  out_list <- list(std_data = d_std_2, fit_object = lm_std_curve, plot_object = p_std_curve_plot)
 
 }

@@ -4,13 +4,14 @@
 \alias{p_sat_raw}
 \title{Create plot of raw data}
 \usage{
-p_sat_raw(d_sat, man.units = FALSE)
+p_sat_raw(d_sat, x.label = NULL, y.label = NULL)
 }
 \arguments{
 \item{d_sat}{Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).}
 
-\item{man.units}{If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
-If 'man.units = FALSE', a plot will be generated with generic axes titles.}
+\item{x.label}{The user must input a character string in the second argument to label the x-axis.}
+
+\item{y.label}{The user must input a character string in the third argument to label the y-axis}
 }
 \value{
 List containing plot.
@@ -20,17 +21,13 @@ Creates plot of raw saturation data.
 }
 \details{
 Plots raw saturation curve data into separate facets based on substrate concentration ('sub.conc').
-It asks the user to specify the axis labels with the appropriate units.
-It creates a list output containing the raw data plot.
+The user can label the x-axis by inputting a second argument.
+The user can label the y-axis by inputting a third argument.
+If the user does not define these arguments, the function will default to create a plot without labels.
 }
 \examples{
-#If 'man.units = FALSE'
 p_sat_raw(d_sat)
-
-#If 'man.units = TRUE'
-#Run 'p_sat_raw(d_sat, man.units = TRUE)'.
-#When prompted 'x-axis: What are the units of time?', type '2' and press Enter.
-#When prompted 'y-axis: Detection Unit?:', type 'FSU' and press Enter.
+p_sat_raw(d_sat, "x-axis", "y-axis")
 
 }
 \author{

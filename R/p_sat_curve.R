@@ -3,42 +3,22 @@
 ##' @description Creates a dataframe and plot by applying the standard curve coefficients to the raw saturation data.
 ##'
 ##' @param d_std  Must be a dataframe that contains 'std.conc' and 'spec'.
-##'
 ##' @param d_sat Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).
-##' If d_sat contains a fifth column, that fifth column will be assumed to be a normalization factor.
-##' The rate of reacation will be divided by the values present in the fifth column.
-##' The user will be prompted to name the unit of normalization, which will appear on the y-axis, if a fifth column is present.
-##'
-##' @param man.units If 'man.units = TRUE', the user will be guided through a series of prompts to label the plot axes.
-##' If 'man.units = FALSE', a plot will be generated with generic axes titles.
+##' @param x.label The user must input a character string in the third argument to label the x-axis.
+##' @param y.label The user must input a character string in the fourth argument to label the y-axis.
+
 ##'
 ##' @return List containing new dataframe, regression model, and saturation curve.
 ##'
 ##' @details The spectral data is converted to concentration of standard.
 ##' The new dataframe contains the average slope (rate of reaction) and standard deviation for each replicate at each substrate concentration.
 ##' 'p_sat_curve' plots the new dataframe with substrate concentration on the x-axis, and rate of reaction on the y-axis.
-##' It asks the user to specify axis labels with the appropriate units. It predicts and reports Vmax and Km values.
+##' It predicts and reports Vmax and Km values.
 ##' It creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
 ##'
 ##' @examples
-##' #If 'man.units = FALSE'
 ##' p_sat_curve(d_std, d_sat)
-##' p_sat_curve(d_std, d_sat_n)
-##'
-##' #If 'man.units = TRUE'
-##' #Run 'p_sat_curve(d_std, d_sat, man.units = TRUE)'.
-##' #When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
-##' #When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
-##' #When prompted 'y-axis: What are the units of concentration?', type '3' and press Enter.
-##' #When prompted 'y-axis: What are the units of time?', type '2' and press Enter.
-##'
-##' #If 'man.units = TRUE'
-##' #Run 'p_sat_curve(d_std, d_sat_n, man.units = TRUE)'.
-##' #When prompted 'Substrate name:', type 'L-Leucine AMC' and press Enter.
-##' #When prompted 'x-axis: What are the units of substrate concentration?', type '3' and press Enter.
-##' #When prompted 'y-axis: What are the units of concentration?', type '3' and press Enter.
-##' #When prompted 'y-axis: What are the units of time?', type '2' and press Enter.
-##' #When prompted 'Normalization unit:', type 'cell' and press Enter.
+##' p_sat_curve(d_std, d_sat, "x-axis", "y-axis")
 ##'
 ##' @author Christopher L. Cook and Andrew D. Steen
 ##'
@@ -47,15 +27,15 @@
 ##' @export
 
 ########
-# plot saturation curve and print km and vmax values
+# Plot saturation curve and print km and vmax values
 ########
 
 
 #p_sat_curve <- function(d_std, d_sat,manual.units=FALSE)
-p_sat_curve <- function(d_std, d_sat, man.units = FALSE) {
+p_sat_curve <- function(d_std, d_sat, x.label = NULL, y.label = NULL) {
 
 
-  ### stop function if d_std or d_sat columns lack these specific names
+  ### Stop function if d_std or d_sat columns lack these specific names
   assertable::assert_colnames(data = d_std,
                               colnames = c("std.conc", "spec"),
                               only_colnames = FALSE,
@@ -69,182 +49,67 @@ p_sat_curve <- function(d_std, d_sat, man.units = FALSE) {
                               only_colnames = FALSE,
                               quiet = TRUE)
 
-  ### convert fsu to conc. of standard and add to d_sat dataframe
-  lm_fit <- lm(spec ~ std.conc, data = d_std)
+  ### Create new dataframe with averages and standard deviations of replicates for standard curve
+  d_std_2 <- d_std %>%
+    dplyr::group_by(std.conc) %>%
+    dplyr::mutate(spec.m = mean(spec), spec.sd = sd(spec))
+
+  ### Convert fsu to conc. of standard and add to d_sat dataframe
+  lm_fit <- lm(spec.m ~ std.conc, data = d_std_2)
   lm.intercept <- coef(lm_fit)[1]
   lm.slope <- coef(lm_fit)[2]
   d_sat$spec.to.std <- (d_sat$spec - lm.intercept)/lm.slope
 
+  ### Create new dataframe with average slope, standard deviation, and sub. conc. based on std curve coefs
+  d_sat_2 <- d_sat %>% dplyr::group_by(sub.conc, replicate) %>%
+    tidyr::nest() %>%
+    dplyr::mutate(std.slope = purrr::map_dbl(data, function(df) coef(lm(spec.to.std ~ time, data = df))[2])) %>%
+    dplyr::group_by(sub.conc) %>%
+    dplyr::mutate(slope.m = mean(std.slope), slope.sd = sd(std.slope))
 
-  ### if original dataset contains five columns, assume fifth column to be a normalization factor
-  ### factor in normalization factor to data
-  if(ncol(d_sat) == 6) {
+### Assign values for x-axis and y-axis labels on plot
+plot.x.label <- x.label
+plot.y.label <- y.label
 
-    ### create new column of reaction rate called 'activity.norm'
-    d_sat <- dplyr::mutate(d_sat, activity.norm = spec.to.std/d_sat[,5])
+### Create plot with substrate conc. as x axis, and average slope as y axis
+p_sat_curve_plot <- ggplot2::ggplot(data = d_sat_2, mapping = ggplot2::aes(x = sub.conc, y = slope.m)) +
+  ggplot2::geom_point() +
+  ggplot2::theme_bw() +
+  ggplot2::xlab(plot.x.label) +
+  ggplot2::ylab(plot.y.label) +
+  ggplot2::theme(axis.text = ggplot2::element_text(),
+                 axis.title = ggplot2::element_text()) +
+  ggplot2::geom_errorbar(ggplot2::aes(ymin = slope.m - slope.sd, ymax = slope.m + slope.sd)) +
+  ggplot2::scale_y_continuous(labels = scales::scientific)
 
-    ### create new dataframe with average slope, standard deviation, and sub. conc. based on std curve coefs and activity.norm
-    d_sat_2 <- d_sat %>% dplyr::group_by(sub.conc, replicate) %>%
-      tidyr::nest() %>%
-      dplyr::mutate(std.slope = purrr::map_dbl(data, function(df) coef(lm(activity.norm ~ time, data = df))[2])) %>%
-      dplyr::group_by(sub.conc) %>%
-      dplyr::mutate(slope.m = mean(std.slope), slope.sd = sd(std.slope))
+### Calculate saturation curve fit
+max.slope <- max(d_sat_2$slope.m)
+half.conc <- median(d_sat_2$sub.conc)
 
-    ### else normalization factor not accounted for
-  }else{
+mm_form <- formula(slope.m ~ (Vmax * sub.conc)/(Km + sub.conc))
+mm_fit <- nls2::nls2(formula = mm_form, data = d_sat_2,
+                     start = list(Vmax = max.slope, Km = half.conc))
 
-    ### create new dataframe with average slope, standard deviation, and sub. conc. based on std curve coefs
-    d_sat_2 <- d_sat %>% dplyr::group_by(sub.conc, replicate) %>%
-      tidyr::nest() %>%
-      dplyr::mutate(std.slope = purrr::map_dbl(data, function(df) coef(lm(spec.to.std ~ time, data = df))[2])) %>%
-      dplyr::group_by(sub.conc) %>%
-      dplyr::mutate(slope.m = mean(std.slope), slope.sd = sd(std.slope))
-  }
+### Print km and vmax variables to console
+print(summary(mm_fit))
 
-  #assign value 'μ'
-  mu <- "\u03BC"
+### Create a 1-column data frame with a 'grid' of points to predict
+min.sub.conc <- min(d_sat_2$sub.conc)
+max.sub.conc <- max(d_sat_2$sub.conc)
+pred_grid <- data.frame(sub.conc = min.sub.conc:max.sub.conc)
 
-  ### create vector of possible concentration units
-  if(man.units == TRUE){
+### Put the predicted values into a data frame, paired with the values at which they were predicted
+predictions <- predict(mm_fit, newdata = pred_grid)
 
-    x.units.vec <- c("(M)","(mM)",paste("(", sep = "", paste(mu,"M)", sep = "")), "(nM)")
+pred_df <- data.frame(sub.conc = pred_grid$sub.conc, slope.m = predictions)
 
-    ### prompt user to name the type of substrate
-    x.s <- readline(prompt = "Substrate name: ")
+### Create and print plot of saturation curve with fit
+p_sat_fit <- p_sat_curve_plot +
+  ggplot2::geom_line(data = pred_df, ggplot2::aes(x = sub.conc, y = slope.m))
 
-    ### ask user to choose which unit of concentration
-    x.index.units <- menu(x.units.vec, graphics = FALSE, title = "x-axis: What are the units of substrate concentration?")
+plot(p_sat_fit)
 
-    ### assign value to superscript of '-1'
-    sup.s <- "\U207B\U00B9"
-
-    ### create vector of possible units of concentration
-    y.units.vec.conc <- c("M","mM", paste(mu,"M", sep = ""),"nM")
-
-    ### create vector of possible units of time, with superscript
-    y.units.vec.time <- c(paste("sec", sup.s, sep = ""),
-                          paste("min", sup.s, sep = ""),
-                          paste("hr", sup.s, sep = ""),
-                          paste("day", sup.s, sep = ""))
-
-    ### ask user to choose which unit of concentration
-    y.index.units.conc <- menu(y.units.vec.conc, graphics = FALSE,
-                               title = "y-axis: What are the units of concentration?")
-    ### ask user to choose which unit of time
-    y.index.units.time <- menu(y.units.vec.time, graphics = FALSE,
-                               title = "y-axis: What are the units of time?")
-
-    ### if data was normalized
-    if("activity.norm" %in% names(d_sat)) {
-
-      ### prompt user to name the unit of normalization
-      norm.name <- readline(prompt = "Normalization unit: ")
-      y.units.vec.norm <- c(paste(norm.name, sup.s, sep = ""))
-
-      ### assign value for y-axis label on plot
-      plot.y.label <- paste("Reaction Rate",
-                            paste("(", y.units.vec.conc[y.index.units.conc], sep = ""),
-                            y.units.vec.time[y.index.units.time],
-                            paste(y.units.vec.norm, ")", sep = ""),
-                            sep = " ")
-
-      ### else there will be no prompt for normalization unit
-    } else {
-
-      ### assign value for y-axis label on plot
-      plot.y.label <- paste("Reaction Rate",
-                            paste("(",y.units.vec.conc[y.index.units.conc],sep = ""),
-                            paste(y.units.vec.time[y.index.units.time],")",sep = ""),
-                            sep = " ")
-    }
-
-  } else{
-
-    ### assign value to superscript of '-1'
-    sup.s <- "\U207B\U00B9"
-
-    ### assign generic axes names that do not require user input
-    x.s<-""
-    x.units.vec<-c("Substrate conc.")
-    x.index.units<-1
-    y.units.vec.conc<-c("conc.")
-    y.index.units.conc <- 1
-    y.units.vec.time<-c(paste(c("time"), sup.s, sep = ""))
-    y.index.units.time<-1
-
-    ### if data was normalized
-    if("activity.norm" %in% names(d_sat)) {
-
-      ### prompt user to name the unit of normalization
-      norm.name <- c("norm")
-      y.units.vec.norm <- c(paste(norm.name, sup.s, sep = ""))
-
-      ### assign value for y-axis label on plot
-      plot.y.label <- paste("Reaction Rate",
-                            paste("(", y.units.vec.conc[y.index.units.conc], sep = ""),
-                            y.units.vec.time[y.index.units.time],
-                            paste(y.units.vec.norm, ")", sep = ""),
-                            sep = " ")
-
-      ### else there will be no prompt for normalization unit
-    } else {
-
-      ### assign value for y-axis label on plot
-      plot.y.label <- paste("Reaction Rate",
-                            paste("(",y.units.vec.conc[y.index.units.conc],sep = ""),
-                            paste(y.units.vec.time[y.index.units.time],")",sep = ""),
-                            sep = " ")
-    }
-
-
-  }
-  ### assign value for x-axis label on plot
-  plot.x.label <- paste(x.s, x.units.vec[x.index.units], sep = " ")
-
-
-  ### create plot with substrate conc. as x axis, and average slope as y axis
-  p_sat_curve_1 <- ggplot2::ggplot(data = d_sat_2, mapping = ggplot2::aes(x = sub.conc, y = slope.m)) +
-    ggplot2::geom_point() +
-    ggplot2::theme_bw() +
-    ggplot2::xlab(plot.x.label) +
-    ggplot2::ylab(plot.y.label) +
-    ggplot2::theme(axis.text = ggplot2::element_text(),
-                   axis.title = ggplot2::element_text()) +
-    ggplot2::geom_errorbar(ggplot2::aes(ymin = slope.m - slope.sd, ymax = slope.m + slope.sd, width = 15)) +
-    ggplot2::scale_y_continuous(labels = scales::scientific)
-
-  ### calculate saturation curve fit
-  max.slope <- max(d_sat_2$slope.m)
-  half.conc <- median(d_sat_2$sub.conc)
-
-  mm_form <- formula(slope.m ~ (Vmax * sub.conc)/(Km + sub.conc))
-  mm_fit <- nls2::nls2(formula = mm_form, data = d_sat_2,
-                       start = list(Vmax = max.slope, Km = half.conc))
-
-  ### print km and vmax variables to console
-  print(summary(mm_fit))
-
-  ### create a 1-column data frame with a 'grid' of points to predict
-  min.sub.conc <- min(d_sat_2$sub.conc)
-  max.sub.conc <- max(d_sat_2$sub.conc)
-  pred_grid <- data.frame(sub.conc = min.sub.conc:max.sub.conc)
-
-  ### put the predicted values into a data frame, paired with the values at which they were predicted
-  predictions <- predict(mm_fit, newdata = pred_grid)
-
-  pred_df <- data.frame(sub.conc = pred_grid$sub.conc, slope.m = predictions)
-
-  ### create and print plot of saturation curve with fit
-  p_sat_fit <- p_sat_curve_1 +
-    ggplot2::geom_line(data = pred_df, ggplot2::aes(x = sub.conc, y = slope.m))
-
-  plot(p_sat_fit)
-
-  ### output list of predicted Vmax, predicted Km, d_sat_2 dataframe, mm_fit summary, and plot
-  out_list <- list(sat_data = d_sat_2, curve_data = pred_df, fit_object = mm_fit, plot_object = p_sat_fit)
+### Output list of predicted Vmax, predicted Km, d_sat_2 dataframe, mm_fit summary, and plot
+out_list <- list(sat_data = d_sat_2, curve_data = pred_df, fit_object = mm_fit, plot_object = p_sat_fit)
 
 }
-
-
-
-
