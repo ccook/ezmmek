@@ -12,13 +12,13 @@
 ##'
 ##' @details The spectral data is converted to concentration of standard.
 ##' The new dataframe contains the average slope (rate of reaction) and standard deviation for each replicate at each substrate concentration.
-##' 'p_sat_curve' plots the new dataframe with substrate concentration on the x-axis, and rate of reaction on the y-axis.
+##' 'sat_curve' plots the new dataframe with substrate concentration on the x-axis, and rate of reaction on the y-axis.
 ##' It predicts and reports Vmax and Km values.
 ##' It creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
 ##'
 ##' @examples
-##' p_sat_curve(d_std, d_sat)
-##' p_sat_curve(d_std, d_sat, "x-axis", "y-axis")
+##' sat_curve(d_std, d_sat)
+##' sat_curve(d_std, d_sat, "x-axis", "y-axis")
 ##'
 ##' @author Christopher L. Cook and Andrew D. Steen
 ##'
@@ -30,9 +30,7 @@
 # Plot saturation curve and print km and vmax values
 ########
 
-
-#p_sat_curve <- function(d_std, d_sat,manual.units=FALSE)
-p_sat_curve <- function(d_std, d_sat, x.label = NULL, y.label = NULL) {
+sat_curve <- function(d_std, d_sat, x.label = NULL, y.label = NULL) {
 
 
   ### Stop function if d_std or d_sat columns lack these specific names
@@ -72,7 +70,7 @@ plot.x.label <- x.label
 plot.y.label <- y.label
 
 ### Create plot with substrate conc. as x axis, and average slope as y axis
-p_sat_curve_plot <- ggplot2::ggplot(data = d_sat_2, mapping = ggplot2::aes(x = sub.conc, y = slope.m)) +
+sat_curve_plot <- ggplot2::ggplot(data = d_sat_2, mapping = ggplot2::aes(x = sub.conc, y = slope.m)) +
   ggplot2::geom_point() +
   ggplot2::theme_bw() +
   ggplot2::xlab(plot.x.label) +
@@ -104,12 +102,12 @@ predictions <- predict(mm_fit, newdata = pred_grid)
 pred_df <- data.frame(sub.conc = pred_grid$sub.conc, slope.m = predictions)
 
 ### Create and print plot of saturation curve with fit
-p_sat_fit <- p_sat_curve_plot +
+sat_fit <- sat_curve_plot +
   ggplot2::geom_line(data = pred_df, ggplot2::aes(x = sub.conc, y = slope.m))
 
-plot(p_sat_fit)
+plot(sat_fit)
 
 ### Output list of predicted Vmax, predicted Km, d_sat_2 dataframe, mm_fit summary, and plot
-out_list <- list(sat_data = d_sat_2, curve_data = pred_df, fit_object = mm_fit, plot_object = p_sat_fit)
+out_list <- list(sat_data = d_sat_2, curve_data = pred_df, fit_object = mm_fit, plot_object = sat_fit)
 
 }

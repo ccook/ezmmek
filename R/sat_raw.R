@@ -14,8 +14,8 @@
 ##' If the user does not define these arguments, the function will default to create a plot without labels.
 ##'
 ##' @examples
-##' p_sat_raw(d_sat)
-##' p_sat_raw(d_sat, "x-axis", "y-axis")
+##' sat_raw(d_sat)
+##' sat_raw(d_sat, "x-axis", "y-axis")
 ##'
 ##' @author Christopher L. Cook and Andrew D. Steen
 ##' @export
@@ -23,7 +23,7 @@
 ########
 # Plot raw data
 ########
-p_sat_raw <- function(d_sat, x.label = NULL, y.label = NULL) {
+sat_raw <- function(d_sat, x.label = NULL, y.label = NULL) {
 
   ### Stop function if columns lack these specific names
   assertable::assert_colnames(data = d_sat,
@@ -39,7 +39,7 @@ p_sat_raw <- function(d_sat, x.label = NULL, y.label = NULL) {
   plot.y.label <- y.label
 
   ### Create plot of raw saturation data
-  p_sat_raw_plot <- ggplot2::ggplot(data = d_sat, mapping =
+  sat_raw_plot <- ggplot2::ggplot(data = d_sat, mapping =
                                       ggplot2::aes(x = time, y = spec, color =
                                                      as.factor(replicate))) +
     ggplot2::geom_point() +
@@ -52,8 +52,8 @@ p_sat_raw <- function(d_sat, x.label = NULL, y.label = NULL) {
     ggplot2::ylab(plot.y.label) +
     ggplot2::scale_color_discrete(name = "Replicate") +
     ggplot2::theme_bw()
-  print(p_sat_raw_plot)
+  print(sat_raw_plot)
 
   ### Output list of plot
-  out_list <- list(plot_object = p_sat_raw_plot)
+  out_list <- list(plot_object = sat_raw_plot)
 }

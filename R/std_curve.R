@@ -14,8 +14,8 @@
 ##' If the user does not define these arguments, the function will default to create a plot without labels.
 ##'
 ##' @examples
-##' p_std_curve(d_std)
-##' p_std_curve(d_std, "x-axis", "y-axis")
+##' std_curve(d_std)
+##' std_curve(d_std, "x-axis", "y-axis")
 ##'
 ##' @author Christopher L. Cook and Andrew D. Steen
 ##' @export
@@ -23,7 +23,7 @@
 ########
 #Plot standard curve and print linear model stats
 ########
-p_std_curve <- function(d_std, x.label = NULL, y.label = NULL) {
+std_curve <- function(d_std, x.label = NULL, y.label = NULL) {
 
   ### Stop function if columns lack these specific names
   assertable::assert_colnames(data = d_std,
@@ -41,7 +41,7 @@ p_std_curve <- function(d_std, x.label = NULL, y.label = NULL) {
   plot.y.label <- y.label
 
   ### Create plot of standard curve
-  p_std_curve_plot <- ggplot2::ggplot(data = d_std_2, mapping = ggplot2::aes(x = std.conc, y = spec.m)) +
+  std_curve_plot <- ggplot2::ggplot(data = d_std_2, mapping = ggplot2::aes(x = std.conc, y = spec.m)) +
     ggplot2::geom_point() +
     ggplot2::theme_bw() +
     ggplot2::xlab(plot.x.label) +
@@ -56,9 +56,11 @@ p_std_curve <- function(d_std, x.label = NULL, y.label = NULL) {
   print(summary(lm_std_curve))
 
   ### Print plot
-  print(p_std_curve_plot)
+  print(std_curve_plot)
 
   ### Output list of linear model and plot
-  out_list <- list(std_data = d_std_2, fit_object = lm_std_curve, plot_object = p_std_curve_plot)
+  out_list <- list(std_data = d_std_2,
+                   fit_object = lm_std_curve,
+                   plot_object = std_curve_plot)
 
 }
