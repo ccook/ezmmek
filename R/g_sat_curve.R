@@ -1,3 +1,37 @@
+##' Create saturation curve (bulk quench)
+##'
+##' @description Creates a dataframe and plot by applying the standard curve coefficients to the raw saturation data.
+##'
+##' @param d_std_g Must be a dataframe that contains 'std.conc', 'replicate', 'spec.homo', and 'spec.buffer'.
+##' @param d_sat_g Must be a dataframe that contains 'time', 'replicate', 'spec', 'sub.conc', 'assay.vol', 'sub.control', 'buffer.vol', 'homo.vol', and 'soil.mass'.
+##' @param x.label Input a character string to label the x-axis. Default is 'NULL'.
+##' @param y.label Input a character string to label the y-axis. Default is 'NULL'.
+##' @param km Input a starting value to estimate 'km' value. Default value is median of 'sub.conc' values.
+##' @param vmax Input a starting value to estimate 'vmax' value. Default value is the max activity calculated.
+
+##'
+##' @return List containing new dataframe, regression model, and saturation curve.
+##'
+##' @details The raw spectral data is used to calculate activity (unit concentration per unit mass per unit time)
+##' The new dataframe contains the quench coefficient ('quench.coef), emission coefficient ('emission.coef'), homogenate corrected spectral values ('spec.homogenate.corrected'), and activity.
+##' 'sat_curve' plots the new dataframe with substrate concentration on the x-axis, and rate of reaction on the y-axis.
+##' It predicts and reports Vmax and Km values.
+##' It creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
+##'
+##' @examples
+##' s_sat_curve(d_std, d_sat)
+##' s_sat_curve(d_std, d_sat, x.label = "x-axis label", y.label = "y-axis label", km = 97, vmax = 0.03)
+##'
+##' @author Christopher L. Cook and Andrew D. Steen
+##'
+##' @importFrom magrittr "%>%"
+##'
+##' @export
+
+########
+# Plot saturation curve and print km and vmax values
+########
+
 g_sat_curve <- function(d_std_g, d_sat_g, x.label = NULL, y.label = NULL, km = NULL, vmax = NULL) {
 
   ### Stop function if columns lack these specific names

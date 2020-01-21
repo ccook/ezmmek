@@ -1,11 +1,13 @@
-##' Create saturation curve
+##' Create saturation curve (bulk quench)
 ##'
 ##' @description Creates a dataframe and plot by applying the standard curve coefficients to the raw saturation data.
 ##'
 ##' @param d_std  Must be a dataframe that contains 'std.conc' and 'spec'.
 ##' @param d_sat Must be a dataframe that contains 'time', 'sub.conc' (substrate concentration), 'replicate', and 'spec' (spectral data).
-##' @param x.label The user must input a character string in the third argument to label the x-axis.
-##' @param y.label The user must input a character string in the fourth argument to label the y-axis.
+##' @param x.label Input a character string to label the x-axis. Default is 'NULL'.
+##' @param y.label Input a character string to label the y-axis. Default is 'NULL'.
+##' @param km Input a starting value to estimate 'km' value. Default value is median of 'sub.conc' values.
+##' @param vmax Input a starting value to estimate 'vmax' value. Default value is max activity ('slope.m') calculated.
 
 ##'
 ##' @return List containing new dataframe, regression model, and saturation curve.
@@ -17,8 +19,8 @@
 ##' It creates a list output containing the new dataframe, an additional new dataframe consisting of predicted curve fit values, the regression model, and the saturation curve plot.
 ##'
 ##' @examples
-##' sat_curve(d_std, d_sat)
-##' sat_curve(d_std, d_sat, "x-axis", "y-axis")
+##' s_sat_curve(d_std, d_sat)
+##' s_sat_curve(d_std, d_sat, x.label = "x-axis label", y.label = "y-axis label", km = 97, vmax = 0.03)
 ##'
 ##' @author Christopher L. Cook and Andrew D. Steen
 ##'
@@ -30,7 +32,7 @@
 # Plot saturation curve and print km and vmax values
 ########
 
-sat_curve <- function(d_std, d_sat, x.label = NULL, y.label = NULL) {
+s_sat_curve <- function(d_std, d_sat, x.label = NULL, y.label = NULL, km = NULL, vmax = NULL) {
 
 
   ### Stop function if d_std or d_sat columns lack these specific names
@@ -66,15 +68,15 @@ sat_curve <- function(d_std, d_sat, x.label = NULL, y.label = NULL) {
     dplyr::mutate(slope.m = mean(std.slope), slope.sd = sd(std.slope))
 
 ### Assign values for x-axis and y-axis labels on plot
-plot.x.label <- x.label
-plot.y.label <- y.label
+x.label <- x.label
+y.label <- y.label
 
 ### Create plot with substrate conc. as x axis, and average slope as y axis
 sat_curve_plot <- ggplot2::ggplot(data = d_sat_2, mapping = ggplot2::aes(x = sub.conc, y = slope.m)) +
   ggplot2::geom_point() +
   ggplot2::theme_bw() +
-  ggplot2::xlab(plot.x.label) +
-  ggplot2::ylab(plot.y.label) +
+  ggplot2::xlab(x.label) +
+  ggplot2::ylab(y.label) +
   ggplot2::theme(axis.text = ggplot2::element_text(),
                  axis.title = ggplot2::element_text()) +
   ggplot2::geom_errorbar(ggplot2::aes(ymin = slope.m - slope.sd, ymax = slope.m + slope.sd)) +
@@ -84,9 +86,20 @@ sat_curve_plot <- ggplot2::ggplot(data = d_sat_2, mapping = ggplot2::aes(x = sub
 max.slope <- max(d_sat_2$slope.m)
 half.conc <- median(d_sat_2$sub.conc)
 
-mm_form <- formula(slope.m ~ (Vmax * sub.conc)/(Km + sub.conc))
+### Enable manual input for vmax and km starting values
+if(is.null(km) | is.null(vmax)) {
+
+mm_form <- formula(slope.m ~ (vmax * sub.conc)/(km + sub.conc))
 mm_fit <- nls2::nls2(formula = mm_form, data = d_sat_2,
-                     start = list(Vmax = max.slope, Km = half.conc))
+                     start = list(vmax = max.slope, km = half.conc))
+
+### If argument defined in function, use those values for vmax and km
+} else {
+
+  mm_form <- formula(slope.m ~ (vmax * sub.conc)/(km + sub.conc))
+  mm_fit <- nls2::nls2(formula = mm_form, data = d_sat_2,
+                       start = list(vmax = vmax, km = km))
+}
 
 ### Print km and vmax variables to console
 print(summary(mm_fit))
