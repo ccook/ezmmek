@@ -67,13 +67,13 @@ s_sat_curve <- function(d_std, d_sat, x.label = NULL, y.label = NULL, km = NULL,
     dplyr::group_by(sub.conc) %>%
     dplyr::mutate(slope.m = mean(std.slope), slope.sd = sd(std.slope))
 
-### Assign values for x-axis and y-axis labels on plot
-x.label <- x.label
-y.label <- y.label
+  ### Assign values for x-axis and y-axis labels on plot
+  x.label <- x.label
+  y.label <- y.label
 
-### Create plot with substrate conc. as x axis, and average slope as y axis
-sat_curve_plot <- ggplot2::ggplot(data = d_sat_2, mapping = ggplot2::aes(x = sub.conc, y = slope.m)) +
-  ggplot2::geom_point() +
+  ### Create plot with substrate conc. as x axis, and average slope as y axis
+  sat_curve_plot <- ggplot2::ggplot(data = d_sat_2, mapping = ggplot2::aes(x = sub.conc, y = slope.m)) +
+    ggplot2::geom_point() +
   ggplot2::theme_bw() +
   ggplot2::xlab(x.label) +
   ggplot2::ylab(y.label) +

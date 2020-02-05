@@ -75,9 +75,9 @@ g_sat_curve <- function(d_std_g, d_sat_g, x.label = NULL, y.label = NULL, km = N
 
   ### Create new dataframe that contains average spec values of homogenate controls over time
   d_sat_baseline <- d_sat_g_2 %>%
-    filter(sub.conc == 0) %>%
-    group_by(time) %>%
-    summarize(spec.baseline.m = mean(spec),
+    dplyr::filter(sub.conc == 0) %>%
+    dplyr::group_by(time) %>%
+    dplyr::summarize(spec.baseline.m = mean(spec),
               spec.baseline.sd = sd(spec))
 
   ### Create new dataframe that merges d_sat_g_2 with homogenate control values from d_sat_baseline
