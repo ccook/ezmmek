@@ -17,6 +17,9 @@ plot.ezmmek_s_std_curve <- function(df) {
     ggplot2::xlab(conc.units) +
     ggplot2::ylab(spec.units)
 
+  ### Print plot
+  print(s_std_curve_plot)
+
   ### Output list containing plot
   out_list <- list(s_std_curve_plot = s_std_curve_plot)
 
