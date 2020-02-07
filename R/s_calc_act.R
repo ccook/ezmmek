@@ -1,10 +1,12 @@
 ##' @export
 
 s_calc_act <- function(df_sat,
-                       time.units = NULL,
-                       spec.units = NULL,
-                       sub.type = NULL,
-                       df_std = NULL) {
+                       act.time.units = NULL,
+                       act.spec.units = NULL,
+                       std.conc.units = NULL,
+                       std.spec.units = NULL,
+                       df_std = NULL,
+                       ...) {
 
   ### Will only accept a data frame
   assertthat::are_equal(class(df_sat), "data.frame")
@@ -21,15 +23,14 @@ s_calc_act <- function(df_sat,
   if(is.null(df_std)) {
 
     ### Create vector of units
-    units <- c("time.units" = time.units,
-               "spec.units" = spec.units)
+    units <- c("act.time.units" = act.time.units,
+               "act.spec.units" = act.spec.units)
 
-    ### Create vector of substrate type
-    substrate <- c("sub.type" = sub.type)
 
     out_list <- list(s_act_raw_data = df_sat,
                      s_act_units = units,
-                     s_act_substrate_type = substrate)
+                     ...)
+
 
     class(out_list) <- c("ezmmek_s_act", "list")
 
@@ -44,17 +45,18 @@ s_calc_act <- function(df_sat,
                                 quiet = TRUE)
 
     ### Run function that creates standard curve object
-    std_obj <- s_calc_std(df_std)
+    std_obj <- s_calc_std(df_std,
+                          std.conc.units,
+                          std.spec.units,
+                          ...)
 
     ### Create vector of units
-    units <- c("time.units" = time.units, "spec.units" = spec.units)
+    units <- c("act.time.units" = act.time.units,
+               "act.spec.units" = act.spec.units)
 
-    ### Create vector of substrate type
-    substrate <- c("sub.type" = sub.type)
 
     out_list <- list(s_act_raw_data = df_sat,
                      s_act_units = units,
-                     s_act_substrate_type = substrate,
                      s_act_std_object = std_obj)
 
     class(out_list) <- c("ezmmek_s_act", "list")
