@@ -2,14 +2,14 @@
 ### Create new plot method for standard curve
 ########
 
-plot.ezmmek_s_std_curve <- function(df) {
+plot.ezmmek_s_std <- function(s_std_obj) {
 
   ### Call previously named units
-  conc.units <- df$s_std_curve_units[1]
-  spec.units <- df$s_std_curve_units[2]
+  conc.units <- s_std_obj$s_std_units[1]
+  spec.units <- s_std_obj$s_std_units[2]
 
   ### Create standard curve plot
-  s_std_curve_plot <- ggplot2::ggplot(data = df$s_std_curve_data, mapping = ggplot2::aes(x = std.conc, y = spec)) +
+  s_std_curve_plot <- ggplot2::ggplot(data = s_std_obj$s_std_data, mapping = ggplot2::aes(x = std.conc, y = spec)) +
     ggplot2::geom_point() +
     ggplot2::geom_smooth(method = "lm") +
     ggplot2::theme_bw() +

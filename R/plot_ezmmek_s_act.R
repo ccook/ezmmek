@@ -1,15 +1,15 @@
 ########
-### Create new plot method for raw data
+### Create new plot method for raw activity data
 ########
 
-plot.ezmmek_s_raw_data <- function(df) {
+plot.ezmmek_s_act <- function(s_act_obj) {
 
   ### Call previously named units
-  time.units <- df$s_raw_units[1]
-  spec.units <- df$s_raw_units[2]
+  time.units <- s_act_obj$s_act_units[1]
+  spec.units <- s_act_obj$s_act_units[2]
 
   ### Create plot of raw data
-  sat_raw_plot <- ggplot2::ggplot(data = df$s_raw_data,
+  s_act_plot <- ggplot2::ggplot(data = s_act_obj$s_act_data,
                                   mapping = ggplot2::aes(
                                     x = time,
                                     y = spec,
@@ -25,7 +25,9 @@ plot.ezmmek_s_raw_data <- function(df) {
     ggplot2::xlab(time.units) +
     ggplot2::ylab(spec.units)
 
+  print(s_act_plot)
+
   ### Output list containing plot
-  out_list <- list(sat_raw_plot = sat_raw_plot)
+  out_list <- list(s_act_plot = s_act_plot)
 
 }

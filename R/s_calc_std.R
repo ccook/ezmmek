@@ -22,14 +22,13 @@ s_calc_std <- function(df_std,
 
   ### Output list of containing linear model and data frame
   out_list <- list(s_std_lm_fit = lm_fit,
-                   s_std_raw_data = df_std,
+                   s_std_data = df_std,
                    s_std_units = units,
                    ...)
 
   ### Assign list to class of 'list' and subclass of 'ezmmek_s_std_curve'
-  class(out_list) <- c("ezmmek_s_std_curve", "list")
+  class(out_list) <- c("ezmmek_s_std", "list")
 
-  ### Output list
   out_list
 
 }
