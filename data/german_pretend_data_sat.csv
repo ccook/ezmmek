@@ -1,4 +1,4 @@
-time,sub.conc,spec,replicate,buffer.vol,homogenate.vol,sample.unit
+time,sub.conc,spec,replicate,buffer.vol,homo.vol,soil.mass
 40,0,34747.77,1,1,1,1
 40,0,34113.62,2,1,1,1
 40,0,34179.89,3,1,1,1
