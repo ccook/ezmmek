@@ -1,17 +1,18 @@
-calc_std_fit <- function(df_std,
+calc_std_fit <- function(std_data_grouped,
                          method) {
 
   if(method == "steen") {
 
     ### Stop function if columns in data frame lack these specific names
-    assertable::assert_colnames(data = df_std,
+    assertable::assert_colnames(data = std_data_grouped,
                                 colnames = c("std.conc",
-                                             "homo.spec"),
+                                             "homo.spec",
+                                             "std.type"),
                                 only_colnames = FALSE,
                                 quiet = TRUE)
 
     ### Fit linear model
-    lm_fit <- lm(formula = homo.spec ~ std.conc, data = df_std)
+    lm_fit <- lm(formula = homo.spec ~ std.conc, data = std_data_grouped)
 
     out_list <- list(lm_fit = lm_fit)
     }
@@ -19,7 +20,7 @@ calc_std_fit <- function(df_std,
   if(method == "german") {
 
     ### Will only accept a data frame
-    assertthat::are_equal(class(df_std), "data.frame")
+    assertthat::are_equal(class(std_data_grouped), "data.frame")
 
     assertable::assert_colnames(data = df_std,
                                 colnames = c("std.conc",

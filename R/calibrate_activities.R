@@ -23,6 +23,19 @@ calibrate_activities <- function(df_sat,
 
   if(method == "german") {
 
+    ### Stop function if columns in data frame lack these specific names
+    assertable::assert_colnames(data = df_sat,
+                                colnames = c("time",
+                                             "sub.conc",
+                                             "spec",
+                                             "homo.control",
+                                             "sub.control",
+                                             "assay.vol",
+                                             "homo.vol",
+                                             "soil.mass"),
+                                only_colnames = FALSE,
+                                quiet = TRUE)
+
     lm.homo.slope <- coef(std_obj$std_obj$std_lm_fit_homo)[2]
     lm.buffer.slope <- coef(std_obj$std_obj$std_lm_fit_buffer)[2]
 

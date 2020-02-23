@@ -35,8 +35,11 @@ new_ezmmek_act <- function(df_sat,
   out_list <- list(act_raw_data = df_sat,
                    act_calibrated_data = as.data.frame(calibrated_activities[1]),
                    act_units = units,
-                   std_obj = std_obj,
+                   std_list = std_obj,
                    method = method)
+
+  out_list <- list(act_list = out_list,
+                   other_arg = other_arg)
 
   class(out_list) <- c("ezmmek_act", "list")
 
