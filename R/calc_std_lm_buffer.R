@@ -1,5 +1,5 @@
 ########
-### Make standard curve lm object for bufffer
+### Make standard curve lm object for buffer
 ########
 
 calc_std_lm_buffer <- function(df) {
