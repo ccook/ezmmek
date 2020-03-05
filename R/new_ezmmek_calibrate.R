@@ -7,11 +7,13 @@ new_ezmmek_act_calibrate <- function(std.data.fn,
                                      ...,
                                      method = NA,
                                      conc.units = NA,
-                                     signal.units = NA) {
+                                     signal.units = NA,
+                                     columns = NULL) {
 
-  ### User names columns to be grouped
-  columns <- map_chr(enquos(...), quo_name)
-
+  ### Use '...' arguments if column names not supplied in parent fxn
+  if(is.null(columns)) {
+    columns <- map_chr(enquos(...), rlang::quo_name)
+  }
   ### Creates dataframe of standard curve data
   std_data_grouped <- new_ezmmek_std_group(std.data.fn,
                                            method = method,
@@ -28,7 +30,7 @@ new_ezmmek_act_calibrate <- function(std.data.fn,
   std_act_std <- full_join(act_data_grouped, std_data_grouped)
 
   ### Calibrate activities
-  std_act_calibrated <- calibrate_activities(std_act_std, method)
+  std_act_calibrated <- calibrate_activities(std_act_std, method,columns)
 
    ### Assign new class
   class(std_act_calibrated) <- c("new_ezmmek_calibrate", "data.frame")
