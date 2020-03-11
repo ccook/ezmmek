@@ -1,3 +1,17 @@
+#' new_ezmmek_std_group
+#'
+#' @importFrom magrittr "%>%"
+#'
+#' @description Groups standard curve data by user-defined columns
+#'
+#' @param std.data.fn Standard data file as character string
+#' @param ... User defined column names to group std.data.fn
+#' @param method Enzyme assay protocol. Must define method as 'steen' or 'german'
+#' @param columns Column names carried over from parent functions if parent functions used
+#'
+#' @examples
+#' new_ezmmek_std_group(std.data.fn, site.name, std.type, method = "steen", columns = NULL)
+
 ########
 ### Group standard lm objects
 ########
@@ -12,24 +26,20 @@ new_ezmmek_std_group <- function(std.data.fn,
   ### Read in data
   std_data <- read.csv(std.data.fn)
 
-  ### Use '...' arguments if column names not supplied in parent fxn, new_ezmmek_calibrate
+  ### Use '...' arguments if column names not supplied in parent fxn
   if(is.null(columns)) {
-    columns <- map_chr(enquos(...), rlang::quo_name)
+    columns <- purrr::map_chr(rlang::enquos(...), rlang::quo_name)
   }
 
 ### Group standard data
   std_data_grouped <- new_ezmmek_std_lm(std_data,
-                                        columns,
-                                        method,
+                                        columns = columns,
+                                        method = method,
                                         conc.units,
                                         signal.units)
 
-  units <- c("conc.units" = conc.units,
-             "signal.units" = signal.units)
-
   ### Assign new class
   class(std_data_grouped) <- c("new_ezmmek_std_group", "data.frame")
-  attr(std_data_grouped, "units") <- units
 
   std_data_grouped
 

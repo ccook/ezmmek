@@ -1,8 +1,14 @@
+#' ezmmek_calc_std_lm_homo
+#'
+#' @description Calculate linear model for standard curve in homogenate
+#'
+#' @param df Standard curve dataframe
+
 ########
 ### Make standard curve lm object for homogenate
 ########
 
-calc_std_lm_homo <- function(df) {
+ezmmek_calc_std_lm_homo <- function(df) {
 
   ### Fit linear model to homogenate
   std_curve_lm_homo <- lm(formula = homo.signal ~ std.conc, data = df)
