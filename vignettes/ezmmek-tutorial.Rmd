@@ -1,0 +1,76 @@
+---
+title: "*ezmmek* tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ezmmek-tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## 1 Introduction
+
+Extracellular enzyme assays are a widely-used method to probe the interactions between microbes and complex organic matter. While enzyme assays are popular techniques, there remains a need to standardize the exact methodologies used by practitioners. Here we describe *ezmmek* (Easy Michaelis-Menten Enzyme Kinetics), a package designed to compare common environmental enzyme assay protocols. *ezmmek* is capable of calibrating, calculating, and plotting enzyme activities as they relate to the degradation of synthetic substrates. At present, *ezmmek* contains functions to compare two enzyme assay protocols. The first, as outlined by German et al. (2011), accounts for quenching by considering the contribution of each individual component, such as enzyme substrate, buffer standard and homogenate. The second protocol, used by Steen and Arnosti (2011), assumes that the interaction between fluorophore/chromophore standard and homogenate will approximately equal the interaction between that standard’s corresponding substrate and homogenate, and result in the same bulk quenching. *ezmmek* contains datasets collected from the same samples via each protocol.
+
+\
+
+### 1.1 "German" protocol equations:
+$$\scriptsize (1)~Activity~(nmol~g⁻¹~h⁻¹)~=~\frac{Net~Fluorescence~*~Buffer~Volume~(mL)}{Emission~Coefficient~*~ Homogenate~Volume~(mL)~*~Time~(h)~*~Soil~Mass~(g)}$$
+\
+$$\scriptsize (2)~Net~Fluorescence~=~\frac{Assay~-~Homogenate~Control}{Quench~Coefficient}~-~Substrate~Control$$
+\
+$$\scriptsize (3)~Emission~Coefficient~(fluorescence~nmol⁻¹)~=~\frac{Standard~Curve~Slope~(in~presence~of~homogenate)~[\frac{Fluorescence}{\frac{nmol}{ml}}]}{Assay~Volume~(mL)}$$
+\
+$$\scriptsize (4)~Quench~Coefficient~=~\frac{Slope~of~Standard~Curve~(in~presence~of~homogenate)}{Slope~of~Standard~Curve~(in~presence~of~buffer)}$$
+
+\
+\
+
+### 1.2 "Steen" protocol equations:
+$$\scriptsize (5)~Activity~(nmol~g⁻¹~h⁻¹)~=~\frac{m[Concentration~of~Fluorophore~(nmol)~\sim~Time~(h)] }{Soil~Mass~(g)}$$
+\
+$$\scriptsize (6)~Concentration~of~Fluorophore~(nmol)~=~\frac{Assay~Fluorescence~-~Intercept~of~Standard~Curve~(in~presence~of~homogenate)}{Slope~of~Standard~Curve~(in~presence~of~homogenate)}$$
+\
+
+## 2 Installation
+The latest versions of *ezmmek* are available through CRAN and GitHub.
+
+### 2.1 CRAN
+```{r, eval = FALSE}
+install.packages("ezmmek")
+```
+
+### 2.2 GitHub
+#### 2.2.1 Install and load *devtools*
+```{r, eval = FALSE}
+install.packages("devtools")
+library(devtools)
+```
+#### 2.2.2 Install *ezmmek*
+```{r, eval = FALSE}
+install_github("ccook/ezmmek")
+```
+
+## 3 How to use
+### 3.1 Load *ezmmek*
+```{r, eval = FALSE}
+library(ezmmek)
+```
+### 3.2 Check example datasets
+### 3.3 Functions
+#### 3.3.1 Create data.frame object of class *new_ezmmek_sat_fit*
+```{r, eval = FALSE}
+obj <- new_ezmmek_sat_fit("std.data.fn",
+                          "act.data.fn",
+                          ...,
+                          km = NULL,
+                          vmax = NULL,
+                          method = NA)
+```
+Create data.frame object of class *new_ezmmek_sat_fit*. 
