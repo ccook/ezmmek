@@ -1,4 +1,4 @@
-#' new_ezmmek_sat_fit
+#' new_ezmmek_calibrate
 #'
 #' @description Creates dataframe containing calibrated enzyme activity data of class 'new_ezmmek_calibrate'
 #'

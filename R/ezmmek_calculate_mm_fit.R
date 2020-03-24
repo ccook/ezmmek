@@ -28,10 +28,15 @@ ezmmek_calc_mm_fit <- function(df, km, vmax) {
   ### Else rely on user defined km and vmax
   } else {
 
+    ### Michaelis-Menten formula
     mm_fit <- nls2::nls2(formula = mm_form, data = df,
                    start = list(vmax = vmax, km = km))
   }
 
+  ### Create a 1-column data frame with a 'grid' of points to predict
+  min.sub.conc <- min(df$sub.conc)
+  max.sub.conc <- max(df$sub.conc)
+  pred_grid <- data.frame(sub.conc = min.sub.conc:max.sub.conc)
 
   mm_fit
 

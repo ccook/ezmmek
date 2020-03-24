@@ -18,8 +18,8 @@ ezmmek_calibrate_activities <- function(df, method, columns) {
     ### Calibrates raw activity data by standard curve
     std_act_calibrated <- df %>%
       tidyr::unnest(act.raw.data.s) %>%
-      dplyr::mutate(signal.calibrated = (signal - std.lm.homo.intercept) / std.lm.homo.slope) %>% #calibrate signal
-      tidyr::nest(act.calibrated.data = c(time, signal, signal.calibrated)) %>% #place calibrated signal back in nested df
+      dplyr::mutate(signal.calibrated = ((signal - kill.control) - std.lm.homo.intercept) / std.lm.homo.slope) %>% #calibrate signal
+      tidyr::nest(act.calibrated.data = c(time, signal, kill.control, signal.calibrated)) %>% #place calibrated signal back in nested df
       dplyr::mutate(activity = purrr::map_dbl(act.calibrated.data,  #calculate slope of calibrated data
                                        function(df) coef(lm(signal.calibrated ~ time,
                                                             data = df))[2])) %>%

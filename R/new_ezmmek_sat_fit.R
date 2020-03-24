@@ -6,7 +6,7 @@
 #'
 #' @param std.data.fn Standard data file as character string
 #' @param act.data.fn Activity data file as character string
-#' @param ... User defined column names to join std.data.fn and act.data.fn
+#' @param ... User defined column names to join and group std.data.fn and act.data.fn
 #' @param km Starting value to estimate km. Default value is median of 'sub.conc' values
 #' @param vmax Starting value to estimate vmax. Default value is max activity calculated
 #' @param method Enzyme assay protocol. Must define method as 'steen' or 'german'

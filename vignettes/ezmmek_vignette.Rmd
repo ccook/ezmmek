@@ -1,0 +1,153 @@
+---
+title: "*ezmmek* tutorial"
+output: rmarkdown::html_vignette
+vignette: >
+ %\VignetteIndexEntry{ezmmek_vignette}
+ %\VignetteEngine{knitr::rmarkdown}
+ %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+```
+
+## 1 Introduction
+
+Extracellular enzyme assays are a widely-used method to probe the interactions between microbes and complex organic matter. While enzyme assays are popular techniques, there remains a need to standardize the exact methodologies used by practitioners. Here we describe *ezmmek* (Easy Michaelis-Menten Enzyme Kinetics), a package designed to compare common environmental enzyme assay protocols. *ezmmek* is capable of calibrating, calculating, and plotting enzyme activities as they relate to the degradation of synthetic substrates. At present, *ezmmek* contains functions to compare two enzyme assay protocols. The first, as outlined by German *et al.* (2011), accounts for quenching by considering the contribution of each individual component, such as enzyme substrate, buffer standard and homogenate. The second protocol, used by Steen and Arnosti (2011), assumes that the interaction between fluorophore/chromophore standard and homogenate will approximately equal the interaction between that standard’s corresponding substrate and homogenate, and result in the same bulk quenching. *ezmmek* contains datasets collected from the same samples via each protocol.
+
+\
+
+### 1.1 "German" protocol equations:
+$$\scriptsize (1)~Activity~(nmol~g⁻¹~h⁻¹)~=~\frac{Net~Fluorescence~*~Buffer~Volume~(mL)}{Emission~Coefficient~*~ Homogenate~Volume~(mL)~*~Time~(h)~*~Soil~Mass~(g)}$$
+\
+$$\scriptsize (2)~Net~Fluorescence~=~\frac{Assay~-~Homogenate~Control}{Quench~Coefficient}~-~Substrate~Control$$
+\
+$$\scriptsize (3)~Emission~Coefficient~(fluorescence~nmol⁻¹)~=~\frac{Standard~Curve~Slope~(in~presence~of~homogenate)~[\frac{Fluorescence}{\frac{nmol}{ml}}]}{Assay~Volume~(mL)}$$
+\
+$$\scriptsize (4)~Quench~Coefficient~=~\frac{Slope~of~Standard~Curve~(in~presence~of~homogenate)}{Slope~of~Standard~Curve~(in~presence~of~buffer)}$$
+
+\
+\
+
+### 1.2 "Steen" protocol equations:
+$$\scriptsize (5)~Activity~(nmol~g⁻¹~h⁻¹)~=~\frac{m[Concentration~of~Fluorophore~(nmol)~\sim~Time~(h)] }{Soil~Mass~(g)}$$
+\
+$$\scriptsize (6)~Concentration~of~Fluorophore~(nmol)~=~\frac{Assay~Fluorescence~-~Kill ~Control~-~Intercept~of~Standard~Curve~(in~presence~of~homogenate)}{Slope~of~Standard~Curve~(in~presence~of~homogenate)}$$
+\
+
+## 2 Installation
+The latest versions of *ezmmek* are available through CRAN and GitHub.
+
+### 2.1 CRAN
+```{r, eval = FALSE}
+install.packages("ezmmek")
+```
+
+### 2.2 GitHub
+#### 2.2.1 Install and load *devtools*
+```{r, eval = FALSE}
+install.packages("devtools")
+library(devtools)
+```
+#### 2.2.2 Install *ezmmek*
+```{r, eval = FALSE}
+install_github("ccook/ezmmek")
+```
+#### 2.2.3 Required packages
+```{r, eval = FALSE}
+assertable
+dplyr
+magrittr
+nls2
+purrr
+rlang
+tidyr
+```
+## 3 How to use
+### 3.1 Load *ezmmek*
+```{r, eval = FALSE}
+library(ezmmek)
+```
+### 3.2 Check example datasets
+### 3.3 Visible functions
+*ezmmek* contains several functions that create new data.frame objects. The functions build upon each other. The user can choose how much analyses to perform, from generating standard curve models to calculating km and vmax values. In descending order of parent functions to child functions:
+```{r, eval = FALSE}
+new_ezmmek_sat_fit
+new_ezmmek_act_calibrate
+new_ezmmek_act_group
+new_ezmmek_std_group
+new_ezmmek_std_lm
+```
+#### 3.3.1 Create data.frame object of class *new_ezmmek_sat_fit*
+```{r, eval = FALSE}
+new_obj <- new_ezmmek_sat_fit(std.data.fn,
+                              act.data.fn,
+                              ...,
+                              km = NULL,
+                              vmax = NULL,
+                              method = NA)
+```
+
+```{r, eval = FALSE}
+std.data.fn: Standard curve data file as character string
+act.data.fn: Raw activity data file as character string
+...: User defined column names to join and group std.data.fn and act.data.fn
+km: Starting value to estimate km. Default value is median of 'sub.conc' values
+vmax: Starting value to estimate vmax. Default value is max calibrated activity
+method: Enzyme assay protocol. Must define method as '"steen"' or '"german"'
+```
+'"std.data.fn"' is the name of the standard curve data file. '"act.data.fn"' is the name of the raw activity data file. '...' are the user-defined column names by which the standard curve and raw activity data files are grouped and joined (*e.g.* descriptor columns like site name and type of fluorophore) to create a new data.frame. The default numeric starting values of 'km' and 'vmax' are those predicted by  *ezmmek*. 'km' is calculated as the median substrate concentration used during the experiment. 'vmax' is calculated as the maximum calibrated activity value. The user can assign their own 'km' and 'vmax' starting values if they so choose. 'method' must be set equal to '"german"' or '"steen"'. The resulting dataframe contains the descriptor columns, standard curve data, raw activity data, calibrated activity data, and Michaelis-Menten fits.
+
+#### 3.3.2 Create data.frame object of class *new_ezmmek_calibrate*
+```{r, eval = FALSE}
+new_obj <- new_ezmmek_act_calibrate(std.data.fn,
+                                    act.data.fn,
+                                    ...,
+                                    method = NA,
+                                    columns = NULL)
+```
+
+```{r, eval = FALSE}
+std.data.fn: Standard curve data file as character string
+act.data.fn: Raw activity data file as character string
+...: User defined column names to join and group std.data.fn and act.data.fn
+method: Enzyme assay protocol. Must define method as '"steen"' or '"german"'
+columns: User defined column names to join and group std.data.fn and act.data.fn
+```
+'columns' carries over any '...' arguments from parent functions. If the user does not run this function within a parent function, the 'columns' argument can be ignored and left on the 'NULL' default. '...' arguments must named if this function is used on its own. The resulting data.frame contains the calibrated activities, but not the Michaelis-Menten fits.
+
+#### 3.3.3 Create data.frame object of class *new_ezmmek_act_group*
+```{r, eval = FALSE}
+new_obj <- new_ezmmek_act_group(act.data.fn,
+                                ...,
+                                method = NA,
+                                columns = NULL)
+```
+
+```{r, eval = FALSE}
+act.data.fn: Raw activity data file as character string
+...: User defined column names to join and group std.data.fn and act.data.fn
+method: Enzyme assay protocol. Must define method as '"steen"' or '"german"'
+columns: User defined column names to join and group std.data.fn and act.data.fn
+```
+'columns' carries over any '...' arguments from parent functions. If the user does not run this function within a parent function, the 'columns' argument can be ignored and left on the 'NULL' default. '...' arguments must named if this function is used on its own. The resulting data.frame contains grouped data of 'act.data.fn', as specified by column names.
+
+#### 3.3.4 Create data.frame object of class *new_ezmmek_std_group*
+```{r, eval = FALSE}
+new_obj <- new_ezmmek_std_group(std.data.fn,
+                                ...,
+                                method = NA,
+                                columns = NULL)
+```
+
+```{r, eval = FALSE}
+std.data.fn: Standard curve data file as character string
+...: User defined column names to join and group std.data.fn and act.data.fn
+method: Enzyme assay protocol. Must define method as '"steen"' or '"german"'
+columns: User defined column names to group std.data.fn
+```
+'columns' carries over any '...' arguments from parent functions. If the user does not run this function within a parent function, the 'columns' argument can be ignored and left on the 'NULL' default. '...' arguments must named if this function is used on its own. The resulting data.frame contains grouped 'std.data.fn' data, as specified by column names, and standard curve linear models for each group.
+
