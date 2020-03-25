@@ -12,7 +12,7 @@ new_ezmmek_sat_fit(std.data.fn, act.data.fn, ..., km = NULL,
 
 \item{act.data.fn}{Activity data file as character string}
 
-\item{...}{User defined column names to join std.data.fn and act.data.fn}
+\item{...}{User defined column names to join and group std.data.fn and act.data.fn}
 
 \item{km}{Starting value to estimate km. Default value is median of 'sub.conc' values}
 

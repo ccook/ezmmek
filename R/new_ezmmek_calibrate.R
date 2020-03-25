@@ -8,7 +8,7 @@
 #' @param method Enzyme assay protocol. Must define method as 'steen' or 'german'
 #'
 #' @examples
-#' new_ezmmek_act_calibrate(std.data.fn, act.data.fn, site.name, std.type, km = NULL, vmax = NULL, method = "steen")
+#' new_ezmmek_calibrate(std.data.fn, act.data.fn, site.name, std.type, km = NULL, vmax = NULL, method = "steen")
 
 ########
 ### Join activity dataframe with standard dataframe and calibrate

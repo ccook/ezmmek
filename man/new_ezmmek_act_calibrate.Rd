@@ -2,7 +2,7 @@
 % Please edit documentation in R/new_ezmmek_calibrate.R
 \name{new_ezmmek_act_calibrate}
 \alias{new_ezmmek_act_calibrate}
-\title{new_ezmmek_sat_fit}
+\title{new_ezmmek_calibrate}
 \usage{
 new_ezmmek_act_calibrate(std.data.fn, act.data.fn, ..., method = NA,
   conc.units = NA, signal.units = NA, columns = NULL)
@@ -20,5 +20,5 @@ new_ezmmek_act_calibrate(std.data.fn, act.data.fn, ..., method = NA,
 Creates dataframe containing calibrated enzyme activity data of class 'new_ezmmek_calibrate'
 }
 \examples{
-new_ezmmek_act_calibrate(std.data.fn, act.data.fn, site.name, std.type, km = NULL, vmax = NULL, method = "steen")
+new_ezmmek_calibrate(std.data.fn, act.data.fn, site.name, std.type, km = NULL, vmax = NULL, method = "steen")
 }

@@ -22,6 +22,7 @@ Extracellular enzyme assays are a widely-used method to probe the interactions b
 
 ### 1.1 "German" protocol equations:
 $$\scriptsize (1)~Activity~(nmol~g⁻¹~h⁻¹)~=~\frac{Net~Fluorescence~*~Buffer~Volume~(mL)}{Emission~Coefficient~*~ Homogenate~Volume~(mL)~*~Time~(h)~*~Soil~Mass~(g)}$$
+<center> \scriptsize \*For water samples, 'Soil Mass' and 'Homogenate Volume' should both be set to '1'. </center>
 \
 $$\scriptsize (2)~Net~Fluorescence~=~\frac{Assay~-~Homogenate~Control}{Quench~Coefficient}~-~Substrate~Control$$
 \
@@ -34,6 +35,7 @@ $$\scriptsize (4)~Quench~Coefficient~=~\frac{Slope~of~Standard~Curve~(in~presenc
 
 ### 1.2 "Steen" protocol equations:
 $$\scriptsize (5)~Activity~(nmol~g⁻¹~h⁻¹)~=~\frac{m[Concentration~of~Fluorophore~(nmol)~\sim~Time~(h)] }{Soil~Mass~(g)}$$
+<center> \scriptsize \*For water samples, 'Soil Mass' should be set to '1'. </center>
 \
 $$\scriptsize (6)~Concentration~of~Fluorophore~(nmol)~=~\frac{Assay~Fluorescence~-~Kill ~Control~-~Intercept~of~Standard~Curve~(in~presence~of~homogenate)}{Slope~of~Standard~Curve~(in~presence~of~homogenate)}$$
 \
@@ -68,18 +70,69 @@ tidyr
 ```
 ## 3 How to use
 ### 3.1 Load *ezmmek*
-```{r, eval = FALSE}
+```{r, eval = TRUE, echo = FALSE, warning = FALSE}
+library(tibble)
+```
+```{r, eval = TRUE}
 library(ezmmek)
 ```
-### 3.2 Check example datasets
+### 3.2 Example datasets
+The following datasets stem from samples collected at a pond in Victor Ashe Park, 4901 Bradshaw Road, Knoxville, TN 37912. Analyses were performed using each enzyme assay protocol. The standard curve data file contains data for both protocols. The raw activity data files are split by protocol.
+
+#### 3.2.1 Standard curve data
+```{r, eval = TRUE}
+std_data <- read.csv("victor_ashe_std_03172020.csv")
+glimpse(std_data)
+```
+
+```{r, eval = FALSE}
+site.name: Name of sampling site, Victor Ashe Park, Knoxville, TN
+std.type: Type of standard, 7-Amino-4-methylcoumarin (AMC)
+std.conc: Standard concentration, micromolar
+homo.signal: Signal from standard in homogenate, fluorescence units
+buffer.signal: Signal from standard in buffer, fluorescence units
+```
+#### 3.2.2 Raw activity data, "german"
+```{r, eval = TRUE}
+raw_activity_data_german <- read.csv("victor_ashe_sat_german_03172020.csv")
+glimpse(raw_activity_data_german)
+```
+
+```{r, eval = FALSE}
+site.name: Name of sampling site, Victor Ashe Park, Knoxville, TN
+std.type: Type of standard
+time: Timepoints at which signal was collected, minutes
+signal: Signal from assay, fluorescence units
+sub.conc: Substrate concentration, micromolar
+replicate: Sample replicated labeled numerically
+homo.vol: Homogenate volume, left as '1' for water samples
+soil.mass: Soil mass, left as '1' for water samples
+assay.vol: Assay volume, milliliters
+homo.control: Homogenate control, fluorescence units
+sub.control: Substrate control, flluorescence units
+```
+#### 3.2.3 Raw activity data, "steen"
+```{r, eval = TRUE}
+raw_activity_data_steen <- read.csv("victor_ashe_sat_steen_03172020.csv")
+glimpse(raw_activity_data_steen)
+```
+
+```{r, eval = FALSE}
+site.name: Name of sampling site, Victor Ashe Park, Knoxville, TN
+std.type: Type of standard
+time: Timepoints at which signal was collected, minutes
+signal: Signal from assay, fluorescence units
+sub.conc: Substrate concentration, micromolar
+replicate: Sample replicated labeled numerically
+kill.control: Signal from autoclaved sample, fluorescence units
+```
 ### 3.3 Visible functions
 *ezmmek* contains several functions that create new data.frame objects. The functions build upon each other. The user can choose how much analyses to perform, from generating standard curve models to calculating km and vmax values. In descending order of parent functions to child functions:
 ```{r, eval = FALSE}
 new_ezmmek_sat_fit
-new_ezmmek_act_calibrate
+new_ezmmek_calibrate
 new_ezmmek_act_group
 new_ezmmek_std_group
-new_ezmmek_std_lm
 ```
 #### 3.3.1 Create data.frame object of class *new_ezmmek_sat_fit*
 ```{r, eval = FALSE}
@@ -133,7 +186,7 @@ act.data.fn: Raw activity data file as character string
 method: Enzyme assay protocol. Must define method as '"steen"' or '"german"'
 columns: User defined column names to join and group std.data.fn and act.data.fn
 ```
-'columns' carries over any '...' arguments from parent functions. If the user does not run this function within a parent function, the 'columns' argument can be ignored and left on the 'NULL' default. '...' arguments must named if this function is used on its own. The resulting data.frame contains grouped data of 'act.data.fn', as specified by column names.
+'columns' carries over any '...' arguments from parent functions. If the user does not run this function within a parent function, the 'columns' argument can be ignored and left on the 'NULL' default. '...' arguments must be named if this function is used on its own. The resulting data.frame contains grouped data of 'act.data.fn', as specified by column names.
 
 #### 3.3.4 Create data.frame object of class *new_ezmmek_std_group*
 ```{r, eval = FALSE}
@@ -149,5 +202,47 @@ std.data.fn: Standard curve data file as character string
 method: Enzyme assay protocol. Must define method as '"steen"' or '"german"'
 columns: User defined column names to group std.data.fn
 ```
-'columns' carries over any '...' arguments from parent functions. If the user does not run this function within a parent function, the 'columns' argument can be ignored and left on the 'NULL' default. '...' arguments must named if this function is used on its own. The resulting data.frame contains grouped 'std.data.fn' data, as specified by column names, and standard curve linear models for each group.
+'columns' carries over any '...' arguments from parent functions. If the user does not run this function within a parent function, the 'columns' argument can be ignored and left on the 'NULL' default. '...' arguments must be named if this function is used on its own. The resulting data.frame contains grouped 'std.data.fn' data, as specified by column names, and standard curve linear models for each group.
 
+## 4 Example analyses
+### 4.1 *new_ezmmek_sat_fit*, "german" method
+```{r, eval = TRUE}
+new_obj_german <- new_ezmmek_sat_fit("victor_ashe_std_03172020.csv", 
+                                     "victor_ashe_sat_german_03172020.csv", 
+                                     site.name, 
+                                     std.type,
+                                     km = NULL,
+                                     vmax = NULL,
+                                     method = "german")
+
+glimpse(new_obj_german)
+```
+### 4.2 *new_ezmmek_sat_fit*, "steen" method
+```{r, eval = TRUE}
+new_obj_steen <- new_ezmmek_sat_fit("victor_ashe_std_03172020.csv",
+                                    "victor_ashe_sat_steen_03172020.csv", 
+                                    site.name, 
+                                    std.type,
+                                    km = NULL,
+                                    vmax = NULL,
+                                    method = "steen")
+
+glimpse(new_obj_steen)
+```
+### 4.3 *new_ezmmek_calibrate*, "german" method
+### 4.4 *new_ezmmek_calibrate*, "steen" method
+### 4.5 *new_ezmmek_act_group*, "german" method
+### 4.6 *new_ezmmek_act_group*, "steen" method
+### 4.7 *new_ezmmek_std_group*, "german" method
+### 4.8 *new_ezmmek_std_group*, "steen" method
+
+## 5 References
+German *et al.* (2011) <doi:10.1016/j.soilbio.2011.03.017>   
+Sinsabaugh *et al.* (2014) <doi:10.1007/s10533-014-0030-y>  
+Steen and Arnosti (2011) <doi:10.1016/j.marchem.2010.10.006>
+
+## 6 Authors
+Christopher L. Cook (ccook62@vols.utk.edu) and Andrew D. Steen
+
+## 7 License
+This project is licensed under AGPL-3.

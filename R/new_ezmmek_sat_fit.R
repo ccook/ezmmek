@@ -1,5 +1,7 @@
 #' new_ezmmek_sat_fit
 #'
+#' @export
+#'
 #' @importFrom magrittr "%>%"
 #'
 #' @description Creates dataframe containing calibrated enzyme activity data and Michaelis-Menton fit of class 'new_ezmmek_sat_fit'
