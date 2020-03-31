@@ -35,8 +35,6 @@ new_ezmmek_sat_fit <- function(std.data.fn,
                                             act.data.fn,
                                             ...,
                                             method = method,
-                                            conc.units = NA,
-                                            signal.units = NA,
                                             columns = columns)
 
   ### Group data frame by substrate type and the additional arguments put in by user
@@ -46,9 +44,10 @@ new_ezmmek_sat_fit <- function(std.data.fn,
 
   ### Creates new Michaelis-Menten fit columns
   calibrated_df_mm_fit <- calibrated_df_grouped %>%
-    dplyr::mutate(mm.fit.obj = purrr::map(data, function(df) ezmmek_calc_mm_fit(df, km, vmax)), #nlsm
-                  km = purrr::map_dbl(data, function(df) coef(ezmmek_calc_mm_fit(df, km, vmax))[2]), #km
-                  vmax = purrr::map_dbl(data, function(df) coef(ezmmek_calc_mm_fit(df, km, vmax))[1])) %>% #vmax
+    dplyr::mutate(mm.fit.obj = purrr::map(data, function(df) ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(1)), #nlsm
+                  km = purrr::map_dbl(data, function(df) coef(ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(1))[2]), #km
+                  vmax = purrr::map_dbl(data, function(df) coef(ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(1))[1]), #vmax
+                  pred_grid = purrr::map(data, function(df) ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(2))) %>%
     tidyr::unnest(data)
 
   class(calibrated_df_mm_fit) <- c("new_ezmmek_sat_fit", "data.frame")

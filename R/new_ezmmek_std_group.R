@@ -1,5 +1,7 @@
 #' new_ezmmek_std_group
 #'
+#' @export
+#'
 #' @importFrom magrittr "%>%"
 #'
 #' @description Groups standard curve data by user-defined columns
@@ -19,8 +21,6 @@
 new_ezmmek_std_group <- function(std.data.fn,
                                  ...,
                                  method = NA,
-                                 conc.units = NA,
-                                 signal.units = NA,
                                  columns = NULL) {
 
   ### Read in data
@@ -34,9 +34,7 @@ new_ezmmek_std_group <- function(std.data.fn,
 ### Group standard data
   std_data_grouped <- new_ezmmek_std_lm(std_data,
                                         columns = columns,
-                                        method = method,
-                                        conc.units,
-                                        signal.units)
+                                        method = method)
 
   ### Assign new class
   class(std_data_grouped) <- c("new_ezmmek_std_group", "data.frame")

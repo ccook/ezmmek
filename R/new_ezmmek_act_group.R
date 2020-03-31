@@ -1,5 +1,7 @@
 #' new_ezmmek_act_group
 #'
+#' @export
+#'
 #' @importFrom magrittr "%>%"
 #'
 #' @description Groups raw activity data by user-defined columns

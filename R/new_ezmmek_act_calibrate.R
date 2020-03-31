@@ -1,4 +1,6 @@
-#' new_ezmmek_calibrate
+#' new_ezmmek_act_calibrate
+#'
+#' @export
 #'
 #' @description Creates dataframe containing calibrated enzyme activity data of class 'new_ezmmek_calibrate'
 #'
@@ -8,7 +10,7 @@
 #' @param method Enzyme assay protocol. Must define method as 'steen' or 'german'
 #'
 #' @examples
-#' new_ezmmek_calibrate(std.data.fn, act.data.fn, site.name, std.type, km = NULL, vmax = NULL, method = "steen")
+#' new_ezmmek_act_calibrate(std.data.fn, act.data.fn, site.name, std.type, km = NULL, vmax = NULL, method = "steen")
 
 ########
 ### Join activity dataframe with standard dataframe and calibrate
@@ -18,8 +20,6 @@ new_ezmmek_act_calibrate <- function(std.data.fn,
                                      act.data.fn,
                                      ...,
                                      method = NA,
-                                     conc.units = NA,
-                                     signal.units = NA,
                                      columns = NULL) {
 
   ### Use '...' arguments if column names not supplied in parent fxn
@@ -29,8 +29,6 @@ new_ezmmek_act_calibrate <- function(std.data.fn,
   ### Creates dataframe of standard curve data
   std_data_grouped <- new_ezmmek_std_group(std.data.fn,
                                            method = method,
-                                           conc.units,
-                                           signal.units,
                                            columns = columns)
 
   ### Creates dataframe of raw activity data
@@ -42,7 +40,7 @@ new_ezmmek_act_calibrate <- function(std.data.fn,
   std_act_std <- dplyr::full_join(act_data_grouped, std_data_grouped)
 
   ### Calibrate activities
-  std_act_calibrated <- ezmmek_calibrate_activities(std_act_std, method,columns)
+  std_act_calibrated <- ezmmek_calibrate_activities(std_act_std, method, columns)
 
    ### Assign new class
   class(std_act_calibrated) <- c("new_ezmmek_calibrate", "data.frame")

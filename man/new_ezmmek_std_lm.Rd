@@ -4,8 +4,7 @@
 \alias{new_ezmmek_std_lm}
 \title{new_ezmmek_std_lm}
 \usage{
-new_ezmmek_std_lm(df, method = method, conc.units = NA,
-  signal.units = NA, columns = NULL)
+new_ezmmek_std_lm(df, method = method, columns = NULL)
 }
 \arguments{
 \item{df}{Standard curve dataframe}

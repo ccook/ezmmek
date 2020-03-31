@@ -9,7 +9,9 @@
 ########
 ### Calculate nls fit model
 ########
-ezmmek_calc_mm_fit <- function(df, km, vmax) {
+ezmmek_calc_mm_fit <- function(df,
+                               km,
+                               vmax) {
 
   ### Assign starting values to predict km and vmax
   max.activity.m <- max(df$activity.m)
@@ -22,15 +24,15 @@ ezmmek_calc_mm_fit <- function(df, km, vmax) {
   ### If km and vmax arguments are NULL, predict km and vmax values
   if(is.null(km) | is.null(vmax)) {
 
-  mm_fit <- nls2::nls2(formula = mm_form, data = df,
-                 start = list(vmax = max.activity.m, km = median.sub.conc))
+    mm_fit <- nls2::nls2(formula = mm_form, data = df,
+                         start = list(vmax = max.activity.m, km = median.sub.conc))
 
-  ### Else rely on user defined km and vmax
+    ### Else rely on user defined km and vmax
   } else {
 
     ### Michaelis-Menten formula
     mm_fit <- nls2::nls2(formula = mm_form, data = df,
-                   start = list(vmax = vmax, km = km))
+                         start = list(vmax = vmax, km = km))
   }
 
   ### Create a 1-column data frame with a 'grid' of points to predict
@@ -38,6 +40,15 @@ ezmmek_calc_mm_fit <- function(df, km, vmax) {
   max.sub.conc <- max(df$sub.conc)
   pred_grid <- data.frame(sub.conc = min.sub.conc:max.sub.conc)
 
-  mm_fit
+
+
+  # predictions <- predict(mm_fit, newdata = pred_grid)
+  #
+  # pred_df <- data.frame(sub.conc = pred_grid$sub.conc, pred_activity = predictions)
+
+  out_list <- list(mm_fit = mm_fit,
+                   pred_grid = pred_grid)
+  out_list
+  #mm_fit
 
 }

@@ -13,8 +13,6 @@
 ########
 new_ezmmek_std_lm <- function(df,
                               method = method,
-                              conc.units = NA,
-                              signal.units = NA,
                               columns = NULL) {
 
   ### Stop function if method is not assigned approriately

@@ -4,8 +4,7 @@
 \alias{new_ezmmek_std_group}
 \title{new_ezmmek_std_group}
 \usage{
-new_ezmmek_std_group(std.data.fn, ..., method = NA, conc.units = NA,
-  signal.units = NA, columns = NULL)
+new_ezmmek_std_group(std.data.fn, ..., method = NA, columns = NULL)
 }
 \arguments{
 \item{std.data.fn}{Standard data file as character string}
