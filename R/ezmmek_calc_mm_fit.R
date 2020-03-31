@@ -18,8 +18,8 @@ ezmmek_calc_mm_fit <- function(df,
   median.sub.conc <- median(df$sub.conc)
 
   ### Michaelis-Menten formula
-  mm_form <- formula(df$activity.m ~ (vmax * df$sub.conc) /
-                       (km + df$sub.conc))
+  mm_form <- formula(activity.m ~ (vmax * sub.conc) /
+                       (km + sub.conc))
 
   ### If km and vmax arguments are NULL, predict km and vmax values
   if(is.null(km) | is.null(vmax)) {
@@ -38,7 +38,7 @@ ezmmek_calc_mm_fit <- function(df,
   ### Create a 1-column data frame with a 'grid' of points to predict
   min.sub.conc <- min(df$sub.conc)
   max.sub.conc <- max(df$sub.conc)
-  pred_grid <- data.frame(sub.conc = min.sub.conc:max.sub.conc)
+  pred_grid <- data.frame(sub.conc = seq(from=min.sub.conc, to = max.sub.conc, length.out = 100)) # using seq() prevents the problem that users are using weird uints, and you get like a billion points, or 2
 
 
 
