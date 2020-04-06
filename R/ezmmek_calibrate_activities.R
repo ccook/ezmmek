@@ -21,21 +21,46 @@ ezmmek_calibrate_activities <- function(df, method, columns) {
       dplyr::mutate(signal.calibrated = ((signal - kill.control) - std.lm.homo.intercept) / std.lm.homo.slope) %>% #calibrate signal
       tidyr::nest(act.calibrated.data = c(time, signal, kill.control, signal.calibrated)) %>% #place calibrated signal back in nested df
       dplyr::mutate(activity = purrr::map_dbl(act.calibrated.data,  #calculate slope of calibrated data
-                                       function(df) coef(lm(signal.calibrated ~ time,
-                                                            data = df))[2])) %>%
+                                              function(df) coef(lm(signal.calibrated ~ time,
+                                                                   data = df))[2])) %>%
       dplyr::group_by_at(dplyr::vars(sub.conc, sub.type, intersect(names(.), columns))) %>%
       dplyr::mutate(activity.m = mean(activity), #calculate means and sd's of activities
-             activity.sd = sd(activity))
+                    activity.sd = sd(activity)) %>%
+      tidyr::unnest(act.calibrated.data) %>%
+      tidyr::nest(act.calibrated.data.s = c(sub.conc,
+                           replicate,
+                           time,
+                           signal,
+                           kill.control,
+                           signal.calibrated,
+                           activity,
+                           activity.m,
+                           activity.sd))
   }
 
   if(method == "german") {
     std_act_calibrated <- df %>%
       tidyr::unnest(act.raw.data.g) %>%
-      dplyr::mutate(emission.coef = std.lm.homo.slope / assay.vol,
-                    net.signal = (signal - homo.control) / quench.coef - sub.control,
-                    activity = (net.signal * buffer.vol) / (emission.coef * homo.vol * time * soil.mass)) %>%
+      dplyr::mutate(emission.coef = std.lm.homo.slope / assay.vol, #emission coefficient
+                    net.signal = (signal - homo.control) / quench.coef - sub.control, #net signal
+                    activity = (net.signal * buffer.vol) / (emission.coef * homo.vol * time * soil.mass)) %>% #activity
       dplyr::group_by(sub.conc) %>%
-      dplyr::mutate(activity.m = mean(activity), activity.sd = sd(activity))
+      dplyr::mutate(activity.m = mean(activity), activity.sd = sd(activity)) %>% #mean and sd of activity
+      tidyr::nest(act.calibrated.data.g = c(sub.conc,
+                                          replicate,
+                                          time,
+                                          signal,
+                                          buffer.vol,
+                                          homo.vol,
+                                          soil.mass,
+                                          assay.vol,
+                                          homo.control,
+                                          sub.control,
+                                          net.signal,
+                                          activity,
+                                          activity.m,
+                                          activity.sd))
+
   }
   std_act_calibrated
 }

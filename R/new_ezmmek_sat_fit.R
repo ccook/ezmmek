@@ -50,7 +50,19 @@ new_ezmmek_sat_fit <- function(std.data.fn,
                   pred_grid = purrr::map(data, function(df) ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(2))) %>%
     tidyr::unnest(data)
 
-  class(calibrated_df_mm_fit) <- c("new_ezmmek_sat_fit", "data.frame")
+  ### Function to apply mm_fit to each value in pred_grid
+  predict_df <- function(mm_fit, pred_grid) {
+    pred.vec <- predict(mm_fit, pred_grid)
+    pred_df <- data.frame(sub.conc = pred_grid$sub.conc, activity.m = pred.vec)
+    pred_df
+  }
 
-  calibrated_df_mm_fit
+  ### Apply predict_df() to pred_grid in each row
+  result_df <- calibrated_df_mm_fit %>%
+    dplyr::mutate(pred_activities = purrr::map2(.x = mm.fit.obj, .y = pred_grid, .f = predict_df))
+
+  ### Assign new class
+  class(result_df) <- c("new_ezmmek_sat_fit", "data.frame")
+
+  result_df
 }

@@ -4,36 +4,50 @@
 
 ##' @export
 
-plot.new_ezmmek_std_group <- function(new_ezmmek_std_group_obj) {
+plot.new_ezmmek_std_group <- function(df, ...) {
 
-  if("std.raw.data.s" %in% colnames(new_ezmmek_std_group_obj)) {
+  ### User-defined columns to facet by
+  columns <- rlang::enquos(...)
 
-  std_plot_homo <- ggplot2::ggplot(data = data.frame(new_ezmmek_std_group_obj$std.raw.data.s),
-                              mapping = ggplot2::aes(x = std.conc, y = homo.signal)) +
-    ggplot2::geom_point() +
-    ggplot2::geom_smooth(method = "lm") +
-    ggplot2::theme_bw()
 
-  print(std_plot_homo)
+  ### German protocol
+  if("std.raw.data.g" %in% colnames(df)) {
 
+    homo_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std.raw.data.g),
+                                 mapping = ggplot2::aes(x = std.conc, y = homo.signal)) +
+      ggplot2::geom_point() +
+      ggplot2::geom_smooth(method = "lm") +
+      ggplot2::theme_bw() +
+      ggplot2::facet_wrap(columns)
+
+    buffer_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std.raw.data.g),
+                                   mapping = ggplot2::aes(x = std.conc, y = buffer.signal)) +
+      ggplot2::geom_point() +
+      ggplot2::geom_smooth(method = "lm") +
+      ggplot2::theme_bw() +
+      ggplot2::facet_wrap(columns)
+
+    print(homo_plot)
+    print(buffer_plot)
+
+    out_list <- list(std_homo_plot = homo_plot,
+                     std_buffer_plot = buffer_plot)
+    out_list
   }
 
-  if("std.raw.data.g" %in% colnames(new_ezmmek_std_group_obj)) {
+  ### Steen protocol
+  if("std.raw.data.s" %in% colnames(df)) {
 
-    std_plot_homo <- ggplot2::ggplot(data = data.frame(new_ezmmek_std_group_obj$std.raw.data.g),
-                                mapping = ggplot2::aes(x = std.conc, y = homo.signal)) +
+    ### Make plot
+    homo_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std.raw.data.s),
+                                 mapping = ggplot2::aes(x = std.conc, y = homo.signal)) +
       ggplot2::geom_point() +
       ggplot2::geom_smooth(method = "lm") +
-      ggplot2::theme_bw()
+      ggplot2::theme_bw() +
+      ggplot2::facet_wrap(columns)
 
-    std_plot_buffer <- ggplot2::ggplot(data = data.frame(new_ezmmek_std_group_obj$std.raw.data.g),
-                                     mapping = ggplot2::aes(x = std.conc, y = buffer.signal)) +
-      ggplot2::geom_point() +
-      ggplot2::geom_smooth(method = "lm") +
-      ggplot2::theme_bw()
+    homo_plot
 
-    print(std_plot_homo)
-    print(std_plot_buffer)
   }
 
 }
