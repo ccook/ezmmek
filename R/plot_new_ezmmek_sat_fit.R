@@ -8,7 +8,7 @@ plot.new_ezmmek_sat_fit <- function(df, ...) {
   ### Plot points without curve fit
   point_plot <- plot.new_ezmmek_calibrate(df, columns = columns)
 
-  ###
+  ### Unnest predicted activities df
   unnest_sat_df <- tidyr::unnest(df, pred_activities)
 
   sat_fit_plot <- point_plot +
