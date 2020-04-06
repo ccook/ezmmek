@@ -31,10 +31,10 @@ new_ezmmek_std_group <- function(std.data.fn,
     columns <- purrr::map_chr(rlang::enquos(...), rlang::quo_name)
   }
 
-### Group standard data
-  std_data_grouped <- new_ezmmek_std_lm(std_data,
-                                        columns = columns,
-                                        method = method)
+  ### Group standard data
+  std_data_grouped <- ezmmek_std_lm(std_data,
+                                    columns = columns,
+                                    method = method)
 
   ### Assign new class
   class(std_data_grouped) <- c("new_ezmmek_std_group", "data.frame")
