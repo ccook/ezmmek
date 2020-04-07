@@ -1,4 +1,4 @@
-site.name,std.type,sub.type,time,sub.conc,signal,replicate,buffer.vol,homo.vol,soil.mass,assay.vol,homo.control,sub.control
+site_name,std_type,substrate_type,time,substrate_conc,signal,replicate,buffer_vol,homo_vol,soil_mass,assay_vol,homo_control,substrate_control
 victor_ashe,amc,l-leucine-amc,240,0,4851.65,1,1,1,1,1,4982.86,2137.63
 victor_ashe,amc,l-leucine-amc,240,0,5163.49,2,1,1,1,1,4977.73,439.11
 victor_ashe,amc,l-leucine-amc,240,0,5033.46,3,1,1,1,1,4981.99,846.38

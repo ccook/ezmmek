@@ -1,4 +1,4 @@
-site.name,std.type,sub.type,time,sub.conc,replicate,signal,kill.control
+site_name,std_type,substrate_type,time,substrate_conc,replicate,signal,kill_control
 victor_ashe,amc,l-leucine-amc,0,0,1,4905.25,8229.68
 victor_ashe,amc,l-leucine-amc,20,0,1,4830.95,8295.77
 victor_ashe,amc,l-leucine-amc,40,0,1,4933.3,8295.47

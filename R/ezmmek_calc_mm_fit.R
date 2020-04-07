@@ -13,40 +13,41 @@ ezmmek_calc_mm_fit <- function(df,
                                km,
                                vmax) {
 
-  if("act.calibrated.data.g" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act.calibrated.data = act.calibrated.data.g)
+  ### If statements to adjust column names
+  if("act_calibrated_data_g" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_g)
   }
 
-  if("act.calibrated.data.s" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act.calibrated.data = act.calibrated.data.s)
+  if("act_calibrated_data_s" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_s)
   }
 
   ### Michaelis-Menten formula
-  mm_form <- formula(activity.m ~ (vmax * sub.conc) /
-                       (km + sub.conc))
+  mm_form <- formula(activity_m ~ (vmax * substrate_conc) /
+                       (km + substrate_conc))
 
   ### Assign starting values to predict km and vmax
-  max.activity.m <- max(df$act.calibrated.data[[1]][[8]])
-  median.sub.conc <- median(df$act.calibrated.data[[1]][[8]])
+  max_activity_m <- max(df$act_calibrated_data[[1]][[8]])
+  median_substrate_conc <- median(df$act_calibrated_data[[1]][[8]])
 
   ### If km and vmax arguments are NULL, predict km and vmax values
   if(is.null(km) | is.null(vmax)) {
 
-    mm_fit <- nls2::nls2(formula = mm_form, data = df$act.calibrated.data[[1]],
-                         start = list(vmax = max.activity.m, km = median.sub.conc))
+    mm_fit <- nls2::nls2(formula = mm_form, data = df$act_calibrated_data[[1]],
+                         start = list(vmax = max_activity_m, km = median_substrate_conc))
 
     ### Else rely on user defined km and vmax
   } else {
 
     ### Michaelis-Menten formula
-    mm_fit <- nls2::nls2(formula = mm_form, data = df$act.calibrated.data[[1]],
+    mm_fit <- nls2::nls2(formula = mm_form, data = df$act_calibrated_data[[1]],
                          start = list(vmax = vmax, km = km))
   }
 
   ### Create a 1-column data frame with a 'grid' of points to predict
-  min.sub.conc <- min(df$act.calibrated.data[[1]][[1]])
-  max.sub.conc <- max(df$act.calibrated.data[[1]][[1]])
-  pred_grid <- data.frame(sub.conc = seq(from = min.sub.conc, to = max.sub.conc, length.out = 1000))
+  min_substrate_conc <- min(df$act_calibrated_data[[1]][[1]])
+  max_substrate_conc <- max(df$act_calibrated_data[[1]][[1]])
+  pred_grid <- data.frame(substrate_conc = seq(from = min_substrate_conc, to = max_substrate_conc, length.out = 1000))
 
   out_list <- list(mm_fit = mm_fit,
                    pred_grid = pred_grid)

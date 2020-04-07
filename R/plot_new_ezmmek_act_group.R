@@ -5,15 +5,16 @@ plot.new_ezmmek_act_group <- function(df, ...) {
   ### User-defined columns to facet by
   columns <- rlang::enquos(...)
 
+  ### Use 'if' statements to adjust column names
   ### German protocol
-  if("act.raw.data.g" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act.raw.data = act.raw.data.g)
+  if("act_raw_data_g" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_raw_data = act_raw_data_g)
 
-    unnest_act_df <- tidyr::unnest(df, act.raw.data)
+    unnest_act_df <- tidyr::unnest(df, act_raw_data)
 
     ### Make plot
     act_plot <- ggplot2::ggplot(data = unnest_act_df,
-                                mapping = ggplot2::aes(x = sub.conc,
+                                mapping = ggplot2::aes(x = substrate_conc,
                                                        y = signal,
                                                        color = as.factor(replicate))) +
       ggplot2::geom_point() +
@@ -24,11 +25,11 @@ plot.new_ezmmek_act_group <- function(df, ...) {
     }
 
   ### Steen protocol
-  if("act.raw.data.s" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act.raw.data = act.raw.data.s)
+  if("act_raw_data_s" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_raw_data = act_raw_data_s)
 
 
-    unnest_act_df <- tidyr::unnest(df, act.raw.data)
+    unnest_act_df <- tidyr::unnest(df, act_raw_data)
 
     ### Make plot
     act_plot <- ggplot2::ggplot(data = unnest_act_df,

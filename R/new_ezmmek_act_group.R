@@ -36,33 +36,33 @@ new_ezmmek_act_group <- function(act.data.fn,
     assertable::assert_colnames(data = act_data,
                     colnames = c("time",
                                  "signal",
-                                 "sub.conc"),
+                                 "substrate_conc"),
                     only_colnames = FALSE,
                     quiet = TRUE)
 
 
   act_data_grouped <- act_data %>%
     dplyr::group_by_at(dplyr::vars(intersect(names(.), columns))) %>%
-    dplyr::group_nest(.key = "act.raw.data.s")
+    dplyr::group_nest(.key = "act_raw_data_s")
   }
 
   if(method == "german") {
     assertable::assert_colnames(data = act_data,
                     colnames = c("time",
                                  "signal",
-                                 "sub.conc",
-                                 "buffer.vol",
-                                 "homo.vol",
-                                 "soil.mass",
-                                 "assay.vol",
-                                 "homo.control",
-                                 "sub.control"),
+                                 "substrate_conc",
+                                 "buffer_vol",
+                                 "homo_vol",
+                                 "soil_mass",
+                                 "assay_vol",
+                                 "homo_control",
+                                 "substrate_control"),
                     only_colnames = FALSE,
                     quiet = TRUE)
 
     act_data_grouped <- act_data %>%
       dplyr::group_by_at(dplyr::vars(intersect(names(.), columns))) %>%
-      dplyr::group_nest(.key = "act.raw.data.g")
+      dplyr::group_nest(.key = "act_raw_data_g")
   }
 
   class(act_data_grouped) <- c("new_ezmmek_act_group", "data.frame")

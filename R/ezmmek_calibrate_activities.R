@@ -17,49 +17,49 @@ ezmmek_calibrate_activities <- function(df, method, columns) {
   if(method == "steen") {
     ### Calibrates raw activity data by standard curve
     std_act_calibrated <- df %>%
-      tidyr::unnest(act.raw.data.s) %>%
-      dplyr::mutate(signal.calibrated = ((signal - kill.control) - std.lm.homo.intercept) / std.lm.homo.slope) %>% #calibrate signal
-      tidyr::nest(act.calibrated.data = c(time, signal, kill.control, signal.calibrated)) %>% #place calibrated signal back in nested df
-      dplyr::mutate(activity = purrr::map_dbl(act.calibrated.data,  #calculate slope of calibrated data
-                                              function(df) coef(lm(signal.calibrated ~ time,
+      tidyr::unnest(act_raw_data_s) %>%
+      dplyr::mutate(signal_calibrated = ((signal - kill_control) - std_lm_homo_intercept) / std_lm_homo_slope) %>% #calibrate signal
+      tidyr::nest(act_calibrated_data = c(time, signal, kill_control, signal_calibrated)) %>% #place calibrated signal back in nested df
+      dplyr::mutate(activity = purrr::map_dbl(act_calibrated_data,  #calculate slope of calibrated data
+                                              function(df) coef(lm(signal_calibrated ~ time,
                                                                    data = df))[2])) %>%
-      dplyr::group_by_at(dplyr::vars(sub.conc, sub.type, intersect(names(.), columns))) %>%
-      dplyr::mutate(activity.m = mean(activity), #calculate means and sd's of activities
-                    activity.sd = sd(activity)) %>%
-      tidyr::unnest(act.calibrated.data) %>%
-      tidyr::nest(act.calibrated.data.s = c(sub.conc,
+      dplyr::group_by_at(dplyr::vars(substrate_conc, substrate_type, intersect(names(.), columns))) %>%
+      dplyr::mutate(activity_m = mean(activity), #calculate means and sd's of activities
+                    activity_sd = sd(activity)) %>%
+      tidyr::unnest(act_calibrated_data) %>%
+      tidyr::nest(act_calibrated_data_s = c(substrate_conc,
                            replicate,
                            time,
                            signal,
-                           kill.control,
-                           signal.calibrated,
+                           kill_control,
+                           signal_calibrated,
                            activity,
-                           activity.m,
-                           activity.sd))
+                           activity_m,
+                           activity_sd))
   }
 
   if(method == "german") {
     std_act_calibrated <- df %>%
-      tidyr::unnest(act.raw.data.g) %>%
-      dplyr::mutate(emission.coef = std.lm.homo.slope / assay.vol, #emission coefficient
-                    net.signal = (signal - homo.control) / quench.coef - sub.control, #net signal
-                    activity = (net.signal * buffer.vol) / (emission.coef * homo.vol * time * soil.mass)) %>% #activity
-      dplyr::group_by(sub.conc) %>%
-      dplyr::mutate(activity.m = mean(activity), activity.sd = sd(activity)) %>% #mean and sd of activity
-      tidyr::nest(act.calibrated.data.g = c(sub.conc,
+      tidyr::unnest(act_raw_data_g) %>%
+      dplyr::mutate(emission_coef = std_lm_homo_slope / assay_vol, #emission coefficient
+                    net_signal = (signal - homo_control) / quench_coef - substrate_control, #net signal
+                    activity = (net_signal * buffer_vol) / (emission_coef * homo_vol * time * soil_mass)) %>% #activity
+      dplyr::group_by(substrate_conc) %>%
+      dplyr::mutate(activity_m = mean(activity), activity_sd = sd(activity)) %>% #mean and sd of activity
+      tidyr::nest(act_calibrated_data_g = c(substrate_conc,
                                           replicate,
                                           time,
                                           signal,
-                                          buffer.vol,
-                                          homo.vol,
-                                          soil.mass,
-                                          assay.vol,
-                                          homo.control,
-                                          sub.control,
-                                          net.signal,
+                                          buffer_vol,
+                                          homo_vol,
+                                          soil_mass,
+                                          assay_vol,
+                                          homo_control,
+                                          substrate_control,
+                                          net_signal,
                                           activity,
-                                          activity.m,
-                                          activity.sd))
+                                          activity_m,
+                                          activity_sd))
 
   }
   std_act_calibrated

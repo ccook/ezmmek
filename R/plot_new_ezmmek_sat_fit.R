@@ -13,7 +13,7 @@ plot.new_ezmmek_sat_fit <- function(df, ...) {
 
   sat_fit_plot <- point_plot +
     ggplot2::geom_line(data = unnest_sat_df,
-                       ggplot2::aes(x = sub.conc, y = activity.m)) +
+                       ggplot2::aes(x = substrate_conc, y = activity_m)) +
     ggplot2::facet_wrap(columns)
 
   sat_fit_plot

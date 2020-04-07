@@ -39,12 +39,12 @@ new_ezmmek_sat_fit <- function(std.data.fn,
 
   ### Group data frame by substrate type and the additional arguments put in by user
   calibrated_df_grouped <- calibrated_df %>%
-    dplyr::group_by_at(dplyr::vars(sub.type, intersect(names(.), columns))) %>%
+    dplyr::group_by_at(dplyr::vars(substrate_type, intersect(names(.), columns))) %>%
     tidyr::nest()
 
   ### Creates new Michaelis-Menten fit columns
   calibrated_df_mm_fit <- calibrated_df_grouped %>%
-    dplyr::mutate(mm.fit.obj = purrr::map(data, function(df) ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(1)), #nlsm
+    dplyr::mutate(mm_fit_obj = purrr::map(data, function(df) ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(1)), #nlsm
                   km = purrr::map_dbl(data, function(df) coef(ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(1))[2]), #km
                   vmax = purrr::map_dbl(data, function(df) coef(ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(1))[1]), #vmax
                   pred_grid = purrr::map(data, function(df) ezmmek_calc_mm_fit(df, km, vmax) %>% purrr::pluck(2))) %>%
@@ -53,13 +53,13 @@ new_ezmmek_sat_fit <- function(std.data.fn,
   ### Function to apply mm_fit to each value in pred_grid
   predict_df <- function(mm_fit, pred_grid) {
     pred.vec <- predict(mm_fit, pred_grid)
-    pred_df <- data.frame(sub.conc = pred_grid$sub.conc, activity.m = pred.vec)
+    pred_df <- data.frame(substrate_conc = pred_grid$substrate_conc, activity_m = pred.vec)
     pred_df
   }
 
   ### Apply predict_df() to pred_grid in each row
   result_df <- calibrated_df_mm_fit %>%
-    dplyr::mutate(pred_activities = purrr::map2(.x = mm.fit.obj, .y = pred_grid, .f = predict_df))
+    dplyr::mutate(pred_activities = purrr::map2(.x = mm_fit_obj, .y = pred_grid, .f = predict_df))
 
   ### Assign new class
   class(result_df) <- c("new_ezmmek_sat_fit", "data.frame")

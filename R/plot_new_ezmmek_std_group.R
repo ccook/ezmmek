@@ -11,17 +11,17 @@ plot.new_ezmmek_std_group <- function(df, ...) {
 
 
   ### German protocol
-  if("std.raw.data.g" %in% colnames(df)) {
+  if("std_raw_data_g" %in% colnames(df)) {
 
-    homo_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std.raw.data.g),
-                                 mapping = ggplot2::aes(x = std.conc, y = homo.signal)) +
+    homo_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std_raw_data_g),
+                                 mapping = ggplot2::aes(x = std_conc, y = homo_signal)) +
       ggplot2::geom_point() +
       ggplot2::geom_smooth(method = "lm") +
       ggplot2::theme_bw() +
       ggplot2::facet_wrap(columns)
 
-    buffer_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std.raw.data.g),
-                                   mapping = ggplot2::aes(x = std.conc, y = buffer.signal)) +
+    buffer_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std_raw_data_g),
+                                   mapping = ggplot2::aes(x = std_conc, y = buffer_signal)) +
       ggplot2::geom_point() +
       ggplot2::geom_smooth(method = "lm") +
       ggplot2::theme_bw() +
@@ -36,11 +36,11 @@ plot.new_ezmmek_std_group <- function(df, ...) {
   }
 
   ### Steen protocol
-  if("std.raw.data.s" %in% colnames(df)) {
+  if("std_raw_data_s" %in% colnames(df)) {
 
     ### Make plot
-    homo_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std.raw.data.s),
-                                 mapping = ggplot2::aes(x = std.conc, y = homo.signal)) +
+    homo_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std_raw_data_s),
+                                 mapping = ggplot2::aes(x = std_conc, y = homo_signal)) +
       ggplot2::geom_point() +
       ggplot2::geom_smooth(method = "lm") +
       ggplot2::theme_bw() +

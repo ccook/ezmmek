@@ -103,7 +103,7 @@ std.type: Type of standard
 time: Timepoints at which signal was collected, minutes
 signal: Signal from assay, fluorescence units
 sub.conc: Substrate concentration, micromolar
-replicate: Sample replicated labeled numerically
+replicate: Sample replicate labeled numerically
 homo.vol: Homogenate volume, left as '1' for water samples
 soil.mass: Soil mass, left as '1' for water samples
 assay.vol: Assay volume, milliliters
@@ -207,7 +207,7 @@ columns: User defined column names to group std.data.fn
 ### 4.1 *new_ezmmek_sat_fit*
 #### 4.1.1 *new_ezmmek_sat_fit*, "german"
 ```{r}
-new_ezmmek_sat_fit_obj <- new_ezmmek_sat_fit("data/victor_ashe_std_03172020.csv", 
+new_ezmmek_sat_fit_obj_g <- new_ezmmek_sat_fit("data/victor_ashe_std_03172020.csv", 
                                      "data/victor_ashe_sat_german_03172020.csv", 
                                      site.name, 
                                      std.type,
@@ -215,11 +215,11 @@ new_ezmmek_sat_fit_obj <- new_ezmmek_sat_fit("data/victor_ashe_std_03172020.csv"
                                      vmax = NULL,
                                      method = "german")
 
-tibble::glimpse(new_ezmmek_sat_fit_obj)
+tibble::glimpse(new_ezmmek_sat_fit_obj_g)
 ```
 #### 4.1.2 *new_ezmmek_sat_fit*, "steen"
 ```{r}
-new_ezmmek_sat_fit_obj <- new_ezmmek_sat_fit("data/victor_ashe_std_03172020.csv",
+new_ezmmek_sat_fit_obj_s <- new_ezmmek_sat_fit("data/victor_ashe_std_03172020.csv",
                                              "data/victor_ashe_sat_steen_03172020.csv", 
                                              site.name, 
                                              std.type,
@@ -227,76 +227,106 @@ new_ezmmek_sat_fit_obj <- new_ezmmek_sat_fit("data/victor_ashe_std_03172020.csv"
                                              vmax = NULL,
                                              method = "steen")
 
-tibble::glimpse(new_ezmmek_sat_fit_obj)
+tibble::glimpse(new_ezmmek_sat_fit_obj_s)
 ```
 ### 4.2 *new_ezmmek_act_calibrate*
 #### 4.2.1 *new_ezmmek_act_calibrate*, "german"
 ```{r}
-new_ezmmek_act_calibrate_obj <- new_ezmmek_act_calibrate("data/victor_ashe_std_03172020.csv",
-                                                 "data/victor_ashe_sat_german_03172020.csv",
-                                                 site.name,
-                                                 std.type,
-                                                 method = "german",
-                                                 columns = NULL)
+new_ezmmek_act_calibrate_obj_g <- new_ezmmek_act_calibrate("data/victor_ashe_std_03172020.csv",
+                                                           "data/victor_ashe_sat_german_03172020.csv",
+                                                           site.name,
+                                                           std.type,
+                                                           method = "german",
+                                                           columns = NULL)
 
-tibble::glimpse(new_ezmmek_act_calibrate_obj)
+tibble::glimpse(new_ezmmek_act_calibrate_obj_g)
 ```
-#### 4.2.2 *new_ezmmek_act_calibrate*, "steen" method
+#### 4.2.2 *new_ezmmek_act_calibrate*, "steen"
 ```{r}
-new_ezmmek_act_calibrate_obj <- new_ezmmek_act_calibrate("data/victor_ashe_std_03172020.csv",
-                                                 "data/victor_ashe_sat_steen_03172020.csv",
-                                                 site.name,
-                                                 std.type,
-                                                 method = "steen",
-                                                 columns = NULL)
+new_ezmmek_act_calibrate_obj_s <- new_ezmmek_act_calibrate("data/victor_ashe_std_03172020.csv",
+                                                         "data/victor_ashe_sat_steen_03172020.csv",
+                                                         site.name,
+                                                         std.type,
+                                                         method = "steen",
+                                                         columns = NULL)
 
-tibble::glimpse(new_ezmmek_act_calibrate_obj)
+tibble::glimpse(new_ezmmek_act_calibrate_obj_s)
 ```
 ### 4.3 *new_ezmmek_act_group*
 #### 4.3.1 *new_ezmmek_act_group*, "german"
 ```{r}
-new_ezmmek_act_group_obj <- new_ezmmek_act_group("data/victor_ashe_sat_german_03172020.csv",
+new_ezmmek_act_group_obj_g <- new_ezmmek_act_group("data/victor_ashe_sat_german_03172020.csv",
                                                  site.name,
                                                  std.type,
                                                  method = "german",
                                                  columns = NULL)
 
-tibble::glimpse(new_ezmmek_act_group_obj)
+tibble::glimpse(new_ezmmek_act_group_obj_g)
 ```
 #### 4.3.2 *new_ezmmek_act_group*, "steen"
 ```{r}
-new_ezmmek_act_group_obj <- new_ezmmek_act_group("data/victor_ashe_sat_steen_03172020.csv",
+new_ezmmek_act_group_obj_s <- new_ezmmek_act_group("data/victor_ashe_sat_steen_03172020.csv",
                                                  site.name,
                                                  std.type,
                                                  method = "steen",
                                                  columns = NULL)
 
-tibble::glimpse(new_ezmmek_act_group_obj)
+tibble::glimpse(new_ezmmek_act_group_obj_s)
 ```
 ### 4.4 *new_ezmmek_std_group*
 #### 4.4.1 *new_ezmmek_std_group*, "german"
 ```{r}
-new_ezmmek_std_group_obj <- new_ezmmek_std_group("data/victor_ashe_std_03172020.csv",
+new_ezmmek_std_group_obj_g <- new_ezmmek_std_group("data/victor_ashe_std_03172020.csv",
                                                  site.name,
                                                  std.type,
                                                  method = "german",
                                                  columns = NULL)
 
-tibble::glimpse(new_ezmmek_std_group_obj)
+tibble::glimpse(new_ezmmek_std_group_obj_g)
 ```
 #### 4.4.2 *new_ezmmek_std_group*, "steen"
 ```{r}
-new_ezmmek_std_group_obj <- new_ezmmek_std_group("data/victor_ashe_std_03172020.csv",
+new_ezmmek_std_group_obj_s <- new_ezmmek_std_group("data/victor_ashe_std_03172020.csv",
                                                  site.name,
                                                  std.type,
                                                  method = "german",
                                                  columns = NULL)
-tibble::glimpse(new_ezmmek_std_group_obj)
+tibble::glimpse(new_ezmmek_std_group_obj_s)
 ```
 ## 5 Methods for *new_ezmmek* objects
 ### 5.1 *plot*
+*plot* methods were created for each *new_ezmmek* object. The user can choose how to facet their plots by adding those columns/variables as arguments.  Because each *new_ezmmek* object is built off another, the child functions can be applied to objects created by more parent functions. For example, one can plot a standard curve using *plot.new_ezmmek_std_group(new_ezmmek_sat_fit_obj_g)*.  
+
+#### 5.1.1 *new_ezmmek_sat_fit*, "german" and "steen"  
+Plot overlay of saturation curve on activities
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE}
+plot(new_ezmmek_sat_fit_obj_g, site.name, sub.type)
+plot(new_ezmmek_sat_fit_obj_s, site.name, sub.type)
+```  
+
+#### 5.1.2 *new_ezmmek_calibrate*, "german" and "steen"  
+Plot activities and their associated error
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE}
+plot(new_ezmmek_act_calibrate_obj_g, site.name, sub.type)
+plot(new_ezmmek_act_calibrate_obj_s, site.name, sub.type)
+```
+
+#### 5.1.3 *new_ezmmek_act_group*, "german" and "steen"
+Plot raw activity data
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center"}
+plot(new_ezmmek_act_group_obj_g, site.name, sub.type)
+plot(new_ezmmek_act_group_obj_s, site.name, sub.type, sub.conc)
+```
+
+#### 5.1.4 *new_ezmmek_std_group*, "german" and "steen"
+Plot standard curve(s)
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center"}
+plot(new_ezmmek_std_group_obj_g, site.name, std.type)
+plot(new_ezmmek_std_group_obj_s, site.name, std.type)
+```
+
 ### 5.2 *summary*
-### 5.3 *coef*
+#### 5.2.1 *new_ezmmek_sat_fit*, "german" and "steen"
 
 ## 6 References
 German *et al.* (2011) <doi:10.1016/j.soilbio.2011.03.017>   
