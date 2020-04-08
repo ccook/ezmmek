@@ -27,8 +27,8 @@ ezmmek_calc_mm_fit <- function(df,
                        (km + substrate_conc))
 
   ### Assign starting values to predict km and vmax
-  max_activity_m <- max(df$act_calibrated_data[[1]][[8]])
-  median_substrate_conc <- median(df$act_calibrated_data[[1]][[8]])
+  max_activity_m <- purrr::map_dbl(df$act_calibrated_data, function(df) max(df[[8]]))
+  median_substrate_conc <- purrr::map_dbl(df$act_calibrated_data, function(df) median(df[[1]]))
 
   ### If km and vmax arguments are NULL, predict km and vmax values
   if(is.null(km) | is.null(vmax)) {

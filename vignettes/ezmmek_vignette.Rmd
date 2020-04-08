@@ -85,11 +85,11 @@ tibble::glimpse(std_data)
 ```
 
 ```{r, eval = FALSE}
-site.name: Name of sampling site, Victor Ashe Park, Knoxville, TN
-std.type: Type of standard, 7-Amino-4-methylcoumarin (AMC)
-std.conc: Standard concentration, micromolar
-homo.signal: Signal from standard in homogenate, fluorescence units
-buffer.signal: Signal from standard in buffer, fluorescence units
+site_name: Name of sampling site, Victor Ashe Park, Knoxville, TN
+std_type: Type of standard, 7-Amino-4-methylcoumarin (AMC)
+std_conc: Standard concentration, micromolar
+homo_signal: Signal from standard in homogenate, fluorescence units
+buffer_signal: Signal from standard in buffer, fluorescence units
 ```
 #### 3.2.2 Raw activity data, "german"
 ```{r}
@@ -98,17 +98,17 @@ tibble::glimpse(raw_activity_data_german)
 ```
 
 ```{r, eval = FALSE}
-site.name: Name of sampling site, Victor Ashe Park, Knoxville, TN
-std.type: Type of standard
+site_name: Name of sampling site, Victor Ashe Park, Knoxville, TN
+std_type: Type of standard
 time: Timepoints at which signal was collected, minutes
 signal: Signal from assay, fluorescence units
-sub.conc: Substrate concentration, micromolar
+substrate_conc: Substrate concentration, micromolar
 replicate: Sample replicate labeled numerically
-homo.vol: Homogenate volume, left as '1' for water samples
-soil.mass: Soil mass, left as '1' for water samples
-assay.vol: Assay volume, milliliters
-homo.control: Homogenate control, fluorescence units
-sub.control: Substrate control, flluorescence units
+homo_vol: Homogenate volume, left as '1' for water samples
+soil_mass: Soil mass, left as '1' for water samples
+assay_vol: Assay volume, milliliters
+homo_control: Homogenate control, fluorescence units
+substrate_control: Substrate control, fluorescence units
 ```
 #### 3.2.3 Raw activity data, "steen"
 ```{r}
@@ -117,13 +117,13 @@ tibble::glimpse(raw_activity_data_steen)
 ```
 
 ```{r, eval = FALSE}
-site.name: Name of sampling site, Victor Ashe Park, Knoxville, TN
-std.type: Type of standard
+site_name: Name of sampling site, Victor Ashe Park, Knoxville, TN
+std_type: Type of standard
 time: Timepoints at which signal was collected, minutes
 signal: Signal from assay, fluorescence units
-sub.conc: Substrate concentration, micromolar
+substrate_conc: Substrate concentration, micromolar
 replicate: Sample replicated labeled numerically
-kill.control: Signal from autoclaved sample, fluorescence units
+kill_control: Signal from autoclaved sample, fluorescence units
 ```
 ### 3.3 Visible functions
 *ezmmek* contains several functions that create new data.frame objects. The functions build upon each other. The user can choose how much analyses to perform, from generating standard curve models to calculating km and vmax values. In descending order of parent functions to child functions:
@@ -209,8 +209,8 @@ columns: User defined column names to group std.data.fn
 ```{r}
 new_ezmmek_sat_fit_obj_g <- new_ezmmek_sat_fit("data/victor_ashe_std_03172020.csv", 
                                      "data/victor_ashe_sat_german_03172020.csv", 
-                                     site.name, 
-                                     std.type,
+                                     site_name, 
+                                     std_type,
                                      km = NULL,
                                      vmax = NULL,
                                      method = "german")
@@ -221,8 +221,8 @@ tibble::glimpse(new_ezmmek_sat_fit_obj_g)
 ```{r}
 new_ezmmek_sat_fit_obj_s <- new_ezmmek_sat_fit("data/victor_ashe_std_03172020.csv",
                                              "data/victor_ashe_sat_steen_03172020.csv", 
-                                             site.name, 
-                                             std.type,
+                                             site_name, 
+                                             std_type,
                                              km = NULL,
                                              vmax = NULL,
                                              method = "steen")
@@ -234,8 +234,8 @@ tibble::glimpse(new_ezmmek_sat_fit_obj_s)
 ```{r}
 new_ezmmek_act_calibrate_obj_g <- new_ezmmek_act_calibrate("data/victor_ashe_std_03172020.csv",
                                                            "data/victor_ashe_sat_german_03172020.csv",
-                                                           site.name,
-                                                           std.type,
+                                                           site_name,
+                                                           std_type,
                                                            method = "german",
                                                            columns = NULL)
 
@@ -245,8 +245,8 @@ tibble::glimpse(new_ezmmek_act_calibrate_obj_g)
 ```{r}
 new_ezmmek_act_calibrate_obj_s <- new_ezmmek_act_calibrate("data/victor_ashe_std_03172020.csv",
                                                          "data/victor_ashe_sat_steen_03172020.csv",
-                                                         site.name,
-                                                         std.type,
+                                                         site_name,
+                                                         std_type,
                                                          method = "steen",
                                                          columns = NULL)
 
@@ -256,8 +256,8 @@ tibble::glimpse(new_ezmmek_act_calibrate_obj_s)
 #### 4.3.1 *new_ezmmek_act_group*, "german"
 ```{r}
 new_ezmmek_act_group_obj_g <- new_ezmmek_act_group("data/victor_ashe_sat_german_03172020.csv",
-                                                 site.name,
-                                                 std.type,
+                                                 site_name,
+                                                 std_type,
                                                  method = "german",
                                                  columns = NULL)
 
@@ -266,8 +266,8 @@ tibble::glimpse(new_ezmmek_act_group_obj_g)
 #### 4.3.2 *new_ezmmek_act_group*, "steen"
 ```{r}
 new_ezmmek_act_group_obj_s <- new_ezmmek_act_group("data/victor_ashe_sat_steen_03172020.csv",
-                                                 site.name,
-                                                 std.type,
+                                                 site_name,
+                                                 std_type,
                                                  method = "steen",
                                                  columns = NULL)
 
@@ -277,8 +277,8 @@ tibble::glimpse(new_ezmmek_act_group_obj_s)
 #### 4.4.1 *new_ezmmek_std_group*, "german"
 ```{r}
 new_ezmmek_std_group_obj_g <- new_ezmmek_std_group("data/victor_ashe_std_03172020.csv",
-                                                 site.name,
-                                                 std.type,
+                                                 site_name,
+                                                 std_type,
                                                  method = "german",
                                                  columns = NULL)
 
@@ -287,8 +287,8 @@ tibble::glimpse(new_ezmmek_std_group_obj_g)
 #### 4.4.2 *new_ezmmek_std_group*, "steen"
 ```{r}
 new_ezmmek_std_group_obj_s <- new_ezmmek_std_group("data/victor_ashe_std_03172020.csv",
-                                                 site.name,
-                                                 std.type,
+                                                 site_name,
+                                                 std_type,
                                                  method = "german",
                                                  columns = NULL)
 tibble::glimpse(new_ezmmek_std_group_obj_s)
@@ -300,29 +300,29 @@ tibble::glimpse(new_ezmmek_std_group_obj_s)
 #### 5.1.1 *new_ezmmek_sat_fit*, "german" and "steen"  
 Plot overlay of saturation curve on activities
 ```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE}
-plot(new_ezmmek_sat_fit_obj_g, site.name, sub.type)
-plot(new_ezmmek_sat_fit_obj_s, site.name, sub.type)
+plot(new_ezmmek_sat_fit_obj_g, site_name, substrate_type)
+plot(new_ezmmek_sat_fit_obj_s, site_name, substrate_type)
 ```  
 
 #### 5.1.2 *new_ezmmek_calibrate*, "german" and "steen"  
 Plot activities and their associated error
 ```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE}
-plot(new_ezmmek_act_calibrate_obj_g, site.name, sub.type)
-plot(new_ezmmek_act_calibrate_obj_s, site.name, sub.type)
+plot(new_ezmmek_act_calibrate_obj_g, site_name, substrate_type)
+plot(new_ezmmek_act_calibrate_obj_s, site_name, substrate_type)
 ```
 
 #### 5.1.3 *new_ezmmek_act_group*, "german" and "steen"
 Plot raw activity data
 ```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center"}
-plot(new_ezmmek_act_group_obj_g, site.name, sub.type)
-plot(new_ezmmek_act_group_obj_s, site.name, sub.type, sub.conc)
+plot(new_ezmmek_act_group_obj_g, site_name, substrate_type)
+plot(new_ezmmek_act_group_obj_s, site_name, substrate_type, substrate_conc)
 ```
 
 #### 5.1.4 *new_ezmmek_std_group*, "german" and "steen"
 Plot standard curve(s)
 ```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center"}
-plot(new_ezmmek_std_group_obj_g, site.name, std.type)
-plot(new_ezmmek_std_group_obj_s, site.name, std.type)
+plot(new_ezmmek_std_group_obj_g, site_name, std_type)
+plot(new_ezmmek_std_group_obj_s, site_name, std_type)
 ```
 
 ### 5.2 *summary*
