@@ -1,0 +1,13 @@
+site_name,std_type,substrate_type,time,substrate_conc,signal,replicate,buffer_vol,homo_vol,soil_mass,assay_vol,homo_control,substrate_control
+tyson,amc,l-leucine-amc,60,0,1566.03,1,0.14,0.86,1,1,1385.86,585.69
+tyson,amc,l-leucine-amc,60,0,1274.55,2,0.14,0.86,1,1,1377.78,752.45
+tyson,amc,l-leucine-amc,60,0,1377.69,3,0.14,0.86,1,1,1384.83,518.22
+tyson,amc,l-leucine-amc,60,50,23900.46,1,0.14,0.86,1,1,1385.86,13170.53
+tyson,amc,l-leucine-amc,60,50,49194.62,2,0.14,0.86,1,1,1377.78,28471.35
+tyson,amc,l-leucine-amc,60,50,54004.14,3,0.14,0.86,1,1,1384.83,22535.35
+tyson,amc,l-leucine-amc,60,100,41851.73,1,0.14,0.86,1,1,1385.86,12026.77
+tyson,amc,l-leucine-amc,60,100,51164.25,2,0.14,0.86,1,1,1377.78,24013.17
+tyson,amc,l-leucine-amc,60,100,31876.25,3,0.14,0.86,1,1,1384.83,11986.15
+tyson,amc,l-leucine-amc,60,200,100097.8,1,0.14,0.86,1,1,1385.86,51164.35
+tyson,amc,l-leucine-amc,60,200,38573.07,2,0.14,0.86,1,1,1377.78,57755
+tyson,amc,l-leucine-amc,60,200,93986.46,3,0.14,0.86,1,1,1384.83,38228.91

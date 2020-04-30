@@ -45,8 +45,8 @@ ezmmek_calc_mm_fit <- function(df,
   }
 
   ### Create a 1-column data frame with a 'grid' of points to predict
-  min_substrate_conc <- min(df$act_calibrated_data[[1]][[1]])
-  max_substrate_conc <- max(df$act_calibrated_data[[1]][[1]])
+  min_substrate_conc <- purrr::map_dbl(df$act_calibrated_data, function(df) min(df[[1]]))
+  max_substrate_conc <- purrr::map_dbl(df$act_calibrated_data, function(df) max(df[[1]]))
   pred_grid <- data.frame(substrate_conc = seq(from = min_substrate_conc, to = max_substrate_conc, length.out = 1000))
 
   out_list <- list(mm_fit = mm_fit,

@@ -32,7 +32,7 @@ ezmmek_std_lm <- function(df,
     ### Require certain column names
     assertable::assert_colnames(data = df,
                                 colnames = c("std_conc",
-                                             "homo_signal"),
+                                             "homo_buffer_signal"),
                                 only_colnames = FALSE,
                                 quiet = TRUE)
 
@@ -41,9 +41,9 @@ ezmmek_std_lm <- function(df,
     std_data_lm <- df %>%
       dplyr::group_by_at(dplyr::vars(intersect(names(.), columns))) %>%
       dplyr::group_nest(.key = "std_raw_data_s") %>%
-      dplyr::mutate(std_lm_homo_obj = purrr::map(std_raw_data_s, function(df) ezmmek_calc_std_lm_homo(df)), #homogenate lm
-                    std_lm_homo_slope = purrr::map_dbl(std_raw_data_s, function(df) coef(ezmmek_calc_std_lm_homo(df))[2]), #homogenate slope
-                    std_lm_homo_intercept = purrr::map_dbl(std_raw_data_s, function(df) coef(ezmmek_calc_std_lm_homo(df))[1]) #homogenate intercept
+      dplyr::mutate(std_lm_homo_buffer_obj = purrr::map(std_raw_data_s, function(df) ezmmek_calc_std_lm_homo_buffer(df)), #homogenate lm
+                    std_lm_homo_buffer_slope = purrr::map_dbl(std_raw_data_s, function(df) coef(ezmmek_calc_std_lm_homo_buffer(df))[2]), #homogenate slope
+                    std_lm_homo_buffer_intercept = purrr::map_dbl(std_raw_data_s, function(df) coef(ezmmek_calc_std_lm_homo_buffer(df))[1]) #homogenate intercept
       )
   }
 
@@ -66,7 +66,7 @@ ezmmek_std_lm <- function(df,
       dplyr::mutate(std_lm_homo_obj = purrr::map(std_raw_data_g, function(df) ezmmek_calc_std_lm_homo(df)), #homogenate lm
                     std_lm_homo_slope = purrr::map_dbl(std_raw_data_g, function(df) coef(ezmmek_calc_std_lm_homo(df))[2]), #homogenate slope
                     std_lm_homo_intercept = purrr::map_dbl(std_raw_data_g, function(df) coef(ezmmek_calc_std_lm_homo(df))[1]), #homogenate intercept
-                    st_lm_buffer_obj = purrr::map(std_raw_data_g, function(df) ezmmek_calc_std_lm_buffer(df)), #buffer lm
+                    std_lm_buffer_obj = purrr::map(std_raw_data_g, function(df) ezmmek_calc_std_lm_buffer(df)), #buffer lm
                     std_lm_buffer_slope = purrr::map_dbl(std_raw_data_g, function(df) coef(ezmmek_calc_std_lm_buffer(df))[2]), #buffer slope
                     std_lm_buffer_intercept = purrr::map_dbl(std_raw_data_g, function(df) coef(ezmmek_calc_std_lm_buffer(df))[1]), #buffer intercept
                     quench_coef = std_lm_homo_slope / std_lm_buffer_slope #quench coefficient

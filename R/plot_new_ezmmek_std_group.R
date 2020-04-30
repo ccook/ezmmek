@@ -40,7 +40,7 @@ plot.new_ezmmek_std_group <- function(df, ...) {
 
     ### Make plot
     homo_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std_raw_data_s),
-                                 mapping = ggplot2::aes(x = std_conc, y = homo_signal)) +
+                                 mapping = ggplot2::aes(x = std_conc, y = homo_buffer_signal)) +
       ggplot2::geom_point() +
       ggplot2::geom_smooth(method = "lm") +
       ggplot2::theme_bw() +
