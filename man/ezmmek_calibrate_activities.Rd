@@ -9,7 +9,7 @@ ezmmek_calibrate_activities(df, method, columns)
 \arguments{
 \item{df}{Joined dataframes of class 'new_ezmmek_std_group' and 'new_ezmmek_act_group'}
 
-\item{method}{Enzyme assay protocol. Must define method as 'steen' or 'german'}
+\item{method}{Enzyme assay protocol. Must define method as 'isc' or 'ibc'}
 
 \item{columns}{Column names carried from parent functions}
 }

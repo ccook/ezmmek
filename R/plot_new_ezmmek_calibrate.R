@@ -10,15 +10,15 @@ plot.new_ezmmek_calibrate <- function(df, ..., columns = NULL) {
 
   ### Correct for different column names with 'if' statements
   ### German protocol
-  if("act_calibrated_data_g" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_g,
-                               std_raw_data = std_raw_data_g)
+  if("act_calibrated_data_ibc" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_ibc,
+                               std_raw_data = std_raw_data_ibc)
   }
 
   ### Steen protocol
-  if("act_calibrated_data_s" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_s,
-                               std_raw_data = std_raw_data_s)
+  if("act_calibrated_data_isc" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_isc,
+                               std_raw_data = std_raw_data_isc)
   }
 
   ### Unnest activity data

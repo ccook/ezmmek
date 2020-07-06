@@ -11,7 +11,7 @@ new_ezmmek_act_group(act.data.fn, ..., method = NA, columns = NULL)
 
 \item{...}{User defined column names to join std.data.fn and act.data.fn}
 
-\item{method}{Enzyme assay protocol. Must define method as 'steen' or 'german'}
+\item{method}{Enzyme assay protocol. Must define method as 'isc' or 'ibc'}
 
 \item{columns}{Column names carried over from parent functions if parent functions used}
 }
@@ -19,5 +19,6 @@ new_ezmmek_act_group(act.data.fn, ..., method = NA, columns = NULL)
 Groups raw activity data by user-defined columns
 }
 \examples{
-new_ezmmek_act_group(act.data.fn, site.name, std.type, method = "steen", columns = NULL)
+new_obj <- new_ezmmek_act_group("data_tyson_sat_steen_04172020.csv, site.name, std.type, method = "isc", columns = NULL)
+new_obj <- new_ezmmek_act_group("data_tyson_sat_german_04172020.csv, site.name, std.type, method = "ibc", columns = NULL)
 }

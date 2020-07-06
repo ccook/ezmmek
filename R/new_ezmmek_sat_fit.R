@@ -11,10 +11,12 @@
 #' @param ... User defined column names to join and group std.data.fn and act.data.fn
 #' @param km Starting value to estimate km. Default value is median of 'sub.conc' values
 #' @param vmax Starting value to estimate vmax. Default value is max activity calculated
-#' @param method Enzyme assay protocol. Must define method as 'steen' or 'german'
+#' @param method Enzyme assay protocol. Must define method as 'isc' or 'ibc'
 #'
 #' @examples
-#' new_ezmmek_sat_fit(std.data.fn, act.data.fn, site.name, std.type, km = NULL, vmax = NULL, method = "steen")
+#' new_ezmmek_sat_fit("data/tyson_std_04172020.csv", "data/tyson_sat_steen_04172020.csv", site.name, std.type, km = NULL, vmax = NULL, method = "isc")
+#' new_ezmmek_sat_fit("data/tyson_std_04172020.csv", "data/tyson_sat_german_04172020.csv", site.name, std.type, km = NULL, vmax = NULL, method = "ibc")
+
 
 ########
 ### Calculate Michaelis-Menten fit and add to dataframe

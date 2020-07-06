@@ -2,7 +2,7 @@
 % Please edit documentation in R/ezmmek_std_lm.R
 \name{ezmmek_std_lm}
 \alias{ezmmek_std_lm}
-\title{new_ezmmek_std_lm}
+\title{ezmmek_std_lm}
 \usage{
 ezmmek_std_lm(df, method = method, columns = NULL)
 }

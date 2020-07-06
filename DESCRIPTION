@@ -1,13 +1,20 @@
 Package: ezmmek
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Easy Michaelis-Menten Enzyme Kinetics 
+Version: 0.2.0
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    c(person("Christopher", "Cook", email = "ccook62@vols.utk.edu",
+    role= c("aut", "cre")),
+    person("Andrew", "Steen", email = "asteen1@utk.edu",
+    role = c("aut")))
+Description: ezmmek serves as a hub for published fluorometric enzyme assay
+ protocols. ezmmek calibrates, calculates, and plots enzyme activities as they
+ relate to the transformation of synthetic substrates. At present, ezmmek
+ implements two common protocols in the literature, and is modular to accommodate
+ additional protocols. Here, these protocols are referred to as the In-Sample
+ Calibration (Hoppe, 1983) and In-Buffer Calibration (German et al., 2011).
+ protocols. By containing multiple protocols, ezmmek aims to stimulate
+ discussion about how to best optimize fluorometric enzyme assays. A standardized
+ approach would make studies more comparable and reproducible. 
 License: AGPL-3
 Encoding: UTF-8
 LazyData: true

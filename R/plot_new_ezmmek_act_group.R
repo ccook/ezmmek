@@ -7,8 +7,8 @@ plot.new_ezmmek_act_group <- function(df, ...) {
 
   ### Use 'if' statements to adjust column names
   ### German protocol
-  if("act_raw_data_g" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act_raw_data = act_raw_data_g)
+  if("act_raw_data_ibc" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_raw_data = act_raw_data_ibc)
 
     unnest_act_df <- tidyr::unnest(df, act_raw_data)
 
@@ -25,8 +25,8 @@ plot.new_ezmmek_act_group <- function(df, ...) {
     }
 
   ### Steen protocol
-  if("act_raw_data_s" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act_raw_data = act_raw_data_s)
+  if("act_raw_data_isc" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_raw_data = act_raw_data_isc)
 
 
     unnest_act_df <- tidyr::unnest(df, act_raw_data)

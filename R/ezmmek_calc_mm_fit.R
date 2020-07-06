@@ -14,12 +14,12 @@ ezmmek_calc_mm_fit <- function(df,
                                vmax) {
 
   ### If statements to adjust column names
-  if("act_calibrated_data_g" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_g)
+  if("act_calibrated_data_ibc" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_ibc)
   }
 
-  if("act_calibrated_data_s" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_s)
+  if("act_calibrated_data_isc" %in% colnames(df)) {
+    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_isc)
   }
 
   ### Michaelis-Menten formula

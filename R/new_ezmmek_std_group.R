@@ -8,11 +8,12 @@
 #'
 #' @param std.data.fn Standard data file as character string
 #' @param ... User defined column names to group std.data.fn
-#' @param method Enzyme assay protocol. Must define method as 'steen' or 'german'
+#' @param method Enzyme assay protocol. Must define method as 'isc' or 'ibc'
 #' @param columns Column names carried over from parent functions if parent functions used
 #'
 #' @examples
-#' new_ezmmek_std_group(std.data.fn, site.name, std.type, method = "steen", columns = NULL)
+#' new_obj <- new_ezmmek_std_group("data/tyson_std_04172020.csv", site.name, std.type, method = "isc", columns = NULL)
+#' new_obj <- new_ezmmek_std_group("data/tyson_std_04172020.csv", site.name, std.type, method = "ibc", columns = NULL)
 
 ########
 ### Group standard lm objects

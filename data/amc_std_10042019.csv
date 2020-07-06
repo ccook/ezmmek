@@ -1,10 +1,10 @@
 microbe,std_type,std_conc,homo_buffer_signal
 L. rhamnosus GG,amc,0,34118.85
-L. rhamnosus GG,amc,500,147329.28
-L. rhamnosus GG,amc,1000,256158.51
-L. rhamnosus GG,amc,1500,372657.53
-L. rhamnosus GG,amc,2000,559943.5
-L. rhamnosus GG,amc,2500,777020.87
-L. rhamnosus GG,amc,3000,752260.31
-L. rhamnosus GG,amc,3500,878174.06
-L. rhamnosus GG,amc,4000,1197769.95
+L. rhamnosus GG,amc,0.5,147329.28
+L. rhamnosus GG,amc,1,256158.51
+L. rhamnosus GG,amc,1.5,372657.53
+L. rhamnosus GG,amc,2,559943.5
+L. rhamnosus GG,amc,2.5,777020.87
+L. rhamnosus GG,amc,3,752260.31
+L. rhamnosus GG,amc,3.5,878174.06
+L. rhamnosus GG,amc,4,1197769.95

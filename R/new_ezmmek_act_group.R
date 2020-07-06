@@ -8,11 +8,12 @@
 #'
 #' @param act.data.fn Activity data file as character string
 #' @param ... User defined column names to join std.data.fn and act.data.fn
-#' @param method Enzyme assay protocol. Must define method as 'steen' or 'german'
+#' @param method Enzyme assay protocol. Must define method as 'isc' or 'ibc'
 #' @param columns Column names carried over from parent functions if parent functions used
 #'
 #' @examples
-#' new_ezmmek_act_group(act.data.fn, site.name, std.type, method = "steen", columns = NULL)
+#' new_obj <- new_ezmmek_act_group("data_tyson_sat_steen_04172020.csv, site.name, std.type, method = "isc", columns = NULL)
+#' new_obj <- new_ezmmek_act_group("data_tyson_sat_german_04172020.csv, site.name, std.type, method = "ibc", columns = NULL)
 
 ########
 ### Group raw activity data
@@ -32,7 +33,7 @@ new_ezmmek_act_group <- function(act.data.fn,
   }
 
   ### Steen method required column names
-  if(method == "steen") {
+  if(method == "isc") {
     assertable::assert_colnames(data = act_data,
                     colnames = c("time",
                                  "signal",
@@ -43,10 +44,10 @@ new_ezmmek_act_group <- function(act.data.fn,
 
   act_data_grouped <- act_data %>%
     dplyr::group_by_at(dplyr::vars(intersect(names(.), columns))) %>%
-    dplyr::group_nest(.key = "act_raw_data_s")
+    dplyr::group_nest(.key = "act_raw_data_isc")
   }
 
-  if(method == "german") {
+  if(method == "ibc") {
     assertable::assert_colnames(data = act_data,
                     colnames = c("time",
                                  "signal",
@@ -54,7 +55,7 @@ new_ezmmek_act_group <- function(act.data.fn,
                                  "buffer_vol",
                                  "homo_vol",
                                  "soil_mass",
-                                 "assay_vol",
+                                 "std_vol",
                                  "homo_control",
                                  "substrate_control"),
                     only_colnames = FALSE,
@@ -62,7 +63,7 @@ new_ezmmek_act_group <- function(act.data.fn,
 
     act_data_grouped <- act_data %>%
       dplyr::group_by_at(dplyr::vars(intersect(names(.), columns))) %>%
-      dplyr::group_nest(.key = "act_raw_data_g")
+      dplyr::group_nest(.key = "act_raw_data_ibc")
   }
 
   class(act_data_grouped) <- c("new_ezmmek_act_group", "data.frame")

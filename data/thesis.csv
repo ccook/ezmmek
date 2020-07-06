@@ -1,0 +1,5 @@
+time,raw_data,sample_background,auto_degradation,enzymatic_hydrolysis
+0,1300,1000,1050,1100
+20,10000,1049,5040,7000
+40,15000,1150,8950,11000
+60,21000,1102,11000,15000
