@@ -8,8 +8,8 @@ output:
   word_document: default
 vignette: >
   %\VignetteIndexEntry{ezmmek_vignette} 
-  %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown} 
 ---
 
 ```{r, include = FALSE}
