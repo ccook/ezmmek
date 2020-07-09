@@ -10,8 +10,8 @@ plot.new_ezmmek_std_group <- function(df, ...) {
   columns <- rlang::enquos(...)
 
 
-  ### German protocol
-  if("std_raw_data_g" %in% colnames(df)) {
+  ### IBC protocol
+  if("std_raw_data_ibc" %in% colnames(df)) {
 
     homo_plot <- ggplot2::ggplot(data = tidyr::unnest(df, std_raw_data_ibc),
                                  mapping = ggplot2::aes(x = std_conc, y = homo_signal)) +
@@ -35,7 +35,7 @@ plot.new_ezmmek_std_group <- function(df, ...) {
     out_list
   }
 
-  ### Steen protocol
+  ### ISC protocol
   if("std_raw_data_isc" %in% colnames(df)) {
 
     ### Make plot

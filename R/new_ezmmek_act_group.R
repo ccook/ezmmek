@@ -12,8 +12,16 @@
 #' @param columns Column names carried over from parent functions if parent functions used
 #'
 #' @examples
-#' new_obj <- new_ezmmek_act_group("data_tyson_sat_steen_04172020.csv, site.name, std.type, method = "isc", columns = NULL)
-#' new_obj <- new_ezmmek_act_group("data_tyson_sat_german_04172020.csv, site.name, std.type, method = "ibc", columns = NULL)
+#' new_obj <- new_ezmmek_act_group("data_tyson_sat_steen_04172020.csv,
+#'   site.name,
+#'   std.type,
+#'   method = "isc",
+#'   columns = NULL)
+#' new_obj <- new_ezmmek_act_group("data_tyson_sat_german_04172020.csv,
+#'   site.name,
+#'   std.type,
+#'   method = "ibc",
+#'   columns = NULL)
 
 ########
 ### Group raw activity data
@@ -32,7 +40,7 @@ new_ezmmek_act_group <- function(act.data.fn,
     columns <- purrr::map_chr(rlang::enquos(...), rlang::quo_name)
   }
 
-  ### Steen method required column names
+  ### ISC method required column names
   if(method == "isc") {
     assertable::assert_colnames(data = act_data,
                     colnames = c("time",
@@ -47,6 +55,7 @@ new_ezmmek_act_group <- function(act.data.fn,
     dplyr::group_nest(.key = "act_raw_data_isc")
   }
 
+  ### IBC method required column names
   if(method == "ibc") {
     assertable::assert_colnames(data = act_data,
                     colnames = c("time",

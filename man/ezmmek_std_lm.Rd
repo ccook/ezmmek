@@ -9,7 +9,7 @@ ezmmek_std_lm(df, method = method, columns = NULL)
 \arguments{
 \item{df}{Standard curve dataframe}
 
-\item{method}{Enzyme assay protocol. Must define method as 'steen' or 'german'}
+\item{method}{Enzyme assay protocol. Defined in parent function}
 
 \item{columns}{Column names carried over from parent functions if parent functions used}
 }

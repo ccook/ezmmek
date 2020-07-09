@@ -24,6 +24,18 @@ new_ezmmek_sat_fit(std.data.fn, act.data.fn, ..., km = NULL,
 Creates dataframe containing calibrated enzyme activity data and Michaelis-Menton fit of class 'new_ezmmek_sat_fit'
 }
 \examples{
-new_ezmmek_sat_fit("data/tyson_std_04172020.csv", "data/tyson_sat_steen_04172020.csv", site.name, std.type, km = NULL, vmax = NULL, method = "isc")
-new_ezmmek_sat_fit("data/tyson_std_04172020.csv", "data/tyson_sat_german_04172020.csv", site.name, std.type, km = NULL, vmax = NULL, method = "ibc")
+new_ezmmek_sat_fit("data/tyson_std_04172020.csv",
+  "data/tyson_sat_steen_04172020.csv",
+  site.name,
+  std.type,
+  km = NULL,
+  vmax = NULL,
+  method = "isc")
+new_ezmmek_sat_fit("data/tyson_std_04172020.csv",
+  "data/tyson_sat_german_04172020.csv",
+  site.name,
+  std.type,
+  km = NULL,
+  vmax = NULL,
+  method = "ibc")
 }

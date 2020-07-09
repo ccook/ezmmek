@@ -14,12 +14,28 @@ new_ezmmek_act_calibrate(std.data.fn, act.data.fn, ..., method = NA,
 
 \item{...}{User defined column names to join std.data.fn and act.data.fn}
 
-\item{method}{Enzyme assay protocol. Must define method as 'steen' or 'german'}
+\item{method}{Enzyme assay protocol. Must define method as 'isc' or 'ibc'}
+
+\item{columns}{Column names carried over from parent functions if parent functions used}
 }
 \description{
 Creates dataframe containing calibrated enzyme activity data of class 'new_ezmmek_calibrate'
 }
 \examples{
-new_ezmmek_act_calibrate("data/tyson_std_04172020.csv", "data/tyson_sat_steen_04172020.csv", site.name, std.type, km = NULL, vmax = NULL, method = "isc")
-new_ezmmek_act_calibrate("data/tyson_std_04172020.csv", "data/tyson_sat_german_04172020.csv", site.name, std.type, km = NULL, vmax = NULL, method = "ibc")
+new_obj <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
+  "data/tyson_sat_steen_04172020.csv",
+  site_name,
+  std_type,
+  km = NULL,
+  vmax = NULL,
+  columns = NULL,
+  method = "isc")
+new_obj <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
+  "data/tyson_sat_german_04172020.csv",
+  site_name,
+  std_type,
+  km = NULL,
+  vmax = NULL,
+  columns = NULL,
+  method = "ibc")
 }

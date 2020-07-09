@@ -19,6 +19,14 @@ new_ezmmek_act_group(act.data.fn, ..., method = NA, columns = NULL)
 Groups raw activity data by user-defined columns
 }
 \examples{
-new_obj <- new_ezmmek_act_group("data_tyson_sat_steen_04172020.csv, site.name, std.type, method = "isc", columns = NULL)
-new_obj <- new_ezmmek_act_group("data_tyson_sat_german_04172020.csv, site.name, std.type, method = "ibc", columns = NULL)
+new_obj <- new_ezmmek_act_group("data_tyson_sat_steen_04172020.csv,
+  site.name,
+  std.type,
+  method = "isc",
+  columns = NULL)
+new_obj <- new_ezmmek_act_group("data_tyson_sat_german_04172020.csv,
+  site.name,
+  std.type,
+  method = "ibc",
+  columns = NULL)
 }

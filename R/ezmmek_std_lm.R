@@ -5,7 +5,7 @@
 #' @description Creates dataframe of standard curve models as determined by grouping of user-defined columns
 #'
 #' @param df Standard curve dataframe
-#' @param method Enzyme assay protocol. Must define method as 'steen' or 'german'
+#' @param method Enzyme assay protocol. Defined in parent function
 #' @param columns Column names carried over from parent functions if parent functions used
 
 ########

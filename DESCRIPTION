@@ -24,4 +24,12 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Imports: 
-    magrittr
+    magrittr,
+    assertable,
+    ggplot2,
+    tibble,
+    purrr,
+    dplyr,
+    nls2,
+    rlang,
+    tidyr

@@ -7,11 +7,26 @@
 #' @param std.data.fn Standard data file as character string
 #' @param act.data.fn Activity data file as character string
 #' @param ... User defined column names to join std.data.fn and act.data.fn
-#' @param method Enzyme assay protocol. Must define method as 'steen' or 'german'
+#' @param method Enzyme assay protocol. Must define method as 'isc' or 'ibc'
+#' @param columns Column names carried over from parent functions if parent functions used
 #'
 #' @examples
-#' new_ezmmek_act_calibrate("data/tyson_std_04172020.csv", "data/tyson_sat_steen_04172020.csv", site.name, std.type, km = NULL, vmax = NULL, method = "isc")
-#' new_ezmmek_act_calibrate("data/tyson_std_04172020.csv", "data/tyson_sat_german_04172020.csv", site.name, std.type, km = NULL, vmax = NULL, method = "ibc")
+#' new_obj <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
+#'   "data/tyson_sat_steen_04172020.csv",
+#'   site_name,
+#'   std_type,
+#'   km = NULL,
+#'   vmax = NULL,
+#'   columns = NULL,
+#'   method = "isc")
+#' new_obj <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
+#'   "data/tyson_sat_german_04172020.csv",
+#'   site_name,
+#'   std_type,
+#'   km = NULL,
+#'   vmax = NULL,
+#'   columns = NULL,
+#'   method = "ibc")
 
 ########
 ### Join activity dataframe with standard dataframe and calibrate
