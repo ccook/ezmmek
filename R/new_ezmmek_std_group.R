@@ -12,16 +12,16 @@
 #' @param columns Column names carried over from parent functions if parent functions used
 #'
 #' @examples
-#' new_obj <- new_ezmmek_std_group("data/tyson_std_04172020.csv",
-#'   site.name,
-#'   std.type,
+#' \dontrun{new_obj <- new_ezmmek_std_group("data/tyson_std_04172020.csv",
+#'   site_name,
+#'   std_type,
 #'   method = "isc",
 #'   columns = NULL)
 #' new_obj <- new_ezmmek_std_group("data/tyson_std_04172020.csv",
-#'   site.name,
-#'   std.type,
+#'   site_name,
+#'   std_type,
 #'   method = "ibc",
-#'   columns = NULL)
+#'   columns = NULL)}
 
 ########
 ### Group standard lm objects

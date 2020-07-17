@@ -19,14 +19,14 @@ new_ezmmek_std_group(std.data.fn, ..., method = NA, columns = NULL)
 Groups standard curve data by user-defined columns
 }
 \examples{
-new_obj <- new_ezmmek_std_group("data/tyson_std_04172020.csv",
-  site.name,
-  std.type,
+\dontrun{new_obj <- new_ezmmek_std_group("data/tyson_std_04172020.csv",
+  site_name,
+  std_type,
   method = "isc",
   columns = NULL)
 new_obj <- new_ezmmek_std_group("data/tyson_std_04172020.csv",
-  site.name,
-  std.type,
+  site_name,
+  std_type,
   method = "ibc",
-  columns = NULL)
+  columns = NULL)}
 }

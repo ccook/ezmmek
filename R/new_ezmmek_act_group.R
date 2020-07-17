@@ -12,16 +12,16 @@
 #' @param columns Column names carried over from parent functions if parent functions used
 #'
 #' @examples
-#' new_obj <- new_ezmmek_act_group("data_tyson_sat_steen_04172020.csv,
-#'   site.name,
-#'   std.type,
+#' \dontrun{new_obj <- new_ezmmek_act_group("data/tyson_sat_steen_04172020.csv,
+#'   site_name,
+#'   std_type,
 #'   method = "isc",
 #'   columns = NULL)
-#' new_obj <- new_ezmmek_act_group("data_tyson_sat_german_04172020.csv,
-#'   site.name,
-#'   std.type,
+#' new_obj <- new_ezmmek_act_group("data/tyson_sat_german_04172020.csv,
+#'   site_name,
+#'   std_type,
 #'   method = "ibc",
-#'   columns = NULL)
+#'   columns = NULL)}
 
 ########
 ### Group raw activity data

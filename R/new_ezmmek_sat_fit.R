@@ -14,20 +14,20 @@
 #' @param method Enzyme assay protocol. Must define method as 'isc' or 'ibc'
 #'
 #' @examples
-#' new_ezmmek_sat_fit("data/tyson_std_04172020.csv",
+#' \dontrun{new_obj <- new_ezmmek_sat_fit("data/tyson_std_04172020.csv",
 #'   "data/tyson_sat_steen_04172020.csv",
-#'   site.name,
-#'   std.type,
+#'   site_name,
+#'   std_type,
 #'   km = NULL,
 #'   vmax = NULL,
 #'   method = "isc")
-#' new_ezmmek_sat_fit("data/tyson_std_04172020.csv",
+#' new_obj <- new_ezmmek_sat_fit("data/tyson_std_04172020.csv",
 #'   "data/tyson_sat_german_04172020.csv",
-#'   site.name,
-#'   std.type,
+#'   site_name,
+#'   std_type,
 #'   km = NULL,
 #'   vmax = NULL,
-#'   method = "ibc")
+#'   method = "ibc")}
 
 
 ########

@@ -22,20 +22,16 @@ new_ezmmek_act_calibrate(std.data.fn, act.data.fn, ..., method = NA,
 Creates dataframe containing calibrated enzyme activity data of class 'new_ezmmek_calibrate'
 }
 \examples{
-new_obj <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
+\dontrun{new_obj <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
   "data/tyson_sat_steen_04172020.csv",
   site_name,
   std_type,
-  km = NULL,
-  vmax = NULL,
-  columns = NULL,
-  method = "isc")
+  method = "isc",
+  columns = NULL)
 new_obj <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
   "data/tyson_sat_german_04172020.csv",
   site_name,
   std_type,
-  km = NULL,
-  vmax = NULL,
-  columns = NULL,
-  method = "ibc")
+  method = "ibc",
+  columns = NULL)}
 }
