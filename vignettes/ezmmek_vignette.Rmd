@@ -7,15 +7,15 @@ output:
   rmarkdown::html_vignette: default
   word_document: default
 vignette: >
-  %\VignetteIndexEntry{ezmmek_vignette} 
+%\VignetteIndexEntry{ezmmek_vignette} 
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown} 
----
-
-```{r, include = FALSE}
+  ---
+  
+  ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
+collapse = TRUE,
+comment = "#>"
 )
 library(ezmmek)
 library(tibble)
@@ -103,8 +103,8 @@ library(ezmmek)
 Both protocols were applied to the same freshwater sample, which was collected from Third Creek in Tyson Park, Knoxville, TN 37919. The standard curve csv file contains data for both protocols. The raw activity csv files are split by protocol. In these example datasets, all column names but 'site.name' and 'std.type' are required for *ezmmek* to function properly. Although the exact names of 'site_name' and 'std_type' are not required, the user must input at least one descriptor column that is present in both the standard curve dataset and the raw activity dataset for any functions that rely on both datasets. The units are identified in the example datasets below, but units can be of any variety, and the user is responsible for keeping track of units throughout the analyses.
 
 #### 3.2.1 Standard curve data
-```{r}
-std_data <- read.csv("data/tyson_std_04172020.csv")
+```{r, eval = FALSE}
+std_data <- read.csv("inst/extdata/tyson_std_04172020.csv")
 tibble::glimpse(std_data)
 ```
 
@@ -117,7 +117,10 @@ buffer_signal: Signal from standard in buffer (fsu)
 ```
 #### 3.2.2 Raw fluorescence data, IBC protocol
 ```{r}
-raw_fsu_data_ibc <- read.csv("data/tyson_sat_german_04172020.csv")
+raw_fsu_data_ibc <- read.csv(
+  system.file("extdata", 
+              "tyson_sat_german_04172020.csv", 
+              package = "ezmmek"))
 tibble::glimpse(raw_fsu_data_ibc)
 ```
 
@@ -135,7 +138,7 @@ homo_control: Homogenate control (fsu)
 substrate_control: Substrate control (fsu)
 ```
 #### 3.2.3 Raw fluorescence data, ISC protocol
-```{r}
+```{r, eval = FALSE}
 raw_fsu_data_isc <- read.csv("data/tyson_sat_steen_04172020.csv")
 tibble::glimpse(raw_fsu_data_isc)
 ```
@@ -231,8 +234,8 @@ columns: User defined column names to group std.data.fn
 ### 4.1 *new_ezmmek_sat_fit*
 #### 4.1.1 *new_ezmmek_sat_fit*, IBC
 ```{r, eval = FALSE}
-sat_fit_ibc <- new_ezmmek_sat_fit("data/tyson_std_04172020.csv", 
-                                  "data/tyson_sat_german_04172020.csv", 
+sat_fit_ibc <- new_ezmmek_sat_fit("inst/extdata/tyson_std_04172020.csv", 
+                                  "inst/extdata/tyson_sat_german_04172020.csv", 
                                   site_name, 
                                   std_type,
                                   km = NULL,
@@ -242,9 +245,9 @@ sat_fit_ibc <- new_ezmmek_sat_fit("data/tyson_std_04172020.csv",
 tibble::glimpse(sat_fit_ibc)
 ```
 #### 4.1.2 *new_ezmmek_sat_fit*, ISC
-```{r}
-sat_fit_isc <- new_ezmmek_sat_fit("data/tyson_std_04172020.csv",
-                                  "data/tyson_sat_steen_04172020.csv", 
+```{r, eval = FALSE}
+sat_fit_isc <- new_ezmmek_sat_fit("inst/extdata/tyson_std_04172020.csv",
+                                  "inst/extdata/tyson_sat_steen_04172020.csv", 
                                   site_name, 
                                   std_type,
                                   km = NULL,
@@ -255,9 +258,9 @@ tibble::glimpse(sat_fit_isc)
 ```
 ### 4.2 *new_ezmmek_act_calibrate*
 #### 4.2.1 *new_ezmmek_act_calibrate*, IBC
-```{r}
-act_calibrate_ibc <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
-                                              "data/tyson_sat_german_04172020.csv",
+```{r eval = FALSE}
+act_calibrate_ibc <- new_ezmmek_act_calibrate("inst/extdata/tyson_std_04172020.csv",
+                                              "inst/extdata/tyson_sat_german_04172020.csv",
                                               site_name,
                                               std_type,
                                               method = "ibc",
@@ -266,9 +269,9 @@ act_calibrate_ibc <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
 tibble::glimpse(act_calibrate_ibc)
 ```
 #### 4.2.2 *new_ezmmek_act_calibrate*, ISC
-```{r}
-act_calibrate_isc <- new_ezmmek_act_calibrate("data/tyson_std_04172020.csv",
-                                              "data/tyson_sat_steen_04172020.csv",
+```{r, eval = FALSE}
+act_calibrate_isc <- new_ezmmek_act_calibrate("inst/extdata/tyson_std_04172020.csv",
+                                              "inst/extdata/tyson_sat_steen_04172020.csv",
                                               site_name,
                                               std_type,
                                               method = "isc",
@@ -278,8 +281,8 @@ tibble::glimpse(act_calibrate_isc)
 ```
 ### 4.3 *new_ezmmek_act_group*
 #### 4.3.1 *new_ezmmek_act_group*, IBC
-```{r}
-act_group_ibc <- new_ezmmek_act_group("data/tyson_sat_german_04172020.csv",
+```{r, eval = FALSE}
+act_group_ibc <- new_ezmmek_act_group("inst/extdata/tyson_sat_german_04172020.csv",
                                       site_name,
                                       std_type,
                                       method = "ibc",
@@ -288,8 +291,8 @@ act_group_ibc <- new_ezmmek_act_group("data/tyson_sat_german_04172020.csv",
 tibble::glimpse(act_group_ibc)
 ```
 #### 4.3.2 *new_ezmmek_act_group*, ISC
-```{r}
-act_group_isc <- new_ezmmek_act_group("data/tyson_sat_steen_04172020.csv",
+```{r, eval = FALSE}
+act_group_isc <- new_ezmmek_act_group("inst/extdata/tyson_sat_steen_04172020.csv",
                                       site_name,
                                       std_type,
                                       method = "isc",
@@ -299,8 +302,8 @@ tibble::glimpse(act_group_isc)
 ```
 ### 4.4 *new_ezmmek_std_group*
 #### 4.4.1 *new_ezmmek_std_group*, IBC
-```{r}
-std_group_ibc <- new_ezmmek_std_group("data/tyson_std_04172020.csv",
+```{r, eval = FALSE}
+std_group_ibc <- new_ezmmek_std_group("inst/extdata/tyson_std_04172020.csv",
                                       site_name,
                                       std_type,
                                       method = "ibc",
@@ -309,8 +312,8 @@ std_group_ibc <- new_ezmmek_std_group("data/tyson_std_04172020.csv",
 tibble::glimpse(std_group_ibc)
 ```
 #### 4.4.2 *new_ezmmek_std_group*, ISC
-```{r}
-std_group_isc <- new_ezmmek_std_group("data/tyson_std_04172020.csv",
+```{r, eval = FALSE}
+std_group_isc <- new_ezmmek_std_group("inst/extdata/tyson_std_04172020.csv",
                                       site_name,
                                       std_type,
                                       method = "isc",
@@ -323,27 +326,27 @@ tibble::glimpse(std_group_isc)
 
 #### 5.1.1 *new_ezmmek_sat_fit*, IBC and ISC
 Plot overlay of saturation curve on activities
-```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE}
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE, eval = FALSE}
 plot(sat_fit_isc, site_name, std_type, substrate_type)
 ```  
 
 #### 5.1.2 *new_ezmmek_calibrate*, IBC and ISC  
 Plot activities and their associated error
-```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE}
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE, eval = FALSE}
 plot(act_calibrate_ibc, site_name, std_type, substrate_type)
 plot(act_calibrate_isc, site_name, std_type, substrate_type)
 ```
 
 #### 5.1.3 *new_ezmmek_act_group*, IBC and ISC
 Plot raw activity data
-```{r, fig.width = 6, fig.align = "center"}
+```{r, fig.width = 6, fig.align = "center", eval = FALSE}
 plot(act_group_ibc, site_name, std_type, substrate_type)
 plot(act_group_isc, site_name, substrate_type, std_type, substrate_conc)
 ```
 
 #### 5.1.4 *new_ezmmek_std_group*, IBC and ISC
 Plot standard curve(s)
-```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center"}
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", eval = FALSE}
 plot(std_group_ibc, site_name, std_type)
 plot(std_group_isc, site_name, std_type)
 ```

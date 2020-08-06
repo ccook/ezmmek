@@ -1,6 +1,18 @@
+##' plot_new_ezmmek_calibrate
+##'
 ##' @export
+##'
+##' @description Plots new_ezmmek_calibrate object and facets by specified column names
+##'
+##' @param x data.frame object of class new_ezmmek_calibrate
+##' @param ... User defined column names by which to facet plot
+##'
+##' @examples
+##' \dontrun{plot.new_ezmmek_act_group(new_ezmmek_calibrate_obj,
+##' site_name,
+##' std_type)}
 
-plot.new_ezmmek_calibrate <- function(df, ..., columns = NULL) {
+plot.new_ezmmek_calibrate <- function(x, ...) {
 
   ### User-defined columns to facet by if column names not supplied by parent fxn
   if(is.null(columns)) {
@@ -10,14 +22,14 @@ plot.new_ezmmek_calibrate <- function(df, ..., columns = NULL) {
 
   ### Correct for different column names with 'if' statements
   ### German protocol
-  if("act_calibrated_data_ibc" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_ibc,
+  if("act_calibrated_data_ibc" %in% colnames(x)) {
+    df <- x %>% dplyr::rename(act_calibrated_data = act_calibrated_data_ibc,
                                std_raw_data = std_raw_data_ibc)
   }
 
   ### Steen protocol
-  if("act_calibrated_data_isc" %in% colnames(df)) {
-    df <- df %>% dplyr::rename(act_calibrated_data = act_calibrated_data_isc,
+  if("act_calibrated_data_isc" %in% colnames(x)) {
+    df <- x %>% dplyr::rename(act_calibrated_data = act_calibrated_data_isc,
                                std_raw_data = std_raw_data_isc)
   }
 

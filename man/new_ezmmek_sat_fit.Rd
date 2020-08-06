@@ -4,8 +4,14 @@
 \alias{new_ezmmek_sat_fit}
 \title{new_ezmmek_sat_fit}
 \usage{
-new_ezmmek_sat_fit(std.data.fn, act.data.fn, ..., km = NULL,
-  vmax = NULL, method = NA)
+new_ezmmek_sat_fit(
+  std.data.fn,
+  act.data.fn,
+  ...,
+  km = NULL,
+  vmax = NULL,
+  method = NA
+)
 }
 \arguments{
 \item{std.data.fn}{Standard data file as character string}

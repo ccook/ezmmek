@@ -4,8 +4,13 @@
 \alias{new_ezmmek_act_calibrate}
 \title{new_ezmmek_act_calibrate}
 \usage{
-new_ezmmek_act_calibrate(std.data.fn, act.data.fn, ..., method = NA,
-  columns = NULL)
+new_ezmmek_act_calibrate(
+  std.data.fn,
+  act.data.fn,
+  ...,
+  method = NA,
+  columns = NULL
+)
 }
 \arguments{
 \item{std.data.fn}{Standard data file as character string}
