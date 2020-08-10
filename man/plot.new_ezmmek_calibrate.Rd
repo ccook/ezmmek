@@ -15,7 +15,7 @@
 Plots new_ezmmek_calibrate object and facets by specified column names
 }
 \examples{
-\dontrun{plot.new_ezmmek_act_group(new_ezmmek_calibrate_obj,
+\dontrun{plot.new_ezmmek_calibrate(new_ezmmek_calibrate_obj,
 site_name,
 std_type)}
 }

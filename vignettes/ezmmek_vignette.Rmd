@@ -7,12 +7,12 @@ output:
   rmarkdown::html_vignette: default
   word_document: default
 vignette: >
-%\VignetteIndexEntry{ezmmek_vignette} 
+  %\VignetteIndexEntry{ezmmek_vignette} 
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown} 
-  ---
+---
   
-  ```{r, include = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
 collapse = TRUE,
 comment = "#>"
@@ -23,14 +23,20 @@ library(tibble)
 
 ## 1 Introduction
 
-Extracellular enzymes produced by microorganisms play an important role in driving ecosystem processes and biogeochemical cycles. Extracellular enzyme assays were developed as methods to quantify enzymatic activity and further probe the interactions between microbes and organic matter. Fluorometric assays, which involve the detection of a fluorophore enzymatically cleaved from a substrate, are particularly popular due to their inexpensiveness, efficiency, and accessability. The fluorescence of a sample ideally increases with respect to time, and can be convereted to fluorophore production as a result of enzymatic hydrolysis. Although fluorometric assays are relatively simple in practice, several parameters can hinder the ability to measure activity values accurately. These parameters include 1) Adsorption of the fluorophore to solid surfaces, 2) Quenching of the fluorophore by dissolved compounds, 3) Abiotic release of the fluorophore from the substrate, and 4) Pre-existing background fluorescence (German et al., 2011)
+Extracellular enzymes produced by microorganisms play an important role in driving ecosystem processes and biogeochemical cycles. Extracellular enzyme assays were developed as methods to quantify enzymatic activity and further probe the interactions between microbes and organic matter. Fluorometric assays, which involve the detection of a fluorophore enzymatically cleaved from a substrate, are particularly popular due to their inexpensiveness, efficiency, and accessability. The fluorescence of a sample ideally increases with respect to time, and can be convereted to fluorophore production as a result of enzymatic hydrolysis. Although fluorometric assays are relatively simple in practice, several parameters can hinder the ability to measure activity values accurately. These parameters include 
 
-As an important step in describing a standardized approach to fluorometric enzyme assays, German et al. (2011) synthesizes how to best correct for fluorometric interference by describing a protocol, complete with calculations and guidelines to address the effects of pH and temperature. However, the protocol described by German et al. (2011) has not been universally accepted among fluorometric assay practitioners. Other approaches differ in regard to how quenching is corrected and activity is calculated. As a reliable platform to compare and run different protocols, *ezmmek* aims to stimulate further discussion about how to best optimize extracellular enzyme assays.
+1) Adsorption of the fluorophore to solid surfaces, 
+2) Quenching of the fluorophore by dissolved compounds, 
+3) Abiotic release of the fluorophore from the substrate, and 
+4) Pre-existing background fluorescence (German et al., 2011)
+
+German et al. (2011) identified the importance of using standardized data collection and analysis protocols in order for measurements to be intercomparable. However, the protocol that German and colleagues identified has not been universally accepted among practitioners. Other approaches differ in regard to how quenching is corrected and activity is calculated (e.g., Steen et al, 2019). As a reliable platform to compare and run different protocols, *ezmmek* aims to stimulate further discussion about how to best optimize extracellular enzyme assays.
+
 
 \
 
 ### 1.1 In-Buffer Calibration protocol:
-The protocol outlined by German et al. (2011), which will be referred to as the "In-Buffer Calibration (IBC)" protocol, corrects for quenching by measuring the interference from each individual component involved in an assay. The IBC protocol involves standard curves in the separate presence of homogenate (slurry of soil and buffer) and buffer. Also involved are the homogenate controls (i.e., sample slurry without added substrate), and substrate controls (i.e., substrate in the presence of buffer without sample slurry). The seperate standard curves correct for quenching of the fluorophore in two different solutions, which can affect later activity measurements. The homogenate and substrate controls correct for background fluorescence and abiotic degradation of the substrate, respectively. The IBC protocol measures activity based on one timepoint, which relies on the assumption that fluorescence in the sample at time zero is equal to the fluorescence of the homogenate control, corrected for quenching by the quench coefficient, minus the fluorescence of the substrate control. The equations to calculate activity are as follows:
+The protocol outlined by German et al. (2011), which will be referred to as the "In-Buffer Calibration (IBC)" protocol, corrects for quenching by measuring the interference from each individual component involved in an assay. The IBC protocol involves standard curves in the separate presence of homogenate (slurry of soil and buffer) and buffer. Other controls involved are the homogenate controls (i.e., sample slurry without added substrate), and substrate controls (i.e., substrate in the presence of buffer without sample slurry). The seperate standard curves correct for quenching of the fluorophore in two different solutions, which can affect later activity measurements. The homogenate and substrate controls correct for background fluorescence and abiotic degradation of the substrate, respectively. The IBC protocol measures activity based on one timepoint, which relies on the assumption that fluorescence in the sample at time zero is equal to the fluorescence of the homogenate control, corrected for quenching by the quench coefficient, minus the fluorescence of the substrate control. The equations to calculate activity are as follows:
 
 $$\scriptsize (1)~Enzymatic~Activity~(mol~kg⁻¹~s⁻¹)~=~\frac{Net~Fluorescence~(fsu)~*~Buffer~Volume~(L)}{Emission~Coefficient~*~ Homogenate~Volume~(L)~*~Time~(s)~*~Soil~Mass~(kg)}$$
 \
@@ -103,8 +109,8 @@ library(ezmmek)
 Both protocols were applied to the same freshwater sample, which was collected from Third Creek in Tyson Park, Knoxville, TN 37919. The standard curve csv file contains data for both protocols. The raw activity csv files are split by protocol. In these example datasets, all column names but 'site.name' and 'std.type' are required for *ezmmek* to function properly. Although the exact names of 'site_name' and 'std_type' are not required, the user must input at least one descriptor column that is present in both the standard curve dataset and the raw activity dataset for any functions that rely on both datasets. The units are identified in the example datasets below, but units can be of any variety, and the user is responsible for keeping track of units throughout the analyses.
 
 #### 3.2.1 Standard curve data
-```{r, eval = FALSE}
-std_data <- read.csv("inst/extdata/tyson_std_04172020.csv")
+```{r}
+std_data <- read.csv("vignette_data/tyson_std_04172020.csv")
 tibble::glimpse(std_data)
 ```
 
@@ -117,10 +123,7 @@ buffer_signal: Signal from standard in buffer (fsu)
 ```
 #### 3.2.2 Raw fluorescence data, IBC protocol
 ```{r}
-raw_fsu_data_ibc <- read.csv(
-  system.file("extdata", 
-              "tyson_sat_german_04172020.csv", 
-              package = "ezmmek"))
+raw_fsu_data_ibc <- ("vignette_data/tyson_sat_german_04172020.csv")
 tibble::glimpse(raw_fsu_data_ibc)
 ```
 
@@ -138,8 +141,8 @@ homo_control: Homogenate control (fsu)
 substrate_control: Substrate control (fsu)
 ```
 #### 3.2.3 Raw fluorescence data, ISC protocol
-```{r, eval = FALSE}
-raw_fsu_data_isc <- read.csv("data/tyson_sat_steen_04172020.csv")
+```{r}
+raw_fsu_data_isc <- read.csv("vignette_data/tyson_sat_steen_04172020.csv")
 tibble::glimpse(raw_fsu_data_isc)
 ```
 
@@ -153,7 +156,7 @@ replicate: Sample replicate (integer)
 kill_control: Signal from autoclaved sample (fsu)
 ```
 ### 3.3 Visible functions
-*ezmmek* contains several functions that create new data.frame objects. The functions build upon each other. The user can choose how much analyses to perform, from generating standard curve models to calculating km and vmax values. In descending order of parent functions to child functions:
+*ezmmek* contains several functions that create new data.frame objects. The functions build upon each other. The user can choose how much analyses to perform, from generating standard curve models to calculating $K_m$ and $V_{max}$ values. In descending order of parent functions to child functions:
 ```{r, eval = FALSE}
 new_ezmmek_sat_fit
 new_ezmmek_act_calibrate
@@ -178,7 +181,7 @@ km: Starting value to estimate km. Default value is median of 'sub.conc' values
 vmax: Starting value to estimate vmax. Default value is max calibrated activity
 method: Enzyme assay protocol. Must define method as '"ibc"' or '"isc"'
 ```
-'"std.data.fn"' is the name of the standard curve data file. '"act.data.fn"' is the name of the raw activity data file. '...' are the user-defined column names by which the standard curve and raw activity data files are grouped and joined (*i.e.* descriptor columns like site name and type of fluorophore) to create a new data.frame. The default numeric starting values of 'km' and 'vmax' are those predicted by  *ezmmek*. 'km' is calculated as the median substrate concentration used during the experiment. 'vmax' is calculated as the maximum calibrated activity value. The user can assign their own 'km' and 'vmax' starting values if they so choose. 'method' must be set equal to '"ibc"' or '"isc"'. The resulting dataframe contains the descriptor columns, standard curve data, raw activity data, calibrated activity data, and Michaelis-Menten fits.
+'"std.data.fn"' is the name of the standard curve data file. '"act.data.fn"' is the name of the raw activity data file. '...' are the user-defined column names by which the standard curve and raw activity data files are grouped and joined (i.e. descriptor columns like site name and type of fluorophore) to create a new data.frame. The default numeric starting values of 'km' and 'vmax' are those predicted by  *ezmmek*. 'km' is calculated as the median substrate concentration used during the experiment. 'vmax' is calculated as the maximum calibrated activity value. The user can assign their own 'km' and 'vmax' starting values if they so choose. 'method' must be set equal to '"ibc"' or '"isc"'. The resulting dataframe contains the descriptor columns, standard curve data, raw activity data, calibrated activity data, and Michaelis-Menten fits.
 
 #### 3.3.2 Create data.frame object of class *new_ezmmek_calibrate*
 ```{r, eval = FALSE}
@@ -234,8 +237,8 @@ columns: User defined column names to group std.data.fn
 ### 4.1 *new_ezmmek_sat_fit*
 #### 4.1.1 *new_ezmmek_sat_fit*, IBC
 ```{r, eval = FALSE}
-sat_fit_ibc <- new_ezmmek_sat_fit("inst/extdata/tyson_std_04172020.csv", 
-                                  "inst/extdata/tyson_sat_german_04172020.csv", 
+sat_fit_ibc <- new_ezmmek_sat_fit("vignette_data/tyson_std_04172020.csv", 
+                                  "vignette_data/tyson_sat_german_04172020.csv", 
                                   site_name, 
                                   std_type,
                                   km = NULL,
@@ -245,9 +248,9 @@ sat_fit_ibc <- new_ezmmek_sat_fit("inst/extdata/tyson_std_04172020.csv",
 tibble::glimpse(sat_fit_ibc)
 ```
 #### 4.1.2 *new_ezmmek_sat_fit*, ISC
-```{r, eval = FALSE}
-sat_fit_isc <- new_ezmmek_sat_fit("inst/extdata/tyson_std_04172020.csv",
-                                  "inst/extdata/tyson_sat_steen_04172020.csv", 
+```{r}
+sat_fit_isc <- new_ezmmek_sat_fit("vignette_data/tyson_std_04172020.csv",
+                                  "vignette_data/tyson_sat_steen_04172020.csv", 
                                   site_name, 
                                   std_type,
                                   km = NULL,
@@ -258,9 +261,9 @@ tibble::glimpse(sat_fit_isc)
 ```
 ### 4.2 *new_ezmmek_act_calibrate*
 #### 4.2.1 *new_ezmmek_act_calibrate*, IBC
-```{r eval = FALSE}
-act_calibrate_ibc <- new_ezmmek_act_calibrate("inst/extdata/tyson_std_04172020.csv",
-                                              "inst/extdata/tyson_sat_german_04172020.csv",
+```{r}
+act_calibrate_ibc <- new_ezmmek_act_calibrate("vignette_data/tyson_std_04172020.csv",
+                                              "vignette_data/tyson_sat_german_04172020.csv",
                                               site_name,
                                               std_type,
                                               method = "ibc",
@@ -269,9 +272,9 @@ act_calibrate_ibc <- new_ezmmek_act_calibrate("inst/extdata/tyson_std_04172020.c
 tibble::glimpse(act_calibrate_ibc)
 ```
 #### 4.2.2 *new_ezmmek_act_calibrate*, ISC
-```{r, eval = FALSE}
-act_calibrate_isc <- new_ezmmek_act_calibrate("inst/extdata/tyson_std_04172020.csv",
-                                              "inst/extdata/tyson_sat_steen_04172020.csv",
+```{r}
+act_calibrate_isc <- new_ezmmek_act_calibrate("vignette_data/tyson_std_04172020.csv",
+                                              "vignette_data/tyson_sat_steen_04172020.csv",
                                               site_name,
                                               std_type,
                                               method = "isc",
@@ -281,8 +284,8 @@ tibble::glimpse(act_calibrate_isc)
 ```
 ### 4.3 *new_ezmmek_act_group*
 #### 4.3.1 *new_ezmmek_act_group*, IBC
-```{r, eval = FALSE}
-act_group_ibc <- new_ezmmek_act_group("inst/extdata/tyson_sat_german_04172020.csv",
+```{r}
+act_group_ibc <- new_ezmmek_act_group("vignette_data/tyson_sat_german_04172020.csv",
                                       site_name,
                                       std_type,
                                       method = "ibc",
@@ -291,8 +294,8 @@ act_group_ibc <- new_ezmmek_act_group("inst/extdata/tyson_sat_german_04172020.cs
 tibble::glimpse(act_group_ibc)
 ```
 #### 4.3.2 *new_ezmmek_act_group*, ISC
-```{r, eval = FALSE}
-act_group_isc <- new_ezmmek_act_group("inst/extdata/tyson_sat_steen_04172020.csv",
+```{r}
+act_group_isc <- new_ezmmek_act_group("vignette_data/tyson_sat_steen_04172020.csv",
                                       site_name,
                                       std_type,
                                       method = "isc",
@@ -302,8 +305,8 @@ tibble::glimpse(act_group_isc)
 ```
 ### 4.4 *new_ezmmek_std_group*
 #### 4.4.1 *new_ezmmek_std_group*, IBC
-```{r, eval = FALSE}
-std_group_ibc <- new_ezmmek_std_group("inst/extdata/tyson_std_04172020.csv",
+```{r}
+std_group_ibc <- new_ezmmek_std_group("vignette_data/tyson_std_04172020.csv",
                                       site_name,
                                       std_type,
                                       method = "ibc",
@@ -312,8 +315,8 @@ std_group_ibc <- new_ezmmek_std_group("inst/extdata/tyson_std_04172020.csv",
 tibble::glimpse(std_group_ibc)
 ```
 #### 4.4.2 *new_ezmmek_std_group*, ISC
-```{r, eval = FALSE}
-std_group_isc <- new_ezmmek_std_group("inst/extdata/tyson_std_04172020.csv",
+```{r}
+std_group_isc <- new_ezmmek_std_group("vignette_data/tyson_std_04172020.csv",
                                       site_name,
                                       std_type,
                                       method = "isc",
@@ -326,27 +329,27 @@ tibble::glimpse(std_group_isc)
 
 #### 5.1.1 *new_ezmmek_sat_fit*, IBC and ISC
 Plot overlay of saturation curve on activities
-```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE, eval = FALSE}
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE}
 plot(sat_fit_isc, site_name, std_type, substrate_type)
 ```  
 
 #### 5.1.2 *new_ezmmek_calibrate*, IBC and ISC  
 Plot activities and their associated error
-```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE, eval = FALSE}
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", warning = FALSE}
 plot(act_calibrate_ibc, site_name, std_type, substrate_type)
 plot(act_calibrate_isc, site_name, std_type, substrate_type)
 ```
 
 #### 5.1.3 *new_ezmmek_act_group*, IBC and ISC
 Plot raw activity data
-```{r, fig.width = 6, fig.align = "center", eval = FALSE}
+```{r, fig.width = 6, fig.align = "center"}
 plot(act_group_ibc, site_name, std_type, substrate_type)
 plot(act_group_isc, site_name, substrate_type, std_type, substrate_conc)
 ```
 
 #### 5.1.4 *new_ezmmek_std_group*, IBC and ISC
 Plot standard curve(s)
-```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center", eval = FALSE}
+```{r, fig.width = 6, fig.asp = 0.618, fig.align = "center"}
 plot(std_group_ibc, site_name, std_type)
 plot(std_group_isc, site_name, std_type)
 ```
@@ -354,6 +357,7 @@ plot(std_group_isc, site_name, std_type)
 ## 6 References
 German et al. (2011) <doi:10.1016/j.soilbio.2011.03.017>   
 Sinsabaugh et al. (2014) <doi:10.1007/s10533-014-0030-y>  
+Steen et al. (2019) <doi:10.1128/AEM.00102-19>  
 Steen and Arnosti (2011) <doi:10.1016/j.marchem.2010.10.006>
 
 ## 7 Authors
